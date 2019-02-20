@@ -1,21 +1,352 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-sidenav-container class="app-container">
+  <mat-sidenav #drawer class="app-sidenav-bar" fixedInViewport="true" [mode]="isLg ? 'side' : 'over'" [opened]="isLg">
+    <mat-toolbar color="primary" class="app-sidenav-header">
+      <img src="assets/img/applogo.png" alt="appLogo" [ngStyle]="{'max-width': '80%','max-height':'80%'}">
+      <h2><strong>BOC.</strong>AM</h2>
+    </mat-toolbar>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="warn">people</mat-icon>
+          机构信息
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <mat-list-item>
+          <mat-icon color="accent">home</mat-icon>
+          <a [routerLink]="[ '/organization','detail']" routerLinkActive="active">&nbsp;&nbsp;机构信息管理</a>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="accent">aspect_ratio</mat-icon>
+          <a [routerLink]="[ '/organization','space']" routerLinkActive="active">&nbsp;&nbsp;机构空间管理</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="warn">dashboard</mat-icon>
+          资产分类
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <mat-list-item>
+          <mat-icon color="accent">settings</mat-icon>
+          <a [routerLink]="[ '/assetcategory','user' ]" routerLinkActive="active">&nbsp;&nbsp;资产分类查询</a>
+        </mat-list-item>
+        <mat-list-item *appAuthorizeShow="2">
+          <mat-icon color="accent">perm_device_information</mat-icon>
+          <a [routerLink]="[ '/assetcategory','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级分类管理</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="warn">important_devices</mat-icon>
+          资产信息
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <mat-list-item>
+          <mat-icon color="accent">settings</mat-icon>
+          <a [routerLink]="[ '/assets','currentuser' ]" routerLinkActive="active">&nbsp;&nbsp;当前机构资产</a>
+        </mat-list-item>
+        <mat-list-item *appAuthorizeShow="2">
+          <mat-icon color="accent">perm_device_information</mat-icon>
+          <a [routerLink]="[ '/assets','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级资产管理</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="warn">assessment</mat-icon>
+          资产事件
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <p matSubheader>资产申请事件</p>
+        <mat-list-item>
+          <mat-icon color="accent">settings</mat-icon>
+          <a [routerLink]="[ '/assetevents','assetapplying','currentuser']" routerLinkActive="active">&nbsp;&nbsp;当前机构信息</a>
+        </mat-list-item>
+        <mat-list-item *appAuthorizeShow="2">
+          <mat-icon color="accent">perm_device_information</mat-icon>
+          <a [routerLink]="[ '/assetevents','assetapplying','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级管理信息</a>
+        </mat-list-item>
+      </mat-nav-list>
+      <mat-nav-list>
+        <p matSubheader>资产交回事件</p>
+        <mat-list-item>
+          <mat-icon color="accent">settings</mat-icon>
+          <a [routerLink]="[ '/assetevents','assetreturning','currentuser']" routerLinkActive="active">&nbsp;&nbsp;当前机构信息</a>
+        </mat-list-item>
+        <mat-list-item *appAuthorizeShow="2">
+          <mat-icon color="accent">perm_device_information</mat-icon>
+          <a [routerLink]="[ '/assetevents','assetreturning','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级管理信息</a>
+        </mat-list-item>
+      </mat-nav-list>
+      <mat-nav-list>
+        <p matSubheader>资产机构间调换事件</p>
+        <mat-list-item>
+          <mat-icon color="accent">settings</mat-icon>
+          <a [routerLink]="[ '/assetevents','assetexchanging','currentuser']" routerLinkActive="active">&nbsp;&nbsp;当前机构信息</a>
+        </mat-list-item>
+        <mat-list-item *appAuthorizeShow="2">
+          <mat-icon color="accent">perm_device_information</mat-icon>
+          <a [routerLink]="[ '/assetevents','assetexchanging','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级管理信息</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon color="warn">event</mat-icon>
+          用户事件
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <mat-list-item>
+          <mat-icon color="accent">settings</mat-icon>
+          <a [routerLink]="[ '/nonauditevents','user']" routerLinkActive="active">&nbsp;&nbsp;当前机构事件</a>
+        </mat-list-item>
+        <mat-list-item *appAuthorizeShow="2">
+          <mat-icon color="accent">perm_device_information</mat-icon>
+          <a [routerLink]="[ '/nonauditevents','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级机构事件</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <mat-toolbar color="primary" class="app-footer">
+      <button mat-button>中国银行股份有限公司内蒙古自治区包头分行信息科技部</button>
+      <span fxFlex="1 1 auto"></span>
+      <img src="assets/img/myLogo.png" alt="logo" [ngStyle]="{'max-width': '60%','max-height':'60%'}" (click)="drawer.toggle()">
+      <button mat-button>Copyright © 2018-2026 All Rights Reserved</button>
+    </mat-toolbar>
+  </mat-sidenav>
+  <mat-sidenav #rightSidenav position="end" class="app-right-sidenav-bar">
+    <mat-toolbar color="primary" class="app-sidenav-header">
+      <img src="assets/img/applogo.png" alt="appLogo" [ngStyle]="{'max-width': '80%','max-height':'80%'}">
+      <h2><strong>BOC.</strong>AM</h2>
+    </mat-toolbar>
+    <app-events-reminder-secondary-admin></app-events-reminder-secondary-admin>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="app-header">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="!isLg||!drawer.opened">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <img src="assets/img/applogo.png" alt="applogo" *ngIf="!drawer.opened" [ngStyle]="{'max-width': '80%','max-height':'80%'}">
+      <span>&nbsp;&nbsp;固定资产管理系统</span>
+      <button mat-button [routerLink]="[ '/dashboard']">主页</button>
+      <button mat-button [routerLink]="[ '/' ]">联系</button>
+      <button mat-button [routerLink]="[ '/' ]">声明</button>
+      <span fxFlex="1 1 auto"></span>
+      <ng-container *ngIf="(isAuthenticated$ | async);else notAuthenticatedTemplate;">
+        <button mat-button [matMenuTriggerFor]="orgMenu">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>{{currentOrg.orgShortNam}}</span>
+        </button>
+        <mat-menu #orgMenu="matMenu">
+          <button mat-menu-item (click)="openCurrentOrgInfoDialog()">
+            <mat-icon>message</mat-icon>
+            机构信息
+          </button>
+          <button mat-menu-item (click)="openChangeOrgPasswordDialog()">
+            <mat-icon>lock</mat-icon>
+            修改密码
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            登出系统
+          </button>
+        </mat-menu>
+        <button mat-icon-button matTooltip="打开消息窗口" (click)="rightSidenav.toggle();messageReaded=true;">
+          <mat-icon matBadge="!" matBadgeColor="accent" matBadgeSize="medium" [matBadgeHidden]="messageReaded">settings_input_component</mat-icon>
+        </button>
+      </ng-container>
+      <ng-template #notAuthenticatedTemplate>
+        <button mat-icon-button [routerLink]="[ '/login' ]" routerLinkActive="active">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </ng-template>
+    </mat-toolbar>
+    <div class="app-router-outlet-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<ng-template #currentOrgTemplate>
+  <mat-toolbar color="warn">
+    <span> &nbsp;当前机构信息</span>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon>account_balance</mat-icon>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{currentOrg.orgShortNam}}</mat-card-title>
+        <mat-card-subtitle>{{currentOrg.orgNam}}</mat-card-subtitle>
+        <img src="assets/img/logo.png" alt="" mat-card-avatar>
+      </mat-card-header>
+      <mat-card-content fxLayout="row wrap">
+        <mat-list>
+          <mat-list-item>
+            <img src="assets/img/outline_person_pin_black_18dp.png" alt="orgRole" matListAvatar>
+            <p matLine>机构角色</p>
+            <p matLine>{{currentOrg.roleNam}}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <img src="assets/img/outline_account_balance_black_18dp.png" alt="upOrg" matListAvatar>
+            <p matLine>上级机构</p>
+            <p matLine>{{currentOrg.upOrg}}</p>
+          </mat-list-item>
+        </mat-list>
+        <mat-list>
+          <mat-list-item>
+            <img src="assets/img/outline_info_black_18dp.png" alt="org3" matListAvatar>
+            <p matLine>三级机构</p>
+            <p matLine>{{currentOrg.org3}}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <img src="assets/img/outline_info_black_18dp.png" alt="orgNam3" matListAvatar>
+            <p matLine>三级机构名称</p>
+            <p matLine>{{currentOrg.orgNam3}}</p>
+          </mat-list-item>
+        </mat-list>
+        <mat-list>
+          <mat-list-item>
+            <img src="assets/img/outline_info_black_18dp.png" alt="org2" matListAvatar>
+            <p matLine>二级机构</p>
+            <p matLine>{{currentOrg.org2}}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <img src="assets/img/outline_info_black_18dp.png" alt="orgNam2" matListAvatar>
+            <p matLine>二级机构名称</p>
+            <p matLine>{{currentOrg.orgNam2}}</p>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button color="warn" mat-dialog-close>
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="openChangeOrgShortNamDialog()">
+          <mat-icon>settings</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+</ng-template>
 
-<router-outlet></router-outlet>
+<ng-template #changeOrgShortNameTemplate>
+  <mat-toolbar color="warn">
+    <span>修改机构简称</span>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon>account_balance</mat-icon>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <form [formGroup]="changeOrgShortNamForm" (ngSubmit)="changeOrgShortName()">
+      <mat-card>
+        <mat-card-header>
+          <img src="assets/img/logo.png" alt="" mat-card-avatar>
+          <mat-card-title>修改本机构简称</mat-card-title>
+          <mat-card-subtitle>机构简称要求至少输入两个字符，不超过8个字符</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput formControlName="orgIdentifier">
+            <mat-hint align="end">免输</mat-hint>
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              机构号
+            </mat-label>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="orgNam">
+            <mat-hint align="end">免输</mat-hint>
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              机构名称
+            </mat-label>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="orgShortNam">
+            <mat-hint align="end">机构简称要求输入2个字符，不超过8个字符</mat-hint>
+            <mat-error *ngIf="changeOrgShortNamForm.get('orgShortNam').invalid">输入有误</mat-error>
+            <mat-placeholder>
+              <mat-icon>message</mat-icon>
+              请输入机构简称
+            </mat-placeholder>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-icon-button mat-dialog-close color="warn">
+            <mat-icon>exit_to_app</mat-icon>
+          </button>
+          <button mat-icon-button type="submit" color="primary" [disabled]="changeOrgShortNamForm.invalid">
+            <mat-icon>done</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+</ng-template>
+
+<ng-template #changeOrgPasswordTemplate>
+  <mat-toolbar color="warn">
+    <span>修改本机构密码</span>
+    <span fxFlex></span>
+    <mat-icon>lock</mat-icon>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <form [formGroup]="changePasswordForm" (ngSubmit)="changeOrgPassword()">
+      <mat-card>
+        <mat-card-header>
+          <img src="assets/img/logo.png" alt="" mat-card-avatar>
+          <mat-card-title>修改机构密码</mat-card-title>
+          <mat-card-subtitle>要修改密码，需要输入原密码</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="column">
+          <mat-form-field color="primary">
+            <input matInput type="password" formControlName="oldPassword">
+            <mat-icon matSuffix color="warn">lock</mat-icon>
+            <mat-hint align="end">保证输入的旧密码是正确的</mat-hint>
+            <mat-error *ngIf="changePasswordForm.get('oldPassword').hasError('required')">必须输入旧密码</mat-error>
+            <mat-label>
+              <mat-icon>message</mat-icon>请输入你的旧密码
+            </mat-label>
+          </mat-form-field>
+          <mat-form-field color="primary">
+            <input matInput type="password" formControlName="newPassword">
+            <mat-icon matSuffix color="warn">lock</mat-icon>
+            <mat-hint align="end">新密码长度不能低于6位</mat-hint>
+            <mat-error *ngIf="changePasswordForm.get('newPassword').hasError('required')">必须输入新密码</mat-error>
+            <mat-error *ngIf="changePasswordForm.get('newPassword').hasError('minlength')">长度不低于6位</mat-error>
+            <mat-label>
+              <mat-icon>message</mat-icon>请输入你的新密码
+            </mat-label>
+          </mat-form-field>
+          <mat-form-field color="primary">
+            <input matInput type="password" formControlName="confirmPassword">
+            <mat-icon matSuffix color="warn">lock</mat-icon>
+            <mat-hint align="end">确认密码要与新密码相同</mat-hint>
+            <mat-error *ngIf="changePasswordForm.get('confirmPassword').hasError('required')">必须输入新密码</mat-error>
+            <mat-error *ngIf="changePasswordForm.get('confirmPassword').hasError('minlength')">长度不低于6位</mat-error>
+            <mat-label>
+              <mat-icon>message</mat-icon>请输入你的新密码
+            </mat-label>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-icon-button mat-dialog-close color="warn">
+            <mat-icon>exit_to_app</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" [disabled]="changePasswordForm.invalid">
+            <mat-icon>done</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+</ng-template>

@@ -1,0 +1,112 @@
+<mat-expansion-panel [expanded]="panelExpandedStatus">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">people</mat-icon>
+      用户事件
+    </mat-panel-title>
+    <mat-panel-description>
+      由用户的操作引发的事件
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-template matExpansionPanelContent>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let event of nonAuditEvents$ | async">
+        <img src="assets/img/logo.png" alt="logo" matListAvatar>
+        <p matLine>{{event.requestOrgIdentifier}}&nbsp;&nbsp;{{event.dateTimeFromNow}}</p>
+        <p matLine>{{event.type}}</p>
+        <button mat-icon-button>
+          <mat-icon>chat</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </ng-template>
+  <mat-action-row>
+    <button mat-mini-fab matTooltip="查看更多" [routerLink]="['/nonauditevents','secondaryadmin']">
+      <mat-icon>important_devices</mat-icon>
+    </button>
+  </mat-action-row>
+</mat-expansion-panel>
+<mat-expansion-panel [expanded]="panelExpandedStatus">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">people</mat-icon>
+      资产申请
+    </mat-panel-title>
+    <mat-panel-description>
+      机构申请资产的待处理事件
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-template matExpansionPanelContent>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let item of assetApplyingEvents$ | async">
+        <img src="assets/img/logo.png" alt="logo" matListAvatar>
+        <p matLine>{{item.requestOrgIdentifier}}&nbsp;&nbsp;{{item.dateTimeFromNow}}</p>
+        <p matLine>{{item.message}}</p>
+        <button mat-icon-button>
+          <mat-icon>chat</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </ng-template>
+  <mat-action-row>
+    <button mat-mini-fab matTooltip="查看更多" [routerLink]="['/assetevents','assetapplying','secondaryadmin']">
+      <mat-icon>important_devices</mat-icon>
+    </button>
+  </mat-action-row>
+</mat-expansion-panel>
+<mat-expansion-panel [expanded]="panelExpandedStatus">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">people</mat-icon>
+      资产交回
+    </mat-panel-title>
+    <mat-panel-description>
+      机构申请资产交回事件
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-template matExpansionPanelContent>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let item of assetReturningEvents$ | async">
+        <img src="assets/img/logo.png" alt="logo" matListAvatar>
+        <p matLine>{{item.requestOrgIdentifier}}&nbsp;&nbsp;{{item.dateTimeFromNow}}</p>
+        <p matLine>{{item.message}}</p>
+        <button mat-icon-button>
+          <mat-icon>chat</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </ng-template>
+  <mat-action-row>
+    <button mat-mini-fab matTooltip="查看更多" [routerLink]="['/assetevents','assetreturning','secondaryadmin']">
+      <mat-icon>important_devices</mat-icon>
+    </button>
+  </mat-action-row>
+</mat-expansion-panel>
+<mat-expansion-panel [expanded]="panelExpandedStatus">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon color="warn">people</mat-icon>
+        资产调换
+      </mat-panel-title>
+      <mat-panel-description>
+        机构申请的资产调换事件
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let item of assetReturningEvents$ | async">
+          <img src="assets/img/logo.png" alt="logo" matListAvatar>
+          <p matLine>{{item.requestOrgIdentifier}}&nbsp;&nbsp;{{item.dateTimeFromNow}}</p>
+          <p matLine>{{item.message}}</p>
+          <button mat-icon-button>
+            <mat-icon>chat</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </ng-template>
+    <mat-action-row>
+      <button mat-mini-fab matTooltip="查看更多" [routerLink]="['/assetevents','assetexchanging','secondaryadmin']">
+        <mat-icon>important_devices</mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>

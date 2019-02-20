@@ -1,0 +1,76 @@
+<mat-dialog-content>
+  <form [formGroup]="assetExchangeForm" (ngSubmit)="exchangeAsset()" name="assetExchangeForm">
+    <mat-card>
+      <mat-card-title-group>
+        <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
+        <mat-card-title>{{data.title}}</mat-card-title>
+        <mat-card-subtitle>{{data.subtitle}}</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content fxLayout="column" fxLayoutGap="10px">
+        <mat-form-field>
+          <input matInput readonly="readonly" type="text" formControlName="assetId">
+          <mat-hint align="end">
+            免输
+          </mat-hint>
+          <mat-label>
+            <mat-icon>message</mat-icon>
+            资产ID
+          </mat-label>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput readonly="readonly" type="text" formControlName="assetName">
+          <mat-hint align="end">
+            免输
+          </mat-hint>
+          <mat-label>
+            <mat-icon>message</mat-icon>
+            资产名称
+          </mat-label>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="targetOrgId">
+            <mat-option [value]="undefined">未选</mat-option>
+            <mat-option *ngFor="let org of targetOrgs$ | async" [value]="org.orgId">
+              {{org.orgNam}}
+            </mat-option>
+          </mat-select>
+          <mat-label>
+            <mat-icon>message</mat-icon>
+            请选择审核机构
+          </mat-label>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" formControlName="exchangeOrg" [matAutocomplete]="exchangeOrg">
+          <mat-error *ngIf="assetExchangeForm.get('exchangeOrg').invalid">没有选择到正确的结果，请重新搜索.....</mat-error>
+          <mat-hint align="end">键入关键字查找目标机构</mat-hint>
+          <mat-label>
+            <mat-icon>message</mat-icon>
+            查找调换机构
+          </mat-label>
+        </mat-form-field>
+        <mat-autocomplete #exchangeOrg="matAutocomplete" [displayWith]="displayExchangeOrg">
+          <mat-option *ngFor="let org of exchangeOrgs$ | async" [value]="org">
+            {{org.orgNam}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-form-field>
+          <textarea matInput matTextareaAutosize formControlName="message"></textarea>
+          <mat-error *ngIf="assetExchangeForm.get('message').invalid">必输项，最少2个字符，最多15个</mat-error>
+          <mat-hint align="end">以输入:{{assetExchangeForm.get('message').value.length}}/15</mat-hint>
+          <mat-label>
+            <mat-icon>message</mat-icon>
+            请输入预留消息
+          </mat-label>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button mat-dialog-close color="accent">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button type="submit" [disabled]="assetExchangeForm.invalid" color="primary">
+          <mat-icon>done</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</mat-dialog-content>

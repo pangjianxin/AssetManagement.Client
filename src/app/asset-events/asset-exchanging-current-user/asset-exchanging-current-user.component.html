@@ -1,0 +1,93 @@
+<app-asset-exchange-table [apiUrl]="assetExchangingCurrentUserUrl" [currentFileterData]="currentSearchInput" [title]="title"
+  [subTitle]="subtitle" (selected)="onSelected($event)">
+  <mat-toolbar class="table-bar" color="warn" fxLayoutGap="10px">
+    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">
+      <mat-icon>fast_rewind</mat-icon>
+      撤销资产调换请求
+    </button>
+    <button mat-raised-button color="warn" [routerLink]="['/assets','currentuser']">
+      <mat-icon>fast_forward</mat-icon>
+      回到资产列表页
+    </button>
+    <mat-form-field appearance="standard">
+      <input matInput #searchInput type="text">
+      <mat-label>
+        <mat-icon>message</mat-icon>
+        请输入关键字进行检索.....
+      </mat-label>
+    </mat-form-field>
+    <span fxFlex></span>
+    <button mat-icon-button matTooltip="返回仪表板" [routerLink]="['/dashboard']">
+      <mat-icon>dashboard</mat-icon>
+    </button>
+  </mat-toolbar>
+</app-asset-exchange-table>
+<ng-template #removeEventRef>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-title-group>
+        <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
+        <mat-card-title>删除事件</mat-card-title>
+        <mat-card-subtitle>当前机构可删除当前机构的请求事件，该事件一经删除，无法恢复</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content fxLayout="row wrap">
+        <mat-list>
+          <mat-list-item>
+            <p matLine>
+              <mat-icon color="warn">filter_1</mat-icon>
+              <strong>请求机构号</strong>
+            </p>
+            <p matLine>{{currentSelectedRow.requestOrgIdentifier}}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <p matLine>
+              <mat-icon color="warn">filter_2</mat-icon>
+              <strong>请求机构名称</strong>
+            </p>
+            <p matLine>{{currentSelectedRow.requestOrgNam}}</p>
+          </mat-list-item>
+        </mat-list>
+        <mat-list>
+          <mat-list-item>
+            <p matLine>
+              <mat-icon color="warn">filter_3</mat-icon>
+              <strong>调换机构号</strong>
+            </p>
+            <p matLine>{{currentSelectedRow.exchangeOrgIdentifier}}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <p matLine>
+              <mat-icon color="warn">filter_4</mat-icon>
+              <strong>调换机构名称</strong>
+            </p>
+            <p matLine>{{currentSelectedRow.exchangeOrgNam}}</p>
+          </mat-list-item>
+        </mat-list>
+        <mat-list>
+          <mat-list-item>
+            <p matLine>
+              <mat-icon color="warn">filter_5</mat-icon>
+              <strong>审批机构号</strong>
+            </p>
+            <p matLine>{{currentSelectedRow.targetOrgIdentifier}}</p>
+          </mat-list-item>
+          <mat-list-item>
+            <p matLine>
+              <mat-icon color="warn">filter_6</mat-icon>
+              <strong>审批机构名称</strong>
+            </p>
+            <p matLine>{{currentSelectedRow.targetOrgNam}}</p>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button color="accent" mat-dialog-close>
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="removeEvent()">
+          <mat-icon>done</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+</ng-template>

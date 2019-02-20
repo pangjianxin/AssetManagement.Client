@@ -1,0 +1,36 @@
+.app-footer {
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+}
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.app-sidenav-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.app-right-sidenav-bar {
+    width: 400px;
+    margin-bottom: 64px;
+}
+
+.app-container {
+    height: 100%;
+}
+
+.app-sidenav-bar {
+    width: 240px;
+    margin-bottom: 64px;
+}
+
+.app-router-outlet-content {
+    margin-bottom: 64px;
+    width: 100%;
+}

@@ -1,0 +1,173 @@
+<app-asset-exchange-table [apiUrl]="assetExchangingSecondaryAdminUrl" [currentFileterData]="currentSearchInput" [title]="title"
+  [subTitle]="subtitle" (selected)="onSelected($event)">
+  <mat-toolbar class="table-bar" color="warn" fxLayoutGap="10px">
+    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">
+      <mat-icon>fast_rewind</mat-icon>
+      撤销资产调换请求
+    </button>
+    <button mat-raised-button color="warn" (click)="openHandleEventDialog()">
+      <mat-icon>fast_forward</mat-icon>
+      进入处理事件流程
+    </button>
+    <mat-form-field appearance="standard">
+      <input matInput #searchInput type="text">
+      <mat-label>
+        <mat-icon>message</mat-icon>
+        请输入关键字进行检索.....
+      </mat-label>
+    </mat-form-field>
+    <span fxFlex></span>
+    <button mat-icon-button matTooltip="返回仪表板" [routerLink]="['/dashboard']">
+      <mat-icon>dashboard</mat-icon>
+    </button>
+  </mat-toolbar>
+</app-asset-exchange-table>
+
+<ng-template #revokeEventRef>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-title-group>
+        <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
+        <mat-card-title>撤销事件</mat-card-title>
+        <mat-card-subtitle>二级管理机构有权限将事件状态更改为已撤销，已撤销是一种软删除</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content fxLayout="column">
+        <form [formGroup]="revokeEventForm" name="revokeEventForm">
+          <mat-form-field fxFlex>
+            <textarea matInput matTextareaAutosize formControlName="message"></textarea>
+            <mat-error *ngIf="revokeEventForm.get('message').invalid">必输项，最少2个字符，最多15个字符</mat-error>
+            <mat-hint align="end">已输入:{{revokeEventForm.get('message').value.length}}/15</mat-hint>
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              请输入撤销事件的原因
+            </mat-label>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button color="accent" mat-dialog-close matTooltip="退出">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="revokeEvent()" [disabled]="revokeEventForm.invalid||currentRevokeSubmited"
+          matTooltip="提交">
+          <mat-icon>done</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+</ng-template>
+<ng-template #removeEventRef>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-title-group>
+        <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
+        <mat-card-title>删除资产机构间调配申请事件</mat-card-title>
+        <mat-card-subtitle>该事件已标记为已撤销/已完成，你可以将该事件删除，一经删除，无法找回</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content fxLayout="column">
+        <h3>确认删除该事件请点击相应按钮</h3>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button color="accent" mat-dialog-close matTooltip="退出">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="removeEvent()" [disabled]="currentRemoveSubmited" matTooltip="提交">
+          <mat-icon>done</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+</ng-template>
+<ng-template #handleEventRef>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-title-group>
+        <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
+        <mat-card-title>处理机构间资产调配的请求事件</mat-card-title>
+        <mat-card-subtitle>请核对相关信息，无误则可提交，提交后该事件对应的资产将划拨到相应的机构</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-content fxLayout="column">
+        <h3>请核对当前对话框所列要素是否正确，如核对无误，则可提交</h3>
+        <div fxLayout="row wrap">
+          <mat-list>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_1</mat-icon>
+                <strong>请求机构号</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.requestOrgIdentifier}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_4</mat-icon>
+                <strong>调换机构名称</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.exchangeOrgNam}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_7</mat-icon>
+                调换资产名称
+              </p>
+              <p matLine>{{currentSelectedRow.assetName}}</p>
+            </mat-list-item>
+          </mat-list>
+          <mat-list>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_2</mat-icon>
+                <strong>请求机构名称</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.requestOrgNam}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_5</mat-icon>
+                <strong>审批机构号</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.targetOrgIdentifier}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_8</mat-icon>
+                <strong>预留消息</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.message}}</p>
+            </mat-list-item>
+          </mat-list>
+          <mat-list>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_3</mat-icon>
+                <strong>调换机构号</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.exchangeOrgIdentifier}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_6</mat-icon>
+                <strong>审批机构名称</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.targetOrgNam}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <p matLine>
+                <mat-icon color="warn">filter_9</mat-icon>
+                <strong>当前状态</strong>
+              </p>
+              <p matLine>{{currentSelectedRow.status}}</p>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button color="accent" mat-dialog-close matTooltip="退出">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="handleEvent()" [disabled]="currentHandleSubmited" matTooltip="提交">
+          <mat-icon>done</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+</ng-template>

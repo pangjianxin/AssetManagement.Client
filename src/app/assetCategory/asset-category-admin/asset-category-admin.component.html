@@ -1,0 +1,195 @@
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <mat-card-title>固定资产分类(二级权限)</mat-card-title>
+    <mat-card-subtitle>显示当前管理条线下的分类明细，可进行相应权限的操作</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group mat-align-tabs="end">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon color="primary">computer</mat-icon>固定资产分类明细
+        </ng-template>
+        <app-asset-category-table [apiUrl]="assetCategoryApiUrl" [currentFileterData]="assetCategoryFileterData"
+          (selected)="onSelected($event)" #appAssetCategoryTable>
+          <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+            <button mat-raised-button color="primary" (click)="openChangeAssetCategoryMeteringUnitDialog()">
+              <mat-icon>shopping_cart</mat-icon>
+              修改计量单位
+            </button>
+            <button mat-raised-button color="primary" (click)="openAssetStorageDialog()">
+              <mat-icon>work</mat-icon>
+              资产批量入库(无表)
+            </button>
+            <button mat-raised-button color="primary" (click)="openAssetStorageDialog()">
+              <mat-icon>work</mat-icon>
+              资产批量入库(有表)
+            </button>
+            <mat-form-field appearance="standard">
+              <input matInput #assetCategorySearchInput type="text">
+              <mat-label>
+                输入关键字以检索...
+              </mat-label>
+              <mat-icon matSuffix color="accent">search</mat-icon>
+            </mat-form-field>
+          </mat-toolbar>
+        </app-asset-category-table>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon color="primary">keyboard</mat-icon>低值易耗品分类明细
+        </ng-template>
+        <app-asset-material-table></app-asset-material-table>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon color="primary">settings_phone</mat-icon>服务类
+        </ng-template>
+        <app-asset-material-table></app-asset-material-table>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+<ng-template #changeAssetCategoryMeteringUnit>
+  <h2 mat-dialog-title>修改分类计量单位</h2>
+  <mat-dialog-content>
+    <form [formGroup]="changeMeteringUnitForm" (ngSubmit)="changeMeteringUnit()">
+      <mat-card>
+        <mat-card-header>
+          <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+          <mat-card-title>修改计量单位</mat-card-title>
+          <mat-card-subtitle>有些分类的计量单位的描述可能不太准确，如果需要，那么在下方选择该项分类的新的计量单位</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput formControlName="assetCategoryId" readonly>
+            <mat-hint align="end">免输</mat-hint>
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              管理机构
+            </mat-label>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select formControlName="assetMeteringUnit" #meteringUnit>
+              <mat-option *ngFor="let unit of initMeteringUnits$ | async;" [value]="unit.value">
+                {{unit.name}}
+              </mat-option>
+            </mat-select>
+            <mat-label>请选择计量单位</mat-label>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
+            <mat-icon>exit_to_app</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" [disabled]="changeMeteringUnitForm.invalid" matTooltip="提交">
+            <mat-icon>done</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+</ng-template>
+<ng-template #assetStorageRef>
+  <mat-dialog-content>
+    <form [formGroup]="assetStorageForm" fxFlex>
+      <mat-card>
+        <mat-card-header>
+          <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+          <mat-card-title>固定资产入库</mat-card-title>
+          <mat-card-subtitle>请仔细核对所选择的分类明细</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="column">
+          <div fxLayout="row wrap">
+            <mat-list>
+              <mat-list-item>
+                <mat-icon color="warn" matListIcon>filter_1</mat-icon>
+                <p matLine>
+                  资产大类
+                </p>
+                <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon color="warn" matListIcon>filter_4</mat-icon>
+                <p matLine>
+                  归属条线描述
+                </p>
+                <p matLine>{{currentSelectedCategory.managementLineDto.managementLineDescription}}</p>
+              </mat-list-item>
+            </mat-list>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon color="warn" matListIcon>filter_2</mat-icon>
+                <p matLine>
+                  资产小类
+                </p>
+                <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon color="warn" matListIcon>filter_3</mat-icon>
+                <p matLine>
+                  归属条线名称
+                </p>
+                <p matLine>{{currentSelectedCategory.managementLineDto.managementLineName}}</p>
+              </mat-list-item>
+            </mat-list>
+          </div>
+          <mat-toolbar color="primary">
+            <span>
+              <mat-icon>event_note</mat-icon>
+              表单
+            </span>
+          </mat-toolbar>
+          <mat-form-field>
+            <input matInput formControlName="assetName" type="text">
+            <mat-label>
+              <mat-icon>message</mat-icon>请填写资产名称
+            </mat-label>
+            <mat-hint align="end">必输项</mat-hint>
+            <mat-error *ngIf="assetStorageForm.get('assetName').invalid">资产名称为必输项</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="brand" type="text">
+            <mat-label>
+              <mat-icon>message</mat-icon>请填写资产品牌
+            </mat-label>
+            <mat-hint align="end">必输项</mat-hint>
+            <mat-error *ngIf="assetStorageForm.get('brand').invalid"></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="assetDescription" type="text">
+            <mat-label>
+              <mat-icon>message</mat-icon>请填写资产描述
+            </mat-label>
+            <mat-hint align="end">必输项，一般该项用于描述资产配置</mat-hint>
+            <mat-error *ngIf="assetStorageForm.get('assetDescription').invalid"></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="assetType" type="text">
+            <mat-label>
+              <mat-icon>message</mat-icon>请填写资产型号
+            </mat-label>
+            <mat-hint align="end">必输项</mat-hint>
+            <mat-error *ngIf="assetStorageForm.get('assetType').invalid"></mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="assetInStoreLocation" type="text">
+            <mat-label>
+              <mat-icon>message</mat-icon>请选择入库位置
+            </mat-label>
+            <mat-hint align="end">必输项</mat-hint>
+            <mat-error *ngIf="assetStorageForm.get('assetInStoreLocation').invalid"></mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-icon-button color="accent" matTooltip="退出" mat-dialog-close>
+            <mat-icon>power_settings_new</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" matTooltip="提交" (click)="storeAssets()">
+            <mat-icon>done</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </mat-dialog-content>
+</ng-template>

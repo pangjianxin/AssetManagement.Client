@@ -1,0 +1,145 @@
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <mat-card-title>资产情况</mat-card-title>
+    <mat-card-subtitle>当前页面显示二级权限下所有资产的概况</mat-card-subtitle>
+    <button mat-icon-button class="more-button" [matMenuTriggerFor]="assetMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #assetMenu="matMenu" xPosition="before">
+      <button mat-menu-item [routerLink]="['/assets','secondaryadmin']">前往资产管理页</button>
+    </mat-menu>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayout.lt-lg="column">
+        <mat-card fxFlex="60" fxFlex.lt-lg>
+          <mat-card-header>
+            <mat-card-title>资产三级分类汇总</mat-card-title>
+            <mat-card-subtitle>展示当前二级权限管理的资产的状态明细</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <app-asset-bar-chart [dataSet]="assetCategoryByThirdLevelDataset" [chartTitle]="''" (thirdLevelEmitter)=onThirdLevelEmitted($event)></app-asset-bar-chart>
+          </mat-card-content>
+        </mat-card>
+        <mat-card fxFlex="40" fxFlex.lt-lg>
+          <mat-card-header>
+            <mat-card-title>资产状态汇总</mat-card-title>
+            <mat-card-subtitle>展示当前二级权限管理的资产的状态明细</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <app-asset-pie-chart [dataSet]="assetCategoryByStatusDataset" [chartTitle]="''" (statusEvent)="onStatusEmitted($event)"></app-asset-pie-chart>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <app-asset-table [apiUrl]="assetTableUrl" [currentSelectedThirdLevel]="currentAssetThirdLevel"
+      [currentSelectedStatus]="currentAssetStatus">
+      <mat-toolbar color="warn" fxLayoutGap="10px">
+        <button mat-raised-button color="warn" (click)="currentAssetThirdLevel=''">
+          <mat-icon>settings_backup_restore</mat-icon>
+          重置三级分类检索条件
+        </button>
+        <button mat-raised-button color="warn" (click)="currentAssetStatus=''">
+          <mat-icon>settings_backup_restore</mat-icon>
+          重置资产状态检索条件
+        </button>
+        <span fxFlex></span>
+        <button mat-icon-button matTooltip="转至资产管理页面" [routerLink]="['/assets','secondaryadmin']">
+          <mat-icon>dashboard</mat-icon>
+        </button>
+      </mat-toolbar>
+    </app-asset-table>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <mat-card-title>资产调配记录</mat-card-title>
+    <mat-card-subtitle>展示当前二级权限管理的资产流转明细</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <app-asset-deploy-table [apiUrl]="assetDeployUrl" [currentFileterData]="currentSearchInput" (selected)="onAssetDeploySelectedEmitted($event)">
+      <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+        <button mat-raised-button color="primary" (click)="openDownloadAssetDeployFileRef()">
+          下载报表
+        </button>
+        <mat-form-field appearance="standard">
+          <input matInput #searchInput>
+          <mat-label>
+            <mat-icon>message</mat-icon>
+            请输入关键字检索...
+          </mat-label>
+        </mat-form-field>
+      </mat-toolbar>
+    </app-asset-deploy-table>
+  </mat-card-content>
+</mat-card>
+<ng-template #downloadAssetDeployFileRef>
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-header>
+        <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+        <mat-card-title>下载报表</mat-card-title>
+        <mat-card-subtitle>注意，有一些选项不是必填的，是你感兴趣的。</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="downLoadAssetDeployForm" fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field appearance="standard">
+            <input matInput [matDatepicker]="startDatePicker" type="text" formControlName="startDate" [max]="currentDate">
+            <mat-label>
+              请选择开始日期
+            </mat-label>
+            <mat-datepicker-toggle [for]="startDatePicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <input matInput [matDatepicker]="endDatePicker" type="text" formControlName="endDate" [max]="currentDate">
+            <mat-label>
+              请选择结束日期
+            </mat-label>
+            <mat-datepicker-toggle [for]="endDatePicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker disabled="false"></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <input matInput type="text" formControlName="importOrg" [matAutocomplete]="importOrga">
+            <mat-error *ngIf="downLoadAssetDeployForm.get('importOrg').invalid">没有选择到正确的结果，请重新搜索.....</mat-error>
+            <mat-hint align="end">键入关键字查找目标机构</mat-hint>
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              查询调入机构
+            </mat-label>
+            <mat-autocomplete #importOrga="matAutocomplete" [displayWith]="displayOrg">
+              <mat-option *ngFor="let org of importOrgs$ | async" [value]="org">
+                {{org.orgNam}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" formControlName="exportOrg" [matAutocomplete]="exportOrga">
+            <mat-error *ngIf="downLoadAssetDeployForm.get('exportOrg').invalid">没有选择到正确的结果，请重新搜索.....</mat-error>
+            <mat-hint align="end">键入关键字查找目标机构</mat-hint>
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              查询调出机构
+            </mat-label>
+            <mat-autocomplete #exportOrga="matAutocomplete" [displayWith]="displayOrg">
+              <mat-option *ngFor="let org of exportOrgs$ | async" [value]="org">
+                {{org.orgNam}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-icon-button color="warn" matTooltip="退出" mat-dialog-close>
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="提交" [disabled]="downLoadAssetDeployForm.invalid" (click)="downloadAssetDeployFile()">
+          <mat-icon>done</mat-icon>
+        </button>
+        <a class="download-zip-link" #downloadAssetDeployLink></a>
+      </mat-card-actions>
+    </mat-card>
+  </mat-dialog-content>
+</ng-template>
