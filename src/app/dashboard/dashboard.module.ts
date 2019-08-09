@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CoreModule } from '../core/core.module';
 import { DashboardSecondaryAdminComponent } from './dashboard-secondary-admin/dashboard-secondary-admin.component';
@@ -13,7 +12,7 @@ import { AssetTableComponent } from './asset-table/asset-table.component';
 import { AssetDeployTableComponent } from './asset-deploy-table/asset-deploy-table.component';
 
 @NgModule({
-  declarations: [DashboardComponent,
+  declarations: [
     DashboardSecondaryAdminComponent,
     DashboardCurrentUserComponent,
     AssetBarChartComponent,

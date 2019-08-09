@@ -1,0 +1,98 @@
+<mat-toolbar color="primary" class="app-sidenav-header">
+  <img src="assets/img/applogo.png" alt="appLogo" [ngStyle]="{'max-width': '80%','max-height':'80%'}">
+  <h2><strong>BOC.</strong>AM</h2>
+</mat-toolbar>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">people</mat-icon>
+      机构信息
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-nav-list>
+    <mat-list-item>
+      <mat-icon color="accent">style</mat-icon>
+      <a [routerLink]="[ '/organization','current']" routerLinkActive="active">&nbsp;&nbsp;机构信息索引</a>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon color="accent">verified_user</mat-icon>
+      <a [routerLink]="[ '/organization','secondaryadmin']" routerLinkActive="active">&nbsp;&nbsp;机构信息管理</a>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon color="accent">aspect_ratio</mat-icon>
+      <a [routerLink]="[ '/organization','spaceandemployee']" routerLinkActive="active">&nbsp;&nbsp;空间员工管理</a>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-expansion-panel>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">dashboard</mat-icon>
+      资产分类
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-nav-list>
+    <mat-list-item>
+      <mat-icon color="accent">settings</mat-icon>
+      <a [routerLink]="[ '/assetcategory','user' ]" routerLinkActive="active">&nbsp;&nbsp;资产分类查询</a>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon color="accent">perm_device_information</mat-icon>
+      <a [routerLink]="[ '/assetcategory','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;资产分类管理</a>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-expansion-panel>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">important_devices</mat-icon>
+      资产信息
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-nav-list>
+    <mat-list-item>
+      <mat-icon color="accent">settings</mat-icon>
+      <a [routerLink]="[ '/assets','currentuser' ]" routerLinkActive="active">&nbsp;&nbsp;当前机构资产</a>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon color="accent">perm_device_information</mat-icon>
+      <a [routerLink]="[ '/assets','secondaryadmin' ]" routerLinkActive="active">&nbsp;&nbsp;二级资产管理</a>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-expansion-panel>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">assessment</mat-icon>
+      资产事件
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-nav-list>
+    <mat-list-item>
+      <mat-icon color="accent">settings</mat-icon>
+      <a [routerLink]="[ '/assetevents','asseteventscurrentuser']" routerLinkActive="active">&nbsp;&nbsp;当前机构信息</a>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon color="accent">perm_device_information</mat-icon>
+      <a [routerLink]="[ '/assetevents','asseteventssecondary' ]" routerLinkActive="active">&nbsp;&nbsp;二级管理信息</a>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-expansion-panel>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <mat-icon color="warn">event</mat-icon>
+      用户事件
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-nav-list>
+    <mat-list-item [routerLink]="[ '/nonauditevents','user']" routerLinkActive="active">
+      <mat-icon color="accent">settings</mat-icon>
+      <p>当前机构事件</p>
+    </mat-list-item>
+    <mat-list-item [routerLink]="[ '/nonauditevents','secondaryadmin' ]" routerLinkActive="active">
+      <mat-icon color="accent">perm_device_information</mat-icon>
+      <p>二级机构事件</p>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-expansion-panel>

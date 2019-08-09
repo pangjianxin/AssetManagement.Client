@@ -1,3 +1,5 @@
+import { OrganizationRoleEnum } from './organization-role';
+
 export interface Organization {
     orgId: string;
     orgIdentifier: string;
@@ -11,5 +13,6 @@ export interface Organization {
     orgNam2: string;
     org3: string;
     orgNam3: string;
-    roleNam: string;
+    role: OrganizationRoleEnum;
+    roleDescription: string;
 }

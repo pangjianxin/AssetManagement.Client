@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" matCardAvatar>
+    <mat-card-title>机构空间与员工管理</mat-card-title>
+    <mat-card-subtitle>该页面操作机构员工与机构空间/位置的管理信息，机构空间主要用于描述资产存放位置，员工信息目前主要用于资产盘点的信息录入</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group mat-align-tabs="end">
+      <mat-tab>
+        <ng-template matTabLabel>
+          <mat-icon color="primary">pages</mat-icon>
+          机构空间管理
+        </ng-template>
+        <app-space></app-space>
+      </mat-tab>
+      <mat-tab>
+        <ng-template matTabLabel>
+          <mat-icon color="primary">people</mat-icon>机构员工管理
+        </ng-template>
+        <ng-template matTabContent>
+          <app-employee></app-employee>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

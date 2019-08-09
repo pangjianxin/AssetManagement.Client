@@ -12,21 +12,24 @@ export class AssetBarChartComponent implements OnInit, OnChanges {
   constructor() { }
   @Input() dataSet: any[];
   @Input() chartTitle = '机构资产按维度分类汇总';
+  @Input() chartSubtitle = '';
   loading = true;
   mergeOptions: any;
   echart: ECharts;
   barChartOptions: EChartOption = {
-    title: { text: this.chartTitle },
+    title: {
+      text: this.chartTitle,
+      subtext: this.chartSubtitle,
+    },
     tooltip: {
 
     },
     toolbox: {
       feature: {
         saveAsImage: { type: 'jpeg' },
-        restore: {},
-        dataView: {},
         magicType: { type: ['line', 'bar'] }
-      }
+      },
+      right: '20px'
     },
     dataZoom: [
       { type: 'slider', start: 10, end: 60 },
@@ -44,7 +47,10 @@ export class AssetBarChartComponent implements OnInit, OnChanges {
     if (!changes['dataSet'].firstChange) {
       this.loading = false;
       this.mergeOptions = {
-        title: { text: this.chartTitle },
+        title: {
+          text: this.chartTitle,
+          subtext: this.chartSubtitle
+        },
         dataset: [
           {
             dimentions: ['name'],

@@ -1,8 +1,14 @@
-<app-asset-applying-table [apiUrl]="assetApplyingCurrnetUserUrl" [currentFileterData]="searchInputContent" [title]="userTitle"
-  [subTitle]="userSubTitle" (selected)="onSelected($event)" #table>
-  <mat-toolbar color="warn" class="table-bar" fxLayoutGap="10px">
-    <button mat-raised-button color="warn" (click)="openRemoveEventDialogRef()">撤销申请资产</button>
-    <button mat-raised-button color="warn" [routerLink]="['/assetcategory','user']">继续申请资产</button>
+<app-asset-applying-table [apiUrl]="assetApplyingCurrnetUserUrl" [currentFileterData]="searchInputContent"
+  (selected)="onSelected($event)">
+  <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRemoveEventDialogRef()">
+      <mat-icon>fast_rewind</mat-icon>
+      撤销申请资产
+    </button>
+    <button mat-raised-button color="primary" [routerLink]="['/assetcategory','user']">
+      <mat-icon>fast_forward</mat-icon>
+      继续申请资产
+    </button>
     <mat-form-field appearance="standard">
       <input matInput #searchInput type="text">
       <mat-label>
@@ -11,26 +17,20 @@
       </mat-label>
     </mat-form-field>
     <span fxFlex="1 1 auto"></span>
-    <a [routerLink]="['/dashboard','currentuser']" mat-flat-button color="warn" matTooltip="返回仪表板">
+    <a [routerLink]="['/dashboard']" color="primary" matTooltip="返回仪表板">
       <mat-icon>dashboard</mat-icon>
     </a>
+    <span>当前机构资产申请</span>
   </mat-toolbar>
 </app-asset-applying-table>
-
 <ng-template #removeEventRef>
-  <mat-toolbar color="warn">
-    <span>撤销资产申请请求</span>
-    <span fxFlex="1 1 auto"></span>
-    <mat-icon>info</mat-icon>
-  </mat-toolbar>
+  <h3 mat-dialog-title>撤销资产申请请求</h3>
   <mat-dialog-content>
-    <mat-list>
-      <mat-list-item>
-        <img src="assets/img/logo.png" alt="logo" matListAvatar>
-        <p matLine>确认撤销该事件么?</p>
-        <p matLine>事件撤销后不可恢复</p>
-      </mat-list-item>
-    </mat-list>
+    <div fxLayoutAlign="center center" fxLayout="column">
+      <p>
+        <mat-icon color="warn">info</mat-icon>记录一经删除无法找回
+      </p>
+    </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">

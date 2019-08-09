@@ -12,11 +12,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { myPaginator } from './core/services/paginatorInit';
 import { HttpResponseInterceptor } from './core/services/http-response-interceptor';
-import { AuthorizeDirective } from './core/directives/authorize.directive';
-
+import { LeftSidenavComponent } from './home/left-sidenav/left-sidenav.component';
+import { RightSidenavComponent } from './home/right-sidenav/right-sidenav.component';
+import { EventMessageComponent } from './home/right-sidenav/event-message/event-message.component';
+import { DocumentComponent } from './home/document/document.component';
+import { LoginComponent } from './home/login/login.component';
+import { PageNotFoundComponent } from './home/page-not-found/page-not-found.component';
+import { FormsModule } from '@angular/forms';
+export function tokenGeter() {
+  return window.localStorage.getItem('access_token');
+}
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
+    LeftSidenavComponent,
+    RightSidenavComponent,
+    EventMessageComponent,
+    DocumentComponent,
+    LoginComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,21 +40,14 @@ import { AuthorizeDirective } from './core/directives/authorize.directive';
     CoreModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: function () {
-          return window.localStorage.getItem('access_token');
-        },
+        tokenGetter: tokenGeter,
         whitelistedDomains: environment.jwt_whiteLists,
         blacklistedRoutes: environment.jwt_blackLists,
       }
     }),
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpRequsetInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true },
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { minLength: '20%', minWidth: '20%', hasBackdrop: true } },
-    { provide: MatPaginatorIntl, useValue: myPaginator() }
   ],
-  bootstrap: [AppComponent],
   entryComponents: []
 })
 export class AppModule { }

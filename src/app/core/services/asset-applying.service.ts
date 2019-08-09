@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { AssetApplyingViewmodel } from 'src/app/models/viewmodels/asset-applying-viewmodel';
-import { HandleAssetApplyingViewmodel } from 'src/app/models/viewmodels/handle-asset-applying-viewmodel';
+import { ApplyAsset } from 'src/app/models/viewmodels/apply-asset';
+import { HandleAssetApply } from 'src/app/models/viewmodels/handle-asset-apply';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +24,12 @@ export class AssetApplyingService {
     return this.http.delete<RequestActionModel>(`/api/assetApply/remove?eventId=${eventId}`);
   }
   revoke(eventId: string, message: string): Observable<RequestActionModel> {
-    return this.http.delete<RequestActionModel>(`/api/assetApply/secondary/revoke?eventId=${eventId}&message=${message}`);
+    return this.http.delete<RequestActionModel>(`/api/assetApply/revoke?eventId=${eventId}&message=${message}`);
   }
-  applyAsset(viewModel: AssetApplyingViewmodel) {
+  applyAsset(viewModel: ApplyAsset) {
     return this.http.post<RequestActionModel>(`/api/assetApply/apply`, JSON.stringify(viewModel));
   }
-  handleAsync(model: HandleAssetApplyingViewmodel): Observable<RequestActionModel> {
+  handleAsync(model: HandleAssetApply): Observable<RequestActionModel> {
     return this.http.put<RequestActionModel>('/api/assetApply/secondary/handle', JSON.stringify(model));
   }
 }

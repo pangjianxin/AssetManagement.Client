@@ -1,8 +1,14 @@
-<app-asset-returning-table [apiUrl]="currentUserApiUrl" [title]="tableTitle" [subTitle]="tableSubTitle" (selected)="onSelected($event)"
+<app-asset-returning-table [apiUrl]="currentUserApiUrl" (selected)="onSelected($event)"
   [currentFileterData]="currentSearchInput" #table>
-  <mat-toolbar color="warn" class="table-bar" fxLayoutGap="10px">
-    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">撤销资产交回</button>
-    <button mat-raised-button color="warn" [routerLink]="['/assets','currentuser']">继续交回资产</button>
+  <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
+      <mat-icon>fast_rewind</mat-icon>
+      撤销资产交回
+    </button>
+    <button mat-raised-button color="primary" [routerLink]="['/assets','currentuser']">
+      <mat-icon>fast_forward</mat-icon>
+      继续交回资产
+    </button>
     <mat-form-field appearance="standard">
       <input matInput type="text" #searchInput>
       <mat-label>
@@ -11,7 +17,10 @@
       </mat-label>
     </mat-form-field>
     <span fxFlex="1 1 auto"></span>
-    <a [routerLink]="['/dashboard','currentuser']" mat-flat-button color="warn" matTooltip="返回仪表板"><mat-icon>dashboard</mat-icon></a>
+    <a [routerLink]="['/dashboard']" matTooltip="返回仪表板">
+      <mat-icon>dashboard</mat-icon>
+    </a>
+    <span>当前机构资产交回</span>
   </mat-toolbar>
 </app-asset-returning-table>
 

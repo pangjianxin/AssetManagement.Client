@@ -1,10 +1,8 @@
 export interface NonauditEvent {
-    eventId: string;
-    requestOrgIdentifier: string;
-    requestOrgNam: string;
-    requestOrg2: string;
-    eventTitle: string;
-    eventSubTitle: string;
+    id: string;
+    orgIdentifier: string;
+    orgNam: string;
+    org2: string;
     type: string;
     dateTimeFromNow: string;
 }

@@ -1,11 +1,11 @@
-<app-asset-exchange-table [apiUrl]="assetExchangingCurrentUserUrl" [currentFileterData]="currentSearchInput" [title]="title"
-  [subTitle]="subtitle" (selected)="onSelected($event)">
-  <mat-toolbar class="table-bar" color="warn" fxLayoutGap="10px">
-    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">
+<app-asset-exchange-table [apiUrl]="assetExchangingCurrentUserUrl" [currentFileterData]="currentSearchInput"
+  (selected)="onSelected($event)">
+  <mat-toolbar class="table-bar" color="primary" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
       <mat-icon>fast_rewind</mat-icon>
       撤销资产调换请求
     </button>
-    <button mat-raised-button color="warn" [routerLink]="['/assets','currentuser']">
+    <button mat-raised-button color="primary" [routerLink]="['/assets','currentuser']">
       <mat-icon>fast_forward</mat-icon>
       回到资产列表页
     </button>
@@ -17,9 +17,10 @@
       </mat-label>
     </mat-form-field>
     <span fxFlex></span>
-    <button mat-icon-button matTooltip="返回仪表板" [routerLink]="['/dashboard']">
+    <a [routerLink]="[ '/dashboard' ]" matTooltip="返回仪表板">
       <mat-icon>dashboard</mat-icon>
-    </button>
+    </a>
+    <span>资产的机构间调配</span>
   </mat-toolbar>
 </app-asset-exchange-table>
 <ng-template #removeEventRef>

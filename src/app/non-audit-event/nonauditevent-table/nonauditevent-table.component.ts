@@ -28,8 +28,8 @@ export class NonauditeventTableComponent implements OnInit, OnChanges {
   // 当前排序逻辑
   currentSort: Sort;
   // 显示的列
-  displayedColumns: string[] = ['select', 'type', 'requestOrgIdentifier', 'requestOrgNam', 'requestOrg2',
-    'eventTitle', 'eventSubTitle', 'eventId', 'dateTimeFromNow'];
+  displayedColumns: string[] = ['select', 'type', 'orgIdentifier', 'orgNam', 'org2',
+    'dateTimeFromNow'];
   // 当前选择的记录行
   selection: SelectionModel<NonauditEvent> = new SelectionModel<NonauditEvent>(true, []);
   /** Based on the screen size, switch from standard to one column per row */

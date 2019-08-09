@@ -9,7 +9,10 @@ import { HttpClient } from '@angular/common/http';
 export class OrganizationService {
 
   constructor(private http: HttpClient) { }
-  getOrgsBySeachInput(searchInput: string): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>(`/api/auth/current/accounts?searchInput=${searchInput}`);
+  getOrgsBySearchInput(searchInput: string): Observable<RequestActionModel> {
+    return this.http.get<RequestActionModel>(`/api/auth/accounts/search?searchInput=${searchInput}`);
+  }
+  getOrgsByOrg2(): Observable<RequestActionModel> {
+    return this.http.get<RequestActionModel>(`/api/auth/accounts/org2`);
   }
 }

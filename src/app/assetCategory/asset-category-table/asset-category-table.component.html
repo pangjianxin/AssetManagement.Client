@@ -62,13 +62,6 @@
         </th>
         <td mat-cell *matCellDef="let row">{{row.assetMeteringUnit}}</td>
       </ng-container>
-      <ng-container matColumnDef="assetCategoryId">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-icon color="accent">assignment_late</mat-icon>
-            分类索引
-          </th>
-          <td mat-cell *matCellDef="let row">{{row.assetCategoryId}}</td>
-        </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let rows; columns:displayedColumns;"></tr>
     </table>

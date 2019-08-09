@@ -9,7 +9,6 @@ import { DashboardService } from 'src/app/core/services/dashboard.service';
   styleUrls: ['./asset-table.component.scss']
 })
 export class AssetTableComponent implements OnInit, OnChanges {
-
   @ViewChild('paginator') paginator: MatPaginator;
   @Input() apiUrl: string;
   @Input() currentSelectedThirdLevel = '';
@@ -60,7 +59,12 @@ export class AssetTableComponent implements OnInit, OnChanges {
     this.initPage();
   }
   private getAssetPagination() {
-    let targetUrl = `${this.apiUrl}?page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
+    let targetUrl: string;
+    if (this.apiUrl.indexOf('?') > -1) {
+      targetUrl = `${this.apiUrl}&page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
+    } else {
+      targetUrl = `${this.apiUrl}?page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
+    }
     if (this.currentSelectedThirdLevel) {
       targetUrl = `${targetUrl}&categoryId=${this.currentSelectedThirdLevel}`;
     }
@@ -84,7 +88,7 @@ export class AssetTableComponent implements OnInit, OnChanges {
   }
   initPage() {
     this.paginator.pageIndex = 0;
-    this.paginator.page.emit({ pageIndex: 0, pageSize: 5, length: null });
+    this.paginator.page.emit({ pageIndex: 0, pageSize: 10, length: null });
   }
 
 }

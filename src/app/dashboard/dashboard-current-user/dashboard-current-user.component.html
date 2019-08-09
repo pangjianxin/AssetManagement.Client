@@ -1,24 +1,29 @@
-<div class="grid-container">
-  <h1 class="mat-h1">currentuser</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <mat-card-title>资产情况</mat-card-title>
+    <mat-card-subtitle>当前页面显示二级权限下所有资产的概况</mat-card-subtitle>
+    <button mat-icon-button class="more-button" [matMenuTriggerFor]="assetMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #assetMenu="matMenu" xPosition="before">
+      <button mat-menu-item [routerLink]="['/assets','secondaryadmin']">前往资产管理页</button>
+    </mat-menu>
+  </mat-card-header>
+  <mat-card-content>
+    <app-asset-bar-chart [dataSet]="assetCategoryByThirdLevelDataset" [chartTitle]="''"
+      (thirdLevelEmitter)=onThirdLevelEmitted($event)></app-asset-bar-chart>
+    <app-asset-table [apiUrl]="assetTableUrl" [currentSelectedThirdLevel]="currentAssetThirdLevel">
+      <mat-toolbar color="warn" fxLayoutGap="10px">
+        <button mat-raised-button color="warn" (click)="currentAssetThirdLevel=''">
+          <mat-icon>settings_backup_restore</mat-icon>
+          重置三级分类检索条件
+        </button>
+        <span fxFlex></span>
+        <button mat-icon-button matTooltip="转至资产管理页面" [routerLink]="['/assets','secondaryadmin']">
+          <mat-icon>dashboard</mat-icon>
+        </button>
+      </mat-toolbar>
+    </app-asset-table>
+  </mat-card-content>
+</mat-card>

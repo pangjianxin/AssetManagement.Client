@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HandleAssetApplyingComponent } from '../handle-asset-applying/handle-asset-applying.component';
+import { HandleAssetApplyingComponent } from './handle-asset-applying/handle-asset-applying.component';
 import { AssetService } from 'src/app/core/services/asset.service';
 
 @Component({
@@ -19,10 +19,7 @@ import { AssetService } from 'src/app/core/services/asset.service';
   styleUrls: ['./asset-applying-seondary-admin.component.scss']
 })
 export class AssetApplyingSeondaryAdminComponent implements OnInit {
-
-  assetApplyingSecondaryAdminUrl = '/api/assetApply/secondary/pagination';
-  userTitle = '资产申请事件(二级权限)';
-  userSubTitle = '二级行辖属的资产申请事件，在该页面可以对事件进行处理';
+  assetApplyingSecondaryAdminUrl: string;
   searchInputContent: string;
   selection: SelectionModel<AssetApplyingEvent> = new SelectionModel<AssetApplyingEvent>(true, []);
   currentSelectionRow: AssetApplyingEvent;
@@ -30,7 +27,6 @@ export class AssetApplyingSeondaryAdminComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('table') table: AssetApplyingTableComponent;
   @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
-  @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;
   constructor(private alert: AlertService,
     private assetApplyingService: AssetApplyingService,
     private dialog: MatDialog,
@@ -38,25 +34,30 @@ export class AssetApplyingSeondaryAdminComponent implements OnInit {
     private assetService: AssetService) { }
 
   ngOnInit() {
+    this.assetApplyingSecondaryAdminUrl = '/api/assetApply/secondary/pagination';
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(debounceTime(300), pluck('target', 'value')).subscribe((value: string) => this.searchInputContent = value);
     this.assetService.dataSourceChangedSubject.asObservable().pipe(filter(value => value === true)).subscribe(value => {
       this.assetApplyingService.dataSourceChangedSubject.next(true);
     });
   }
+  onSelected($evnet: SelectionModel<AssetApplyingEvent>) {
+    this.selection = $evnet;
+  }
   get isOneSelected() {
     return this.selection.selected.length === 1;
   }
+  /**打开撤销事件的对话框 */
   openRevokeEventDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('只能选中一项进行操作');
     } else {
       switch (this.selection.selected[0].status) {
         case '已撤销':
-          this.alert.warn('该事件状态已经为已撤销，如果要删除该事件，请点击处理请求事件按钮');
+          this.alert.warn('该事件状态已经为已撤销，无需撤销');
           break;
         case '已完成':
-          this.alert.warn('该事件状态已经为已完成，如果要删除该事件，请点击处理请求事件按钮');
+          this.alert.warn('该事件状态已经为已完成，无需撤销');
           break;
         default:
           this.currentSelectionRow = this.selection.selected[0];
@@ -68,6 +69,7 @@ export class AssetApplyingSeondaryAdminComponent implements OnInit {
       }
     }
   }
+  /**撤销事件的逻辑 */
   revokeEvent() {
     const eventId = this.currentSelectionRow.eventId;
     const message = this.revokeEventForm.get('message').value;
@@ -79,21 +81,12 @@ export class AssetApplyingSeondaryAdminComponent implements OnInit {
       error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
     });
   }
-  onSelected($evnet: SelectionModel<AssetApplyingEvent>) {
-    this.selection = $evnet;
-  }
   openHandleAssetApplyingDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('只能选中一个进行操作');
     } else {
       this.currentSelectionRow = this.selection.selected[0];
       switch (this.currentSelectionRow.status) {
-        case '已撤销':
-          this.dialog.open(this.removeEventRef);
-          break;
-        case '已完成':
-          this.dialog.open(this.removeEventRef);
-          break;
         case '待处理':
           this.dialog.open(HandleAssetApplyingComponent, {
             data:
@@ -105,19 +98,9 @@ export class AssetApplyingSeondaryAdminComponent implements OnInit {
           });
           break;
         default:
-          this.alert.warn('资产状态有误，请联系管理员');
+          this.alert.warn('事件状态不为待处理，无法继续处理');
           break;
       }
     }
-  }
-  removeEvent() {
-    const eventId = this.currentSelectionRow.eventId;
-    this.assetApplyingService.remove(eventId).subscribe({
-      next: (value: RequestActionModel) => {
-        this.alert.success(value.message);
-        this.assetApplyingService.dataSourceChangedSubject.next(true);
-      },
-      error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
-    });
   }
 }

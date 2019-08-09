@@ -1,11 +1,11 @@
-<app-asset-exchange-table [apiUrl]="assetExchangingSecondaryAdminUrl" [currentFileterData]="currentSearchInput" [title]="title"
-  [subTitle]="subtitle" (selected)="onSelected($event)">
-  <mat-toolbar class="table-bar" color="warn" fxLayoutGap="10px">
-    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">
+<app-asset-exchange-table [apiUrl]="assetExchangingSecondaryAdminUrl" [currentFileterData]="currentSearchInput"
+  (selected)="onSelected($event)">
+  <mat-toolbar class="table-bar" color="primary" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
       <mat-icon>fast_rewind</mat-icon>
       撤销资产调换请求
     </button>
-    <button mat-raised-button color="warn" (click)="openHandleEventDialog()">
+    <button mat-raised-button color="primary" (click)="openHandleEventDialog()">
       <mat-icon>fast_forward</mat-icon>
       进入处理事件流程
     </button>
@@ -17,9 +17,10 @@
       </mat-label>
     </mat-form-field>
     <span fxFlex></span>
-    <button mat-icon-button matTooltip="返回仪表板" [routerLink]="['/dashboard']">
+    <a [routerLink]="[ '/dashboard' ]" routerLinkActive="active" matTooltip="返回仪表板">
       <mat-icon>dashboard</mat-icon>
-    </button>
+    </a>
+    <span>资产的机构间调配(二级权限)</span>
   </mat-toolbar>
 </app-asset-exchange-table>
 
@@ -48,8 +49,8 @@
         <button mat-icon-button color="accent" mat-dialog-close matTooltip="退出">
           <mat-icon>power_settings_new</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="revokeEvent()" [disabled]="revokeEventForm.invalid||currentRevokeSubmited"
-          matTooltip="提交">
+        <button mat-icon-button color="primary" (click)="revokeEvent()"
+          [disabled]="revokeEventForm.invalid||currentRevokeSubmited" matTooltip="提交">
           <mat-icon>done</mat-icon>
         </button>
       </mat-card-actions>
@@ -71,7 +72,8 @@
         <button mat-icon-button color="accent" mat-dialog-close matTooltip="退出">
           <mat-icon>power_settings_new</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="removeEvent()" [disabled]="currentRemoveSubmited" matTooltip="提交">
+        <button mat-icon-button color="primary" (click)="removeEvent()" [disabled]="currentRemoveSubmited"
+          matTooltip="提交">
           <mat-icon>done</mat-icon>
         </button>
       </mat-card-actions>
@@ -164,7 +166,8 @@
         <button mat-icon-button color="accent" mat-dialog-close matTooltip="退出">
           <mat-icon>power_settings_new</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="handleEvent()" [disabled]="currentHandleSubmited" matTooltip="提交">
+        <button mat-icon-button color="primary" (click)="handleEvent()" [disabled]="currentHandleSubmited"
+          matTooltip="提交">
           <mat-icon>done</mat-icon>
         </button>
       </mat-card-actions>

@@ -1,0 +1,161 @@
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/icons/Household Carbon Footprint.png" alt="logo" mat-card-avatar>
+    <mat-card-title><strong>系统概述</strong></mat-card-title>
+    <mat-card-subtitle>中国银行包头分行信息科技与网络金融部</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item>
+        <mat-icon matListIcon color="primary">filter_1</mat-icon>
+        <h3 matLine>系统背景</h3>
+        <p matLine>为了维护我行所拥有的所有资产的生命周期，为了更好的管理我行的固定资产，在此背景上成立了我行的固定资产管理系统</p>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListIcon color="primary">filter_2</mat-icon>
+        <h3 matLine>系统概述</h3>
+        <p matLine>系统由“机构信息”、“资产分类”、“资产信息”、“资产事件”、“用户事件”这五个模块构成。各个模块根据用户的权限和功能的不同又包含了一些子模块，所有上述模块构成了《固定资产管理系统》</p>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/icons/Automation.png" alt="logo" matCardAvatar>
+    <mat-card-title><strong>模块功能解释</strong></mat-card-title>
+    <mat-card-subtitle>下面的内容全部关于系统的各个模块的解释</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card>
+      <mat-card-header>
+        <img src="assets/img/icons/Prediction.png" alt="logo" mat-card-avatar>
+        <mat-card-title><strong>机构管理</strong></mat-card-title>
+        <mat-card-subtitle>机构模块涉及到的内容包括机构信息、机构关联的角色信息、机构空间信息以及权限的管理。可以从
+          <a [routerLink]="[ '/organization', 'current' ]">这里</a>查看机构信息</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_1</mat-icon>
+            <h3 matLine>机构查询</h3>
+            <p matLine>机构查询适用于所有权限的用户使用</p>
+            <button mat-raised-button [routerLink]="['/organization','current']" color="primary">进入该模块</button>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_2</mat-icon>
+            <h3 matLine>机构信息索引</h3>
+            <p matLine>该模块适用于所有权限的用户使用</p>
+            <button mat-raised-button [routerLink]="['/organization','secondaryadmin']" color="primary">进入该模块</button>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_3</mat-icon>
+            <h3 matLine>机构信息管理</h3>
+            <p matLine>该模块适用于二级行管理员权限，模块内有机构简称修改、机构角色调整和角色对应的权限调整</p>
+            <button mat-raised-button [routerLink]="['/organization','spaceandemployee']" color="primary">进入该模块</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <img src="assets/img/icons/Prediction.png" alt="logo" mat-card-avatar>
+        <mat-card-title><strong>资产信息</strong></mat-card-title>
+        <mat-card-subtitle> <a [routerLink]="[ '/assets','currentuser' ]" routerLinkActive="active">资产</a>
+          是系统中最重要的概念，它是我们所有的机构和网点在用、在库、闲置以及报废的资产的总称。你可以从<a [routerLink]="[ '/assets','currentuser' ]"
+            routerLinkActive="active">这里</a>查看本机构下的所有资产信息，并对某条资产信息进行操作。</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_1</mat-icon>
+            <h3 matLine>当前机构资产</h3>
+            <p matLine>该模块适用于所有角色权限，主要用于查询本机构资产，并对某项资产进行资产交回和资产调配以及资产盘点等操作。</p>
+            <button mat-raised-button [routerLink]="['/assets','currentuser']" color="primary">进入该模块</button>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_2</mat-icon>
+            <h3 matLine>二级资产管理</h3>
+            <p matLine>该模块适用于二级行管理员及以上角色权限，主要用于查询当前二级行的所有对应条线的资产，并对资产的信息进行维护。</p>
+            <button mat-raised-button [routerLink]="['/assets','secondaryadmin']" color="primary">进入该模块</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <img src="assets/img/icons/Prediction.png" alt="logo" mat-card-avatar>
+        <mat-card-title><strong>资产分类</strong></mat-card-title>
+        <mat-card-subtitle> 资产分类用于描述固定资产的类别。资产类别是系统中较为重要的概念，主要体现在以下几个方面，第一，如果你要申请资产，那你需要从
+          <a [routerLink]="[ '/assetcategory', 'user' ]">这里</a>查找你要申请的资产的类别，然后选中这个类别之后点击“申请资产”按钮进行资产申请的操作。
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_1</mat-icon>
+            <h3 matLine>资产分类查询</h3>
+            <p matLine>该模块适用于所有角色的用户使用，用于查询资产分类，并就某一项资产分类发起资产申请等操作。</p>
+            <button mat-raised-button [routerLink]="['/assetcategory','user']" color="primary">进入该模块</button>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_2</mat-icon>
+            <h3 matLine>资产分类管理</h3>
+            <p matLine>该模块适用于二级行及以上角色使用，主要用于维护相应条线下的资产分类，以及分类对应的资产维修服务提供商信息</p>
+            <button mat-raised-button [routerLink]="['/assetcategory','secondaryadmin']" color="primary">进入该模块</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <img src="assets/img/icons/Prediction.png" alt="logo" mat-card-avatar>
+        <mat-card-title><strong>资产事件</strong></mat-card-title>
+        <mat-card-subtitle>
+          资产事件是由针对资产的操作产生的记录，当你发起一项操作比如申请资产、申请资产交回或者申请资产调配到其他机构等，这项操作会被转化成一条申请记录然后发往审核机构那里，在那里，审核机构会对你的申请进行通过或撤销。你可以点击
+          <a [routerLink]="[ '/assetevents', 'asseteventscurrentuser' ]">这里</a>查看并执行相应的操作。</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_1</mat-icon>
+            <h3 matLine>当前机构信息</h3>
+            <p matLine>机构查询适用于所有的角色用户使用，主要用于查询本机构下发生的所有申请，包括资产申请、交回等。</p>
+            <button mat-raised-button [routerLink]="['/assetevents','asseteventscurrentuser']"
+              color="primary">进入该模块</button>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_2</mat-icon>
+            <h3 matLine>二级管理信息</h3>
+            <p matLine>该模块适用于二级行管理员及以上角色使用，主要用于审核普通机构发起的资产相关的申请，可以通过或撤销某一项申请。</p>
+            <button mat-raised-button [routerLink]="['/assetevents','asseteventssecondary']"
+              color="primary">进入该模块</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header>
+        <img src="assets/img/icons/Prediction.png" alt="logo" mat-card-avatar>
+        <mat-card-title><strong>用户事件</strong></mat-card-title>
+        <mat-card-subtitle>用户事件是用来记录用户操作过程中产生的日志信息，这部分信息不需要管理机构进行审核，主要用于记录用户行为并据此来改进用户体验。可以点击
+          <a [routerLink]="[ '/nonauditevents', 'user' ]">这里</a>查看相应的操作记录。你具有删除权限。</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_1</mat-icon>
+            <h3 matLine>当前机构事件</h3>
+            <p matLine>机构查询适用于所有权限的用户使用，用于查询本机构下发生的操作记录</p>
+            <button mat-raised-button [routerLink]="['/nonauditevents','user']" color="primary">进入该模块</button>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListIcon color="primary">filter_2</mat-icon>
+            <h3 matLine>二级机构事件</h3>
+            <p matLine>该模块适用于二级行管理员及以上角色使用，用于查看全辖用户的操作记录</p>
+            <button mat-raised-button [routerLink]="['/nonauditevents','secondaryadmin']" color="primary">进入该模块</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

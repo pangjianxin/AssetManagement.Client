@@ -38,24 +38,61 @@
     </mat-card-content>
   </mat-card>
 </div>
-<app-asset-table [apiUrl]="apiUrl" [currentFileterData]="searchInput" (selected)="onSelected($event)">
-  <mat-toolbar class="table-bar" fxLayoutGap="10px" color="primary">
-    <button mat-raised-button color="primary" (click)="openModifyAssetLocationDialog()">维护资产位置</button>
-    <button mat-raised-button color="primary" (click)="openAssetReturnDialog()">申请资产交回</button>
-    <button mat-raised-button color="primary" (click)="openExchangeAssetDialog()">申请资产机构间调换</button>
-    <mat-form-field appearance="standard">
-      <input matInput #assetSearchInput type="text">
-      <mat-label>
-        输入关键字以检索...
-      </mat-label>
-    </mat-form-field>
-  </mat-toolbar>
-</app-asset-table>
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" matCardAvatar>
+    <mat-card-title>固定资产查询与操作</mat-card-title>
+    <mat-card-subtitle>该页面包含给i顶资产的查询和操作功能，你可以选择右侧TAB进行相关页面的切换</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group mat-align-tabs="end">
+      <mat-tab>
+        <ng-template matTabLabel>
+          <mat-icon color="primary">computer</mat-icon>机构资产情况
+        </ng-template>
+        <app-asset-table [apiUrl]="apiUrl" [currentFileterData]="searchInput" (selected)="onSelected($event)">
+          <mat-toolbar class="table-bar" fxLayoutGap="10px" color="primary">
+            <button mat-raised-button color="primary" (click)="openModifyAssetLocationDialog()">
+              <mat-icon>edit_location</mat-icon>
+              维护资产位置
+            </button>
+            <button mat-raised-button color="primary" (click)="openAssetReturnDialog()">
+              <mat-icon>assignment_return</mat-icon>
+              申请资产交回
+            </button>
+            <button mat-raised-button color="primary" (click)="openExchangeAssetDialog()">
+              <mat-icon>import_export</mat-icon>
+              申请资产机构间调换
+            </button>
+            <button mat-raised-button color="primary" (click)="openApplyMaintainingDialog()">
+              <mat-icon>phone_forwarded</mat-icon>
+              申请资产维修
+            </button>
+            <mat-form-field appearance="standard">
+              <input matInput #assetSearchInput type="text">
+              <mat-label>
+                <mat-icon>message</mat-icon>
+                输入关键字以检索...
+              </mat-label>
+            </mat-form-field>
+          </mat-toolbar>
+        </app-asset-table>
+      </mat-tab>
+      <mat-tab>
+        <ng-template matTabLabel>
+          <mat-icon>important_devices</mat-icon>固定资产盘点
+        </ng-template>
+        <app-asset-stock-taking-current-user></app-asset-stock-taking-current-user>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
 <ng-template #changeAssetLocationRef>
   <mat-toolbar color="warn">
     <span>维护资产摆放位置</span>
     <span fxFlex="1 1 auto"></span>
-    <button mat-icon-button matTooltip="添加机构空间" (click)="dialog.closeAll()" [routerLink]="['/organization','space']">
+    <button mat-icon-button matTooltip="添加机构空间" (click)="dialog.closeAll()"
+      [routerLink]="['/organization','spaceandemployee']">
       <mat-icon>add</mat-icon>
     </button>
   </mat-toolbar>
@@ -69,14 +106,7 @@
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutGap="10px">
           <mat-form-field>
-            <input matInput formControlName="assetId" type="text" readonly>
-            <mat-label>
-              <mat-icon>message</mat-icon>
-              该项由系统生成，免输
-            </mat-label>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select formControlName="assetInStoreLocation">
+            <mat-select formControlName="assetLocation">
               <mat-option *ngFor="let space of orgSpaces" [value]="space.spaceName">
                 {{space.spaceName}}
               </mat-option>
@@ -91,7 +121,8 @@
           <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
             <mat-icon>exit_to_app</mat-icon>
           </button>
-          <button mat-icon-button color="accent" matTooltip="提交" [disabled]="modifyAssetLocationForm.invalid" type="submit">
+          <button mat-icon-button color="accent" matTooltip="提交" [disabled]="modifyAssetLocationForm.invalid"
+            type="submit">
             <mat-icon>done</mat-icon>
           </button>
         </mat-card-actions>
@@ -99,7 +130,6 @@
     </form>
   </mat-dialog-content>
 </ng-template>
-
 <ng-template #returnAssetRef>
   <mat-toolbar color="warn">
     <span>当前机构资产</span>
@@ -110,7 +140,6 @@
     <form [formGroup]="returnAssetForm" (ngSubmit)="returnAsset()" name="returnAssetForm">
       <mat-card>
         <mat-card-header>
-          <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
           <mat-card-title>机构申请资产交回</mat-card-title>
           <mat-card-subtitle>请仔细核对要交回的资产信息，一旦发起申请， 将会进入处理流程。</mat-card-subtitle>
         </mat-card-header>
@@ -165,11 +194,5 @@
         </mat-card-actions>
       </mat-card>
     </form>
-  </mat-dialog-content>
-</ng-template>
-
-<ng-template #exchangeAssetRef>
-  <mat-dialog-content>
-    hello world
   </mat-dialog-content>
 </ng-template>

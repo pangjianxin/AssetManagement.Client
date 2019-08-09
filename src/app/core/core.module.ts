@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatToolbarModule,
@@ -29,17 +29,22 @@ import {
   MAT_DATE_LOCALE,
   MAT_DATE_FORMATS,
   MatTabsModule,
+  MatStepperModule,
+  MatTreeModule,
+  MatProgressBar,
+  MatProgressBarModule,
+  MatRadioModule,
+  MatHorizontalStepper,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatPaginatorIntl,
 } from '@angular/material';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { EventsReminderComponent } from './events-reminder/events-reminder.component';
-import { EventsReminderSecondaryAdminComponent } from './events-reminder-secondary-admin/events-reminder-secondary-admin.component';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { AuthorizeDirective } from './directives/authorize.directive';
-import { AuthorizeShowDirective } from './directives/authorize-show.directive';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RouterModule } from '@angular/router';
+import { HttpRequsetInterceptor } from './services/http-request-interceptor';
+import { HttpResponseInterceptor } from './services/http-response-interceptor';
+import { myPaginator } from './services/paginatorInit';
 export const CN_FORMATS = {
   parse: {
     dateInput: 'YYYY-MM-DD'
@@ -52,30 +57,15 @@ export const CN_FORMATS = {
   }
 };
 @NgModule({
-  declarations: [EventsReminderComponent,
-    EventsReminderSecondaryAdminComponent,
-    LoginComponent,
-    PageNotFoundComponent,
-    AuthorizeDirective,
-    AuthorizeShowDirective],
+  declarations: [],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'zh-CN' },
-    { provide: MAT_DATE_FORMATS, useValue: CN_FORMATS }],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatExpansionModule,
-    MatListModule,
-    MatButtonModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
-    MatInputModule,
-    FlexLayoutModule,
-    RouterModule,
-  ],
+    { provide: MAT_DATE_FORMATS, useValue: CN_FORMATS },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequsetInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { minLength: '20%', minWidth: '20%', hasBackdrop: true } },
+    { provide: MatPaginatorIntl, useValue: myPaginator() }],
+  imports: [],
   exports: [
     ReactiveFormsModule,
     HttpClientModule,
@@ -105,16 +95,15 @@ export const CN_FORMATS = {
     MatExpansionModule,
     MatSelectModule,
     MatBadgeModule,
-    EventsReminderSecondaryAdminComponent,
-    EventsReminderComponent,
-    LoginComponent,
-    PageNotFoundComponent,
-    AuthorizeDirective,
-    AuthorizeShowDirective,
     MatAutocompleteModule,
     MatDatepickerModule,
     MatMomentDateModule,
     MatTabsModule,
+    MatStepperModule,
+    MatProgressBarModule,
+    MatRadioModule,
+    MatTreeModule,
+    FormsModule,
   ],
 })
 export class CoreModule { }

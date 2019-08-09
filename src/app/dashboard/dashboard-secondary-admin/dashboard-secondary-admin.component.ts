@@ -29,7 +29,7 @@ export function forbiddenString(): ValidatorFn {
 export class DashboardSecondaryAdminComponent implements OnInit {
   assetCategoryByThirdLevelDataset: Array<{ name: string, value: number }>;
   assetCategoryByStatusDataset: Array<{ name: string, value: number }>;
-  assetTableUrl = '/api/dashboard/secondaryadmin/assets/pagination';
+  assetTableUrl: string;
   assetDeployUrl = '/api/dashboard/secondaryadmin/assetdeploy/pagination';
   currentAssetThirdLevel: string;
   currentAssetStatus: string;
@@ -49,7 +49,8 @@ export class DashboardSecondaryAdminComponent implements OnInit {
     private dialog: MatDialog,
     private orgService: OrganizationService) { }
   ngOnInit(): void {
-    this.dashboardService.getAssetCategories().subscribe({
+    this.assetTableUrl = `/api/dashboard/secondaryadmin/assets/pagination`;
+    this.dashboardService.getSecondaryAssetCategories().subscribe({
       next: (value: RequestActionModel) => {
         this.assetCategoryByThirdLevelDataset = value.data.categoriesByThirdLevel;
         this.assetCategoryByStatusDataset = value.data.categoriesByStatus;
@@ -64,10 +65,10 @@ export class DashboardSecondaryAdminComponent implements OnInit {
       exportOrg: [null, [forbiddenString()]],
     });
     this.downLoadAssetDeployForm.get('importOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
-      this.importOrgs$ = this.orgService.getOrgsBySeachInput(input).pipe(map(value => value.data));
+      this.importOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
     });
     this.downLoadAssetDeployForm.get('exportOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
-      this.exportOrgs$ = this.orgService.getOrgsBySeachInput(input).pipe(map(value => value.data));
+      this.exportOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
     });
   }
   onThirdLevelEmitted($event) {

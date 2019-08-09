@@ -15,12 +15,14 @@ import { RequestActionModel } from 'src/app/models/request-action-model';
 export class AssetSecondaryAdminComponent implements OnInit {
 
   // 当前ApiUrl
-  apiUrl = `/api/assets/current`;
+  apiUrl = `/api/assets/secondary/pagination`;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   @ViewChild('assetSearchInput') searchInputElement: ElementRef;
   // 当前过滤逻辑
   searchInput = '';
+  // 按资产三级分类资产汇总数据
   categoriesByThirdLevelDataset: Array<{ name: string, value: number }>;
+  // 按资产状态分类汇总数据
   categoriesByStatusDataset: Array<{ name: string, value: number }>;
   constructor(private assetService: AssetService,
     private alert: AlertService) {
@@ -64,5 +66,4 @@ export class AssetSecondaryAdminComponent implements OnInit {
       // 初始化form表单
     }
   }
-
 }

@@ -5,6 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import 'hammerjs';
 import 'echarts/theme/macarons.js';
+import { AccountService } from './app/core/services/account.service';
 if (environment.production) {
   enableProdMode();
 }

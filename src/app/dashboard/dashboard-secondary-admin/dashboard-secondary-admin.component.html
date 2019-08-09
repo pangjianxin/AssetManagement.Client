@@ -19,7 +19,8 @@
             <mat-card-subtitle>展示当前二级权限管理的资产的状态明细</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <app-asset-bar-chart [dataSet]="assetCategoryByThirdLevelDataset" [chartTitle]="''" (thirdLevelEmitter)=onThirdLevelEmitted($event)></app-asset-bar-chart>
+            <app-asset-bar-chart [dataSet]="assetCategoryByThirdLevelDataset" [chartTitle]="''"
+              (thirdLevelEmitter)=onThirdLevelEmitted($event)></app-asset-bar-chart>
           </mat-card-content>
         </mat-card>
         <mat-card fxFlex="40" fxFlex.lt-lg>
@@ -28,7 +29,8 @@
             <mat-card-subtitle>展示当前二级权限管理的资产的状态明细</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <app-asset-pie-chart [dataSet]="assetCategoryByStatusDataset" [chartTitle]="''" (statusEvent)="onStatusEmitted($event)"></app-asset-pie-chart>
+            <app-asset-pie-chart [dataSet]="assetCategoryByStatusDataset" [chartTitle]="''"
+              (statusEvent)="onStatusEmitted($event)"></app-asset-pie-chart>
           </mat-card-content>
         </mat-card>
       </div>
@@ -59,7 +61,8 @@
     <mat-card-subtitle>展示当前二级权限管理的资产流转明细</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <app-asset-deploy-table [apiUrl]="assetDeployUrl" [currentFileterData]="currentSearchInput" (selected)="onAssetDeploySelectedEmitted($event)">
+    <app-asset-deploy-table [apiUrl]="assetDeployUrl" [currentFileterData]="currentSearchInput"
+      (selected)="onAssetDeploySelectedEmitted($event)">
       <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
         <button mat-raised-button color="primary" (click)="openDownloadAssetDeployFileRef()">
           下载报表
@@ -86,7 +89,8 @@
       <mat-card-content>
         <form [formGroup]="downLoadAssetDeployForm" fxLayout="column" fxLayoutGap="10px">
           <mat-form-field appearance="standard">
-            <input matInput [matDatepicker]="startDatePicker" type="text" formControlName="startDate" [max]="currentDate">
+            <input matInput [matDatepicker]="startDatePicker" type="text" formControlName="startDate"
+              [max]="currentDate">
             <mat-label>
               请选择开始日期
             </mat-label>
@@ -135,7 +139,8 @@
         <button mat-icon-button color="warn" matTooltip="退出" mat-dialog-close>
           <mat-icon>power_settings_new</mat-icon>
         </button>
-        <button mat-icon-button color="primary" matTooltip="提交" [disabled]="downLoadAssetDeployForm.invalid" (click)="downloadAssetDeployFile()">
+        <button mat-icon-button color="primary" matTooltip="提交" [disabled]="downLoadAssetDeployForm.invalid"
+          (click)="downloadAssetDeployFile()">
           <mat-icon>done</mat-icon>
         </button>
         <a class="download-zip-link" #downloadAssetDeployLink></a>

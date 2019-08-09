@@ -18,8 +18,6 @@ import { Router } from '@angular/router';
 export class AssetReturningCurrentUserComponent implements OnInit {
 
   currentUserApiUrl = '/api/assetReturn/current/pagination';
-  tableTitle = '资产交回事件(当前机构)';
-  tableSubTitle = '当前机构的资产交回事件，根据你的权限，显示你可以处理的全部事件';
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
   @ViewChild('table') table: AssetReturningTableComponent;

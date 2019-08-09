@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { Organization } from 'src/app/models/organization';
+import { DashboardService } from 'src/app/core/services/dashboard.service';
+import { RequestActionModel } from 'src/app/models/request-action-model';
 
 @Component({
   selector: 'app-dashboard-current-user',
@@ -8,27 +9,35 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./dashboard-current-user.component.scss']
 })
 export class DashboardCurrentUserComponent implements OnInit {
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Card 1', cols: 1, rows: 1 },
-          { title: 'Card 2', cols: 1, rows: 1 },
-          { title: 'Card 3', cols: 1, rows: 1 },
-          { title: 'Card 4', cols: 1, rows: 1 }
-        ];
-      }
+  // chart dataset
+  assetCategoryByThirdLevelDataset: Array<{ name: string, value: number }>;
+  assetTableUrl: string;
+  currentAssetThirdLevel: string;
+  currentAssetStatus: string;
 
-      return [
-        { title: 'Card 1', cols: 2, rows: 1 },
-        { title: 'Card 2', cols: 1, rows: 1 },
-        { title: 'Card 3', cols: 1, rows: 2 },
-        { title: 'Card 4', cols: 1, rows: 1 }
-      ];
-    })
-  );
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  currentDate = new Date();
+
+  constructor(
+    private dashboardService: DashboardService) { }
   ngOnInit(): void {
-
+    this.assetTableUrl = `/api/dashboard/current/assets/pagination`;
+    this.dashboardService.getCurrentAssetCategories().subscribe({
+      next: (value: RequestActionModel) => {
+        this.assetCategoryByThirdLevelDataset = value.data;
+      }
+    });
+  }
+  onThirdLevelEmitted($event) {
+    this.currentAssetThirdLevel = $event;
+  }
+  onStatusEmitted($event) {
+    this.currentAssetStatus = $event;
+  }
+  displayOrg(org: Organization) {
+    if (org) {
+      return `${org.orgNam}`;
+    } else {
+      return ``;
+    }
   }
 }

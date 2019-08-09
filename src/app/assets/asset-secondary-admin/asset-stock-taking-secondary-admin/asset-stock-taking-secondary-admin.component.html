@@ -1,0 +1,230 @@
+<mat-toolbar color="primary">
+  <span>创建固定资产盘点任务</span>
+</mat-toolbar>
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="assetStockTakingForm">
+    <ng-template matStepLabel>创建资产盘点任务</ng-template>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>盘点任务发布信息</mat-card-title>
+        <mat-card-subtitle>
+          请仔细核对右侧信息，确认无误填写左侧盘点任务信息
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content fxLayoutGap="10px" fxLayout="column">
+        <form [formGroup]="assetStockTakingForm" fxLayout="column" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput type="text" formControlName="taskName">
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              请输入盘点任务名称
+            </mat-label>
+            <mat-error *ngIf="assetStockTakingForm.get('taskName').invalid">盘点任务名称不符合规则</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" formControlName="taskComment">
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              请输入盘点任务备注
+            </mat-label>
+            <mat-error *ngIf="assetStockTakingForm.get('taskComment').invalid">盘点任务备注不符合规则</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput [matDatepicker]="expiryDatePicker" type="text" formControlName="expiryDateTime">
+            <mat-label>
+              <mat-icon>message</mat-icon>
+              请选择结束日期
+            </mat-label>
+            <mat-error *ngIf="assetStockTakingForm.get('expiryDateTime').invalid"></mat-error>
+            <mat-datepicker-toggle [for]="expiryDatePicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #expiryDatePicker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-fab matStepperNext color="primary" matTooltip="进行下一步">
+          <mat-icon>skip_next</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-step>
+  <mat-step [stepControl]="assetStockTakingOrganizationForm">
+    <ng-template matStepLabel>管理资产盘点任务参与机构</ng-template>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>选择例外机构</mat-card-title>
+        <mat-card-subtitle>选择不参与此次资产盘点的机构，选中的机构会出现在下方的标签中</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content fxLayout="column">
+        <mat-form-field fxFlex appearance="standard">
+          <input matInput type="text" #organizationSearchInput [matAutocomplete]="orgSearchResult">
+          <mat-label>
+            <mat-icon>
+              message
+            </mat-icon>
+            请输入关键字检索机构
+          </mat-label>
+        </mat-form-field>
+        <mat-autocomplete #orgSearchResult="matAutocomplete" (optionSelected)="onOrgSelected($event)">
+          <mat-option *ngFor="let organization of organizationSearchResult$ | async" [value]="organization">
+            {{organization.orgNam}}
+          </mat-option>
+        </mat-autocomplete>
+        <form [formGroup]="assetStockTakingOrganizationForm">
+          <mat-chip-list>
+            <mat-chip color="primary"
+              *ngFor="let organization of assetStockTakingOrganizationForm.get('excludedOrgs').value" [removable]="true"
+              (removed)="removeOrg(organization)">
+              {{organization.orgNam}}
+              <mat-icon matChipRemove color="warn">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end" fxLayoutGap="10px">
+        <button mat-fab matStepperPrevious matTooltip="返回上一步" color="warn">
+          <mat-icon>skip_previous</mat-icon>
+        </button>
+        <button mat-fab matStepperNext matTooltip="进行下一步" color="primary">
+          <mat-icon>skip_next</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>完成</ng-template>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>信息确认</mat-card-title>
+        <mat-card-subtitle>
+          你已接近完成，现在请仔细核对填写信息，确认无误便可提交
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon color="primary">description</mat-icon>
+              盘点任务发布详情
+            </mat-panel-title>
+            <mat-panel-description>
+              包含盘点任务发布人、过期时间等信息
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div fxLayout="row">
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListIcon color="warn">filter_1</mat-icon>
+                <h4 matLine>任务发布机构号</h4>
+                <p matLine>{{(currentOrg$ | async).orgIdentifier}}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon matListIcon color="warn">filter_4</mat-icon>
+                <p matLine>任务发布机构名称</p>
+                <p matLine>{{(currentOrg$ | async).orgNam}}</p>
+              </mat-list-item>
+            </mat-list>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListIcon color="warn">filter_2</mat-icon>
+                <p matLine>二级行机构名称</p>
+                <p matLine>{{(currentOrg$ | async).orgNam2}}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon matListIcon color="warn">filter_5</mat-icon>
+                <h3 matLine>盘点任务名称</h3>
+                <p matLine>{{assetStockTakingForm.get('taskName').value}}</p>
+              </mat-list-item>
+            </mat-list>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListIcon color="warn">filter_3</mat-icon>
+                <h3 matLine>盘点任务描述</h3>
+                <p matLine>{{assetStockTakingForm.get('taskComment').value}}</p>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon matListIcon color="warn">filter_6</mat-icon>
+                <h3 matLine>盘点任务过期时间</h3>
+                <p matLine>{{assetStockTakingForm.get('expiryDateTime').value}}</p>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon color="primary">description</mat-icon>
+              例外机构信息
+            </mat-panel-title>
+            <mat-panel-description>
+              列出的机构将不会参与本次资产盘点
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-chip-list>
+            <mat-chip *ngFor="let organization of assetStockTakingOrganizationForm.get('excludedOrgs').value">
+              {{organization.orgNam}}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-expansion-panel>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-fab matStepperPrevious matTooltip="回到上一步" color="warn">
+          <mat-icon>
+            skip_previous
+          </mat-icon>
+        </button>
+        <span fxFlex="10px"></span>
+        <button mat-fab (click)="submitAssetStockTaking()" matTooltip="提交" color="primary">
+          <mat-icon>
+            play_arrow
+          </mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-step>
+</mat-horizontal-stepper>
+<mat-toolbar color="primary">
+  <span>当前资产盘点任务明细</span>
+  <span fxFlex></span>
+  <mat-form-field appearance="legacy" floatLabel="never">
+    <input matInput type="number" #stockTakingYear>
+    <mat-label>
+      <mat-icon>timer</mat-icon>
+      输入年分查询...
+    </mat-label>
+  </mat-form-field>
+</mat-toolbar>
+<ng-container *ngIf="any$ | async;else noAnyTaskYet">
+  <mat-expansion-panel hideToggle *ngFor="let item of stockTakingHistories$ | async">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon color="primary">perm_device_information</mat-icon>
+        <strong>{{item.taskName}}</strong>
+      </mat-panel-title>
+      <mat-panel-description>
+        {{item.taskComment}}
+      </mat-panel-description>
+      <mat-progress-bar fxFlex="30" fxFlexAlign="center" mode="determinate" [value]="item.timeProgress"
+        [matTooltip]="'时间进度:'+item.timeProgress+'%'">
+      </mat-progress-bar>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <mat-toolbar>
+        <span>盘点任务参与机构</span>
+      </mat-toolbar>
+      <app-asset-stock-taking-org-table
+        [apiUrl]="'/api/assetStockTaking/secondary/assetstocktakingorgs?assetStockTakingId='+item.id">
+      </app-asset-stock-taking-org-table>
+    </ng-template>
+  </mat-expansion-panel>
+</ng-container>
+<ng-template #noAnyTaskYet>
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <h3>未在{{currentSelectedYear}}年发现任何已发布的资产盘点任务</h3>
+        <p>你可以在工具栏上面输入其他年份进行检索，或者联系管理员</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

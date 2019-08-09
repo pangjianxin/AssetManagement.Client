@@ -15,16 +15,11 @@ import { AssetApplyingService } from 'src/app/core/services/asset-applying.servi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssetApplyingTableComponent implements OnInit, OnChanges {
-
   @ViewChild('paginator') paginator: MatPaginator;
   // 当前分页的基础url
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;
-  // 当前标题
-  @Input() title = 'template';
-  // 当前副标题
-  @Input() subTitle = 'subtemplate';
   @Output() selected = new EventEmitter<SelectionModel<AssetApplyingEvent>>();
   // 表格数据源
   assetApplyingDataSource: MatTableDataSource<AssetApplyingEvent> = new MatTableDataSource<AssetApplyingEvent>();

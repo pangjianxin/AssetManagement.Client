@@ -1,11 +1,11 @@
-<app-asset-applying-table [apiUrl]="assetApplyingSecondaryAdminUrl" [currentFileterData]="searchInputContent" [title]="userTitle"
-  [subTitle]="userSubTitle" (selected)="onSelected($event)" #table>
-  <mat-toolbar color="warn" class="table-bar" fxLayoutGap="10px">
-    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">
+<app-asset-applying-table [apiUrl]="assetApplyingSecondaryAdminUrl" [currentFileterData]="searchInputContent"
+  (selected)="onSelected($event)" #table>
+  <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
       <mat-icon>fast_rewind</mat-icon>
       撤销资产申请
     </button>
-    <button mat-raised-button color="warn" (click)="openHandleAssetApplyingDialog()">
+    <button mat-raised-button color="primary" (click)="openHandleAssetApplyingDialog()">
       <mat-icon>fast_forward</mat-icon>
       处理请求事件
     </button>
@@ -17,9 +17,10 @@
       </mat-label>
     </mat-form-field>
     <span fxFlex="1 1 auto"></span>
-    <a [routerLink]="['/dashboard']" mat-flat-button color="warn" matTooltip="返回仪表板">
+    <a [routerLink]="['/dashboard']" matTooltip="返回仪表板">
       <mat-icon>dashboard</mat-icon>
     </a>
+    <span>机构资产申请(二级权限)</span>
   </mat-toolbar>
 </app-asset-applying-table>
 
@@ -49,37 +50,10 @@
       <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
         <mat-icon>exit_to_app</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="revokeEvent()" matTooltip="确定" [disabled]="revokeEventForm.invalid">
+      <button mat-icon-button color="primary" (click)="revokeEvent()" matTooltip="确定"
+        [disabled]="revokeEventForm.invalid">
         <mat-icon>done</mat-icon>
       </button>
     </mat-dialog-actions>
   </form>
-</ng-template>
-
-<ng-template #removeEventRef>
-  <mat-toolbar color="warn">
-    <span>删除资产交回请求</span>
-    <span fxFlex="1 1 auto"></span>
-    <mat-icon>info</mat-icon>
-  </mat-toolbar>
-  <mat-dialog-content>
-    <mat-card>
-      <mat-card-header>
-        <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
-        <mat-card-title>该事件可被删除</mat-card-title>
-        <mat-card-subtitle>该事件已被标记为{{currentSelectionRow.status}}，该事件可被删除，一经删除，无法恢复</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        确认要删除吗？
-      </mat-card-content>
-    </mat-card>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-    <button mat-icon-button color="primary" (click)="removeEvent()" matTooltip="确定">
-      <mat-icon>done</mat-icon>
-    </button>
-  </mat-dialog-actions>
 </ng-template>

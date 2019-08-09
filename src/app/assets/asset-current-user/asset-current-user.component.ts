@@ -10,13 +10,14 @@ import { MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrgSpace } from 'src/app/models/org-space';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
-import { ModifyAssetLocationViewmodel } from 'src/app/models/viewmodels/modify-asset-location-viewmodel';
+import { ModifyAssetLocation } from 'src/app/models/viewmodels/modify-asset-location';
 import { Organization } from 'src/app/models/organization';
 import { ManagementLineService } from 'src/app/core/services/management-line.service';
-import { ReturnAssetViewmodel } from 'src/app/models/viewmodels/return-asset-viewmodel';
+import { ReturnAsset } from 'src/app/models/viewmodels/return-asset';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AssetExchangeComponent } from '../asset-exchange/asset-exchange.component';
+import { AssetExchangeDialogComponent } from './asset-exchange-dialog/asset-exchange-dialog.component';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
+import { AssetMaintainsDialogComponent } from './asset-maintains-dialog/asset-maintains-dialog.component';
 
 @Component({
   selector: 'app-asset-current-user',
@@ -24,16 +25,12 @@ import { AssetReturningService } from 'src/app/core/services/asset-returning.ser
   styleUrls: ['./asset-current-user.component.scss']
 })
 export class AssetCurrentUserComponent implements OnInit {
-
   // 当前ApiUrl
-  apiUrl = `/api/assets/current`;
-  // 当前选择的记录行
-  public currentGrid: { cols: number, rows: number };
+  apiUrl: string;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   @ViewChild('assetSearchInput') searchInputElement: ElementRef;
   @ViewChild('changeAssetLocationRef') changeAssetLocationRef: TemplateRef<any>;
   @ViewChild('returnAssetRef') returnAssetRef: TemplateRef<any>;
-  @ViewChild('exchangeAssetRef') exchangeAssetRef: TemplateRef<any>;
   // 当前过滤逻辑
   searchInput = '';
   /**资产按照三级分类的图表数据 */
@@ -57,12 +54,21 @@ export class AssetCurrentUserComponent implements OnInit {
     private managementLineService: ManagementLineService) {
   }
   ngOnInit() {
+    this.apiUrl = `/api/assets/current`;
     fromEvent(this.searchInputElement.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((filter: string) => {
         this.searchInput = filter;
       });
     this.getAssetCategpries();
+  }
+  /**判断是否选中唯一一项 */
+  get isOneSelected() {
+    return this.selection.selected.length === 1;
+  }
+  /**响应资产表选择事件 */
+  onSelected($event: SelectionModel<Asset>) {
+    this.selection = $event;
   }
   /**
    * 获取图表类的数据
@@ -92,7 +98,7 @@ export class AssetCurrentUserComponent implements OnInit {
     } else {
       this.modifyAssetLocationForm = this.fb.group({
         assetId: [this.selection.selected[0].assetId, [Validators.required]],
-        assetInStoreLocation: ['', [Validators.required]]
+        assetLocation: ['', [Validators.required]]
       });
       this.spaceService.getAllSpace().subscribe({
         next: (value: RequestActionModel) => {
@@ -105,22 +111,16 @@ export class AssetCurrentUserComponent implements OnInit {
   }
   /**维护资产位置api */
   modifyAssetLocation() {
-    const model = this.modifyAssetLocationForm.value as ModifyAssetLocationViewmodel;
-    this.assetService.modifyAsseteLocation(model).subscribe({
+    const model = this.modifyAssetLocationForm.value as ModifyAssetLocation;
+    this.assetService.modifyAssetLocation(model).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);
         this.assetService.dataSourceChangedSubject.next(true);
       },
-      error: (e: RequestActionModel) => this.alert.failure(e.message)
+      error: (e: HttpErrorResponse) => this.alert.failure(e.error.message)
     });
   }
-  /**判断是否选中唯一一项 */
-  get isOneSelected() {
-    return this.selection.selected.length === 1;
-  }
-  onSelected($event: SelectionModel<Asset>) {
-    this.selection = $event;
-  }
+
   /**资产交回相关api--打开对话框 */
   openAssetReturnDialog() {
     if (!this.isOneSelected) {
@@ -139,7 +139,7 @@ export class AssetCurrentUserComponent implements OnInit {
   }
   /**资产交回相关api */
   returnAsset() {
-    const model: ReturnAssetViewmodel = {
+    const model: ReturnAsset = {
       assetId: this.returnAssetForm.get('assetId').value,
       targetOrgId: this.returnAssetForm.get('targetOrgId').value,
       message: this.returnAssetForm.get('message').value
@@ -155,12 +155,12 @@ export class AssetCurrentUserComponent implements OnInit {
       }
     });
   }
-
+  /**资产机构间调配--打开对话框 */
   openExchangeAssetDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一项进行操作');
     } else {
-      const exchangeAssetDialog = this.dialog.open(AssetExchangeComponent, {
+      const exchangeAssetDialog = this.dialog.open(AssetExchangeDialogComponent, {
         data: {
           title: '资产机构间调配',
           subtitle: '资产的机构间调换，请核对资产信息，选择审核机构和调配机构',
@@ -172,5 +172,15 @@ export class AssetCurrentUserComponent implements OnInit {
       });
     }
   }
-
+  openApplyMaintainingDialog() {
+    if (!this.isOneSelected) {
+      this.alert.warn('一次只能选中一项进行操作');
+    } else {
+      const applyMaintainingDialog = this.dialog.open(AssetMaintainsDialogComponent, {
+        data: {
+          asset: this.selection.selected[0]
+        }
+      });
+    }
+  }
 }

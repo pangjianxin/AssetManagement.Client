@@ -1,0 +1,11 @@
+<mat-list>
+  <mat-list-item *ngFor="let item of messageService.messageList;index as i">
+    <img src="assets/img/logo.png" alt="logo" matListAvatar>
+    <h2 matLine [ngStyle]="{'color': '#fd7878'}">{{item.principal}}</h2>
+    <p matLine [ngStyle]="{'color': '#05d4f9'}">{{item.time}}</p>
+    <p matLine [ngStyle]="{'color': '#7d7d7d'}">{{item.message}}</p>
+    <button mat-icon-button color="primary" (click)="deleteEventMessage(i)" matTooltip="删除该提醒">
+      <mat-icon>delete_forever</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>

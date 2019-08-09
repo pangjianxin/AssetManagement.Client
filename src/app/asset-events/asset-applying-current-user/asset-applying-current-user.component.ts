@@ -7,7 +7,6 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 import { MatDialog } from '@angular/material';
 import { RequestActionModel } from 'src/app/models/request-action-model';
-import { AssetApplyingTableComponent } from '../asset-applying-table/asset-applying-table.component';
 
 @Component({
   selector: 'app-asset-applying-current-user',
@@ -16,8 +15,6 @@ import { AssetApplyingTableComponent } from '../asset-applying-table/asset-apply
 })
 export class AssetApplyingCurrentUserComponent implements OnInit {
   assetApplyingCurrnetUserUrl = '/api/assetApply/current/pagination';
-  userTitle = '资产申请事件(当前机构)';
-  userSubTitle = '当前机构的资产申请历史记录，可执行删除等操作';
   searchInputContent: string;
   selection: SelectionModel<AssetApplyingEvent> = new SelectionModel<AssetApplyingEvent>(true, []);
   currentSelectedRow: AssetApplyingEvent;

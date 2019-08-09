@@ -9,7 +9,10 @@ import { Observable } from 'rxjs';
 export class DashboardService {
 
   constructor(private http: HttpClient) { }
-  getAssetCategories(): Observable<RequestActionModel> {
+  getCurrentAssetCategories(): Observable<RequestActionModel> {
+    return this.http.get<RequestActionModel>(`/api/dashboard/current/assets/categories`);
+  }
+  getSecondaryAssetCategories(): Observable<RequestActionModel> {
     return this.http.get<RequestActionModel>('/api/dashboard/secondaryadmin/assets/categories');
   }
   getAssetPagination(url: string): Observable<HttpResponse<RequestActionModel>> {

@@ -6,11 +6,11 @@ import { AlertService } from './core/services/alert.service';
 import { Organization } from './models/organization';
 import { map, filter } from 'rxjs/operators';
 import { RequestActionModel } from './models/request-action-model';
-import { ChangeOrgPasswordViewmodel } from './models/viewmodels/change-org-password-viewmodel';
-import { ChangeOrgShortNamViewmodel } from './models/viewmodels/change-org-short-nam-viewmodel';
+import { ChangeOrgPassword } from './models/viewmodels/change-org-password';
+import { ChangeOrgShortNam } from './models/viewmodels/change-org-short-nam';
 import { ObservableMedia } from '@angular/flex-layout';
-import { NonauditEvent } from './models/nonaudit-event';
 import { Observable } from 'rxjs';
+import { SignalREventMessageService } from './core/services/signal-revent-message.service';
 
 @Component({
   selector: 'app-root',
@@ -26,17 +26,17 @@ export class AppComponent implements OnInit {
   changeOrgShortNamForm: FormGroup;
   changePasswordForm: FormGroup;
   isLg: boolean;
-  messageReaded = false;
   constructor(private orgService: AccountService,
     private accountService: AccountService,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private observableMedia: ObservableMedia,
-    private alert: AlertService) { }
+    private alert: AlertService,
+    public messageService: SignalREventMessageService) { }
   ngOnInit() {
     this.orgService.populate();
     this.isAuthenticated$ = this.orgService.isAuthenticated;
-    this.orgService.currentOrg.pipe(filter(item => item.roleNam !== undefined)).subscribe(value => {
+    this.orgService.currentOrg.pipe(filter(item => item.role !== undefined)).subscribe(value => {
       this.currentOrg = value;
     });
     this.observableMedia.asObservable().pipe(map(change => change.mqAlias === 'lg')).subscribe(value => this.isLg = value);
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
   }
   /**修改机构简称 */
   changeOrgShortName() {
-    const model: ChangeOrgShortNamViewmodel = this.changeOrgShortNamForm.value as ChangeOrgShortNamViewmodel;
+    const model: ChangeOrgShortNam = this.changeOrgShortNamForm.value as ChangeOrgShortNam;
     this.accountService.changeOrgShortName(model).subscribe(value => {
       this.alert.success(value.message);
     }, (error: RequestActionModel) => {
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
   }
   /**修改机构段名称 */
   changeOrgPassword() {
-    const model: ChangeOrgPasswordViewmodel = this.changePasswordForm.value as ChangeOrgPasswordViewmodel;
+    const model: ChangeOrgPassword = this.changePasswordForm.value as ChangeOrgPassword;
     this.accountService.changeOrgPassword(model).subscribe({
       next: (value: RequestActionModel) => this.alert.success(value.message),
       error: (e: RequestActionModel) => this.alert.failure(e.message)

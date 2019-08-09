@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatPaginator, PageEvent, Sort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, PageEvent, Sort, MatDialog } from '@angular/material';
 import { Asset } from 'src/app/models/asset';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
+import { AssetOtherInfoComponent } from '../asset-other-info/asset-other-info.component';
 @Component({
   selector: 'app-asset-table',
   templateUrl: './asset-table.component.html',
@@ -23,14 +24,16 @@ export class AssetTableComponent implements OnInit, OnChanges {
   // 当前排序逻辑
   currentSort: Sort;
   // 显示的列
-  displayedColumns: string[] = ['select', 'assetName', 'brand', 'assetType', 'assetDescription',
-    'assetNo', 'assetStatus', 'lastModifyComment', 'orgIdentifier', 'orgNam', 'assetThirdLevelCategory', 'assetInStoreLocation'];
+  displayedColumns: string[] = ['select', 'assetTagNumber', 'assetName', 'assetThirdLevelCategory', 'assetStatus',
+    'orgIdentifier', 'orgNam', 'assetLocation', 'assetOperations'];
   // 当前选择的记录行
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   /** Based on the screen size, switch from standard to one column per row */
-  constructor(private assetService: AssetService) {
+  constructor(private assetService: AssetService,
+    private dialog: MatDialog) {
   }
   ngOnInit() {
+    this.initTableParameters();
     this.paginator.page.subscribe((page: PageEvent) => {
       this.currentPage = page;
       this.getAssetPagination();
@@ -43,7 +46,6 @@ export class AssetTableComponent implements OnInit, OnChanges {
         this.initPage();
       }
     });
-    this.initTableParameters();
     this.initPage();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -82,7 +84,9 @@ export class AssetTableComponent implements OnInit, OnChanges {
     this.initPage();
   }
   private getAssetPagination() {
+    // 基础URL
     let targetUrl = `${this.apiUrl}?page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
+    // 排序功能
     if (this.currentSort.direction) {
       switch (this.currentSort.direction) {
         case 'asc': targetUrl = `${targetUrl}&sorts=${this.currentSort.active}`;
@@ -93,9 +97,11 @@ export class AssetTableComponent implements OnInit, OnChanges {
           break;
       }
     }
+    // 过滤功能
     if (this.currentFileterData) {
-      targetUrl = `${targetUrl}&filters=AssetsFilter==${this.currentFileterData}`;
+      targetUrl = `${targetUrl}&filters=StockTakingOrgFilter==${this.currentFileterData}`;
     }
+    // 最终的URL执行分页功能
     this.assetService.getAssetsPagination(targetUrl).subscribe(response => {
       this.totalAssetsCounts = JSON.parse(response.headers.get('X-Pagination')).TotalItemsCount;
       this.assetDataSource.data = response.body.data;
@@ -105,5 +111,10 @@ export class AssetTableComponent implements OnInit, OnChanges {
   initPage() {
     this.paginator.pageIndex = 0;
     this.paginator.page.emit({ pageIndex: 0, pageSize: 10, length: null });
+  }
+  openAssetOthterInfoDialog(row: Asset) {
+    this.dialog.open(AssetOtherInfoComponent, { data: row });
+    this.selection.clear();
+    this.selection.select(row);
   }
 }

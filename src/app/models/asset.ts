@@ -1,4 +1,5 @@
 import { AssetCategory } from './asset-category';
+import { Organization } from './organization';
 
 export interface Asset {
     assetId: string;
@@ -12,7 +13,6 @@ export interface Asset {
     assetStatus: string;
     lastModifyComment: string;
     assetCategoryDto: AssetCategory;
-    orgIdentifier: string;
-    orgNam: string;
-    assetInStoreLocation: string;
+    orgDto: Organization;
+    assetLocation: string;
 }

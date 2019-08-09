@@ -7,9 +7,9 @@ import { OrgInfo } from 'src/app/models/org-info';
 import { Router } from '@angular/router';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpResponse, HttpClient } from '@angular/common/http';
-import { ChangeOrgShortNamViewmodel } from 'src/app/models/viewmodels/change-org-short-nam-viewmodel';
-import { ResetOrgPasswordViewmodel } from 'src/app/models/viewmodels/reset-org-password-viewmodel';
-import { ChangeOrgPasswordViewmodel } from 'src/app/models/viewmodels/change-org-password-viewmodel';
+import { ChangeOrgShortNam } from 'src/app/models/viewmodels/change-org-short-nam';
+import { ResetOrgPassword } from 'src/app/models/viewmodels/reset-org-password';
+import { ChangeOrgPassword } from 'src/app/models/viewmodels/change-org-password';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +21,7 @@ export class AccountService {
   /**ReplaySubject的构造函数传入一个数字表示它所能记住的发射的元素数，它本身不管subscribe调用的时机，总会发射出所有的元素 */
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  public dataSourceChanged = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient,
     private jwtHelper: JwtHelperService,
     private router: Router) {
@@ -28,7 +29,7 @@ export class AccountService {
   // 这个函数主要用来页面刷新时重新装载用户数据，这里的用户是organization。
   populate() {
     if (this.jwtHelper.tokenGetter() && !(this.jwtHelper.isTokenExpired())) {
-      this.http.get<RequestActionModel>('/api/auth/userendpoint').subscribe(
+      this.http.get<RequestActionModel>('/api/auth/userEndPoint').subscribe(
         result => this.setAuth(result.data as OrgInfo),
         error => this.pureAuth());
     } else {
@@ -65,21 +66,24 @@ export class AccountService {
   getOrgPagination(urlPath: string): Observable<HttpResponse<RequestActionModel>> {
     return this.http.get<RequestActionModel>(urlPath, { observe: 'response' });
   }
-  changeOrgShortName(viewModel: ChangeOrgShortNamViewmodel): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/auth/changeorgshortname', JSON.stringify(viewModel)).pipe(map(value => {
-      this.populate();
+  changeOrgShortName(viewModel: ChangeOrgShortNam): Observable<RequestActionModel> {
+    return this.http.put<RequestActionModel>('/api/auth/changeOrgShortName', JSON.stringify(viewModel)).pipe(map(value => {
+      // this.populate();
+      if (viewModel.orgIdentifier === this.getCurrentOrg().orgIdentifier) {
+        this.populate();
+      }
       return value;
     }));
   }
-  resetOrgPassword(model: ResetOrgPasswordViewmodel): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/auth/resetpassword', JSON.stringify(model))
+  resetOrgPassword(model: ResetOrgPassword): Observable<RequestActionModel> {
+    return this.http.put<RequestActionModel>('/api/auth/resetPassword', JSON.stringify(model))
       .pipe(map(value => {
         this.populate();
         return value;
       }));
   }
-  changeOrgPassword(model: ChangeOrgPasswordViewmodel): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/auth/changeorgpassword', JSON.stringify(model))
+  changeOrgPassword(model: ChangeOrgPassword): Observable<RequestActionModel> {
+    return this.http.put<RequestActionModel>('/api/auth/changeOrgPassword', JSON.stringify(model))
       .pipe(map(value => {
         this.populate();
         return value;

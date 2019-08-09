@@ -17,8 +17,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AssetExchangingCurrentUserComponent implements OnInit {
 
   assetExchangingCurrentUserUrl = '/api/assetExchange/current/pagination/';
-  title = '资产机构简调拨申请(当前机构)';
-  subtitle = '该页面显示当前机构产生的资产机构简调配事件，你拥有处理该事务的相应权限';
   currentSearchInput: string;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;

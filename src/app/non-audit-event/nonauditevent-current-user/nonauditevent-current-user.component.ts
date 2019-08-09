@@ -7,7 +7,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { NonauditEventService } from 'src/app/core/services/nonaudit-event.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { RemoveNonAuditEventViewmodel } from 'src/app/models/viewmodels/remove-non-audit-event-viewmodel';
+import { RemoveNonAuditEvent } from 'src/app/models/viewmodels/remove-non-audit-event';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 
 @Component({
@@ -44,7 +44,7 @@ export class NonauditeventCurrentUserComponent implements OnInit {
     }
   }
   removeEvent() {
-    const removeNonAuditEventModel: RemoveNonAuditEventViewmodel = { eventId: this.selection.selected[0].eventId };
+    const removeNonAuditEventModel: RemoveNonAuditEvent = { eventId: this.selection.selected[0].id };
     this.nonAuditEventService.removeNonAuditEvent(removeNonAuditEventModel).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(`${value.data.type}删除成功`);

@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" matCardAvatar>
+    <mat-card-title>资产事件(二级权限)</mat-card-title>
+    <mat-card-subtitle>该页面记录机构网点关于资产的申请、交回和机构间调换等事件，你可以进行相应权限的操作。</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group mat-align-tabs="end">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon color="primary">important_devices</mat-icon>资产申请
+        </ng-template>
+        <ng-template matTabContent>
+          <app-asset-applying-seondary-admin></app-asset-applying-seondary-admin>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon color="primary">keyboard</mat-icon>资产交回
+        </ng-template>
+        <ng-template matTabContent>
+          <app-asset-returning-secondary-admin></app-asset-returning-secondary-admin>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon color="primary">settings_phone</mat-icon>资产调换
+        </ng-template>
+        <ng-template matTabContent>
+          <app-asset-exchange-secondary-admin></app-asset-exchange-secondary-admin>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

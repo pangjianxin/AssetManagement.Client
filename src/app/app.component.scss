@@ -1,16 +1,10 @@
 .app-footer {
     position: fixed;
-    bottom: 0;
+    bottom: 0px;
     z-index: 1;
 }
 
 .app-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-.app-sidenav-header {
     position: sticky;
     top: 0;
     z-index: 1;

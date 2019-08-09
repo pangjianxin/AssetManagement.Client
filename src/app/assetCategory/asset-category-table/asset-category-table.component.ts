@@ -26,7 +26,7 @@ export class AssetCategoryTableComponent implements OnInit, OnChanges {
   currentSort: Sort;
   // 显示的列
   displayedColumns: string[] = ['select', 'assetThirdLevelCategory', 'assetSecondLevelCategory', 'assetFirstLevelCategory',
-    'managementLineName', 'managementLineDescription', 'assetMeteringUnit', 'assetCategoryId'];
+    'managementLineName', 'managementLineDescription', 'assetMeteringUnit'];
   // 当前选择的记录行
   selection: SelectionModel<AssetCategory> = new SelectionModel<AssetCategory>(true, []);
   /** Based on the screen size, switch from standard to one column per row */

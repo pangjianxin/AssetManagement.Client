@@ -6,11 +6,9 @@ import { Organization } from 'src/app/models/organization';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { AssetCategoryService } from 'src/app/core/services/asset-category.service';
 import { ManagementLineService } from 'src/app/core/services/management-line.service';
-import { AssetService } from 'src/app/core/services/asset.service';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { AssetApplyingViewmodel } from 'src/app/models/viewmodels/asset-applying-viewmodel';
+import { ApplyAsset } from 'src/app/models/viewmodels/apply-asset';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 
@@ -24,7 +22,7 @@ export class AssetCategoryCurrentUserComponent implements OnInit {
   @ViewChild('assetCategorySearchInput') assetCategorySearchInput: ElementRef;
   @ViewChild('applyAssetRef') applyAssetRef: TemplateRef<any>;
   selection: SelectionModel<AssetCategory> = new SelectionModel<AssetCategory>(true, []);
-  assetCategoryApiUrl = '/api/assetcategory/user/pagination';
+  assetCategoryApiUrl: string;
   assetCategoryFileterData: string;
   assetApplyExaminations$: Observable<Organization[]>;
   applyAssetForm: FormGroup;
@@ -32,12 +30,12 @@ export class AssetCategoryCurrentUserComponent implements OnInit {
     private alert: AlertService,
     private fb: FormBuilder,
     private managementLineService: ManagementLineService,
-    private assetService: AssetService,
     private assetApplyService: AssetApplyingService) { }
   ngOnInit() {
     fromEvent(this.assetCategorySearchInput.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((value: string) => this.assetCategoryFileterData = value);
+    this.assetCategoryApiUrl = '/api/assetcategory/current/pagination';
   }
   /**判断是否直选中了一行 */
   get IsOneSelected() {
@@ -62,7 +60,7 @@ export class AssetCategoryCurrentUserComponent implements OnInit {
     }
   }
   applyAsset() {
-    const viewModel: AssetApplyingViewmodel = {
+    const viewModel: ApplyAsset = {
       assetCategoryId: this.applyAssetForm.get('assetCategoryId').value,
       targetOrgId: this.applyAssetForm.get('targetOrgId').value,
       message: this.applyAssetForm.get('message').value

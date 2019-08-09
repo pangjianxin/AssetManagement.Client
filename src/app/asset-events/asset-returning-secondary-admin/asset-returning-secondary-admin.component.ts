@@ -9,9 +9,9 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { MatDialog } from '@angular/material';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { HandleAssetReturningViewmodel } from 'src/app/models/viewmodels/handle-asset-returning-viewmodel';
+import { HandleAssetReturn } from 'src/app/models/viewmodels/handle-asset-return';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RevokeAssetEventViewmodel } from 'src/app/models/viewmodels/revoke-asset-event-viewmodel';
+import { RevokeAssetEvent } from 'src/app/models/viewmodels/revoke-asset-event';
 
 @Component({
   selector: 'app-asset-returning-secondary-admin',
@@ -20,8 +20,6 @@ import { RevokeAssetEventViewmodel } from 'src/app/models/viewmodels/revoke-asse
 })
 export class AssetReturningSecondaryAdminComponent implements OnInit {
   secondaryAdminApiUrl = '/api/assetReturn/secondary/pagination';
-  tableTitle = '资产交回事件(二级权限)';
-  tableSubTitle = '当前显示为二级行辖属资产交回事件，根据你的权限，显示你可以处理的全部事件';
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
   @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;
@@ -66,7 +64,7 @@ export class AssetReturningSecondaryAdminComponent implements OnInit {
   revokeEvent() {
     const eventId = this.currentSelectedRow.eventId;
     const message = this.revokeEventForm.get('message').value;
-    const model: RevokeAssetEventViewmodel = { eventId, message };
+    const model: RevokeAssetEvent = { eventId, message };
     this.assetReturnService.revoke(model).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);
@@ -107,7 +105,7 @@ export class AssetReturningSecondaryAdminComponent implements OnInit {
     });
   }
   handleEvent() {
-    const model: HandleAssetReturningViewmodel = {
+    const model: HandleAssetReturn = {
       eventId: this.currentSelectedRow.eventId
     };
     this.assetReturnService.handleAssetReturning(model).subscribe({

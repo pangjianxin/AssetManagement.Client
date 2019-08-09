@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators';
 import { AssetExchangingEvent } from 'src/app/models/asset-exchanging-event';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';
 
+
 @Component({
   selector: 'app-asset-exchange-table',
   templateUrl: './asset-exchange-table.component.html',
@@ -17,10 +18,6 @@ export class AssetExchangeTableComponent implements OnInit, OnChanges {
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;
-  // 当前标题
-  @Input() title = '';
-  // 当前副标题
-  @Input() subTitle = '';
   @Output() selected = new EventEmitter<SelectionModel<AssetExchangingEvent>>();
   // 表格数据源
   tableDataSource: MatTableDataSource<AssetExchangingEvent> = new MatTableDataSource<AssetExchangingEvent>();

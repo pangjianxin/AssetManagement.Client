@@ -13,10 +13,14 @@
         <app-asset-category-table [apiUrl]="assetCategoryApiUrl" [currentFileterData]="assetCategoryFileterData"
           (selected)="onSelected($event)">
           <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
-            <button mat-raised-button color="primary" (click)="openApplyAssetsDialog()">申请资产</button>
+            <button mat-raised-button color="primary" (click)="openApplyAssetsDialog()">
+              <mat-icon>important_devices</mat-icon>
+              申请资产
+            </button>
             <mat-form-field appearance="standard">
               <input matInput #assetCategorySearchInput type="text">
               <mat-label>
+                <mat-icon>message</mat-icon>
                 输入关键字以检索...
               </mat-label>
               <mat-icon matSuffix color="primary">search</mat-icon>
@@ -27,12 +31,6 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon color="primary">keyboard</mat-icon>低值易耗品分类明细
-        </ng-template>
-        <app-asset-material-table></app-asset-material-table>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon color="primary">settings_phone</mat-icon>服务类
         </ng-template>
         <app-asset-material-table></app-asset-material-table>
       </mat-tab>

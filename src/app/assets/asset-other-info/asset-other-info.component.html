@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-header>
+    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <mat-card-title>{{asset.assetName}}</mat-card-title>
+    <mat-card-subtitle>资产相关其他信息</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-toolbar color="primary">
+      <span>资产其他相关信息</span>
+    </mat-toolbar>
+    <div fxLayout="row wrap">
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon color="primary">filter_1</mat-icon>
+          <p matLine>资产序列号</p>
+          <p matLine>{{asset.serialNumber}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon color="primary">filter_4</mat-icon>
+          <p matLine>品牌</p>
+          <p matLine>{{asset.brand}}</p>
+        </mat-list-item>
+      </mat-list>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon color="primary">filter_2</mat-icon>
+          <p matLine>资产描述</p>
+          <p matLine>{{asset.assetDescription}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon color="primary">filter_5</mat-icon>
+          <p matLine>资产型号</p>
+          <p matLine>{{asset.assetType}}</p>
+        </mat-list-item>
+      </mat-list>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon matListIcon color="primary">filter_3</mat-icon>
+          <p matLine>资产编号</p>
+          <p matLine>{{asset.assetNo}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon matListIcon color="primary">filter_6</mat-icon>
+          <p matLine>上一次维护备注</p>
+          <p matLine>{{asset.lastModifyComment}}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-icon-button color="primary" matTooltip="退出" mat-dialog-close>
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

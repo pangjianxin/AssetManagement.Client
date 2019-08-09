@@ -1,22 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { OrganizationRoutingModule } from './organization-routing.module';
 import { CoreModule } from '../core/core.module';
-import { SpaceComponent } from './space/space.component';
-import { OrganizationComponent } from './organization/organization.component';
-import { OrganizationDetailsComponent } from './organization-details/organization-details.component';
-import { UserRole } from '../models/user-role.enum';
+import { OrganizationTableComponent } from './organization-table/organization-table.component';
+import { OrganizatinCurrentComponent } from './organizatin-current/organizatin-current.component';
+import { OrganizationSecondaryadminComponent } from './organization-secondaryadmin/organization-secondaryadmin.component';
+import { CurrentAssetTableComponent } from './organization-secondaryadmin/current-asset-table/current-asset-table.component';
+import { SpaceAndEmployeeComponent } from './space-and-employee/space-and-employee.component';
+import { SpaceComponent } from './space-and-employee/space/space.component';
+import { EmployeeComponent } from './space-and-employee/employee/employee.component';
+import { PermissionComponent } from './organization-secondaryadmin/permission/permission.component';
 
 @NgModule({
   declarations: [
-    OrganizationDetailsComponent,
+    SpaceAndEmployeeComponent,
+    OrganizationTableComponent,
+    OrganizatinCurrentComponent,
+    OrganizationSecondaryadminComponent,
+    CurrentAssetTableComponent,
     SpaceComponent,
-    OrganizationComponent],
+    EmployeeComponent,
+    PermissionComponent],
   imports: [
     CommonModule,
     OrganizationRoutingModule,
     CoreModule,
-  ]
+  ],
 })
 export class OrganizationModule { }

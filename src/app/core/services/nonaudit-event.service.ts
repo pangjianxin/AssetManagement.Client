@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequestActionModel } from 'src/app/models/request-action-model';
-import { RemoveNonAuditEventViewmodel } from 'src/app/models/viewmodels/remove-non-audit-event-viewmodel';
+import { RemoveNonAuditEvent } from 'src/app/models/viewmodels/remove-non-audit-event';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +10,6 @@ import { RemoveNonAuditEventViewmodel } from 'src/app/models/viewmodels/remove-n
 export class NonauditEventService {
 
   constructor(private http: HttpClient) { }
-  getFirstFiveEventsByCurrent(): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>('/api/nonauditevents/current/firstfive');
-  }
-  getFirstFiveEventsBySecondaryAdmin(): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>('/api/nonauditevents/secondaryadmin/firstfive');
-  }
   getPaginationByCurrent(): Observable<HttpResponse<RequestActionModel>> {
     return this.http.get<RequestActionModel>('/api/nonauditevents/current/pagination', { observe: 'response' });
   }
@@ -26,7 +20,7 @@ export class NonauditEventService {
   getPaginationBySecondaryAdmin(): Observable<HttpResponse<RequestActionModel>> {
     return this.http.get<RequestActionModel>('/api/nonauditevents/secondaryadmin/pagination', { observe: 'response' });
   }
-  removeNonAuditEvent(removeNonAuditEventModel: RemoveNonAuditEventViewmodel): Observable<RequestActionModel> {
+  removeNonAuditEvent(removeNonAuditEventModel: RemoveNonAuditEvent): Observable<RequestActionModel> {
     return this.http.delete<RequestActionModel>(`/api/nonauditevents/delete?eventId=${removeNonAuditEventModel.eventId}`);
   }
 }

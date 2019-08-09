@@ -17,10 +17,6 @@ export class AssetReturningTableComponent implements OnInit, OnChanges {
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;
-  // 当前标题
-  @Input() title = '';
-  // 当前副标题
-  @Input() subTitle = '';
   @Output() selected = new EventEmitter<SelectionModel<AssetApplyingEvent>>();
   // 表格数据源
   dataSource: MatTableDataSource<AssetApplyingEvent> = new MatTableDataSource<AssetApplyingEvent>();

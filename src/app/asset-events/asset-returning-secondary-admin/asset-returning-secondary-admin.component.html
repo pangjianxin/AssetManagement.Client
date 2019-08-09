@@ -1,8 +1,14 @@
-<app-asset-returning-table [apiUrl]="secondaryAdminApiUrl" [title]="tableTitle" [subTitle]="tableSubTitle" (selected)="onSelected($event)"
-  [currentFileterData]="currentSearchInput" #table>
-  <mat-toolbar color="warn" class="table-bar" fxLayoutGap="10px">
-    <button mat-raised-button color="warn" (click)="openRevokeEventDialog()">撤销资产交回请求</button>
-    <button mat-raised-button color="warn" (click)="openHandleEventDialog()">处理请求事件</button>
+<app-asset-returning-table [apiUrl]="secondaryAdminApiUrl" (selected)="onSelected($event)"
+  [currentFileterData]="currentSearchInput">
+  <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
+      <mat-icon>fast_rewind</mat-icon>
+      撤销资产交回请求
+    </button>
+    <button mat-raised-button color="primary" (click)="openHandleEventDialog()">
+      <mat-icon>fast_forward</mat-icon>
+      处理请求事件
+    </button>
     <mat-form-field appearance="standard">
       <input matInput type="text" #searchInput>
       <mat-label>
@@ -10,6 +16,11 @@
         输入关键字进行检索.......
       </mat-label>
     </mat-form-field>
+    <span fxFlex></span>
+    <a [routerLink]="[ '/dashboard' ]" matTooltip="进入仪表板">
+      <mat-icon>dashboard</mat-icon>
+    </a>
+    <span>机构资产交回(二级权限)</span>
   </mat-toolbar>
 </app-asset-returning-table>
 
@@ -38,7 +49,8 @@
       <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
         <mat-icon>exit_to_app</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="revokeEvent()" matTooltip="确定" [disabled]="revokeEventForm.invalid">
+      <button mat-icon-button color="primary" (click)="revokeEvent()" matTooltip="确定"
+        [disabled]="revokeEventForm.invalid">
         <mat-icon>done</mat-icon>
       </button>
     </mat-dialog-actions>
@@ -81,11 +93,11 @@
   </mat-toolbar>
   <mat-dialog-content>
     <mat-card>
-     <mat-card-title-group>
+      <mat-card-title-group>
         <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
         <mat-card-title>资产申请详情</mat-card-title>
         <mat-card-subtitle>该事件的当前状态为<strong>{{currentSelectedRow.status}}</strong></mat-card-subtitle>
-     </mat-card-title-group>
+      </mat-card-title-group>
       <mat-card-content fxLayout="row wrap">
         <mat-list fxFlex>
           <mat-list-item>

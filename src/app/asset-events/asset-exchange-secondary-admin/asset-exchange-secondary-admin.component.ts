@@ -10,8 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { AssetExchangeViewmodel } from 'src/app/models/viewmodels/asset-exchange-viewmodel';
-import { HandleAssetExchangeViewmodel } from 'src/app/models/viewmodels/handle-asset-exchange-viewmodel';
+import { HandleAssetExchange } from 'src/app/models/viewmodels/handle-asset-exchange';
 
 @Component({
   selector: 'app-asset-exchange-secondary-admin',
@@ -20,8 +19,6 @@ import { HandleAssetExchangeViewmodel } from 'src/app/models/viewmodels/handle-a
 })
 export class AssetExchangeSecondaryAdminComponent implements OnInit {
   assetExchangingSecondaryAdminUrl = '/api/assetExchange/secondary/pagination/';
-  title = '资产机构简调拨申请(二级权限)';
-  subtitle = '该页面显示二级行辖属发生的资产机构简调拨申请事件，你拥有相应的权限处理事务';
   currentSearchInput: string;
   @ViewChild('searchInput') searchInput: ElementRef;
   @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
@@ -111,7 +108,7 @@ export class AssetExchangeSecondaryAdminComponent implements OnInit {
     this.assetExchangeService.remove(eventId).subscribe(this.requestObserver);
   }
   handleEvent() {
-    const model: HandleAssetExchangeViewmodel = {
+    const model: HandleAssetExchange = {
       eventId: this.currentSelectedRow.eventId
     };
     this.assetExchangeService.handleAssetExchanging(model).subscribe(this.requestObserver);
