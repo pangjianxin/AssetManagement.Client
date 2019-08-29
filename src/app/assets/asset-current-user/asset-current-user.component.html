@@ -148,30 +148,21 @@
             <input matInput formControlName="assetId" type="text" readonly>
             <mat-label>
               <mat-icon>message</mat-icon>
-              该项由系统生成，免输
+              资产索引
             </mat-label>
-            <mat-hint align="end">请核对资产Id是否正确</mat-hint>
           </mat-form-field>
           <mat-form-field>
             <input matInput formControlName="assetName" type="text" readonly>
             <mat-label>
               <mat-icon>message</mat-icon>
-              该项由系统生成，免输
+              资产名称
             </mat-label>
-            <mat-hint align="end">
-              请核对资产名称是否正确
-            </mat-hint>
           </mat-form-field>
           <mat-form-field>
-            <mat-select formControlName="targetOrgId">
-              <mat-option [value]="undefined">核对并选择正确的管理机构</mat-option>
-              <mat-option *ngFor="let item of targetManagementOrg$ | async" [value]="item.orgId">
-                {{item.orgNam}}
-              </mat-option>
-            </mat-select>
+            <input matInput formControlName="targetOrgId" type="text" readonly>
             <mat-label>
               <mat-icon>message</mat-icon>
-              请选择管理机构
+              发往机构
             </mat-label>
           </mat-form-field>
           <mat-form-field>

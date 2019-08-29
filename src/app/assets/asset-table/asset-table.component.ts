@@ -28,7 +28,7 @@ export class AssetTableComponent implements OnInit, OnChanges {
   currentSort: Sort;
   // 显示的列
   displayedColumns: string[] = ['select', 'assetTagNumber', 'assetName', 'assetThirdLevelCategory', 'assetStatus',
-    'orgIdentifier', 'orgNam', 'assetLocation', 'assetOperations'];
+    'storedOrgName', 'storedOrgIdentifier', 'assetLocation', 'assetOperations'];
   // 当前选择的记录行
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   /** Based on the screen size, switch from standard to one column per row */

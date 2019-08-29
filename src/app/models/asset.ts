@@ -13,8 +13,9 @@ export interface Asset {
     assetStatus: string;
     lastModifyComment: string;
     assetCategoryDto: AssetCategory;
-    orgDto: Organization;
+    organizationBelongedId: string;
     storedOrgIdentifier: string;
     storedOrgName: string;
     assetLocation: string;
+
 }

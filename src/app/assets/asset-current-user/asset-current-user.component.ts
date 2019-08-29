@@ -74,16 +74,16 @@ export class AssetCurrentUserComponent implements OnInit {
       next: (value: RequestActionModel) => {
         this.thirdLevelDataSet = value.data;
       },
-      error: (e: RequestActionModel) => {
-        this.alert.failure(e.message);
+      error: (e: HttpErrorResponse) => {
+        this.alert.failure(`${e.statusText}`);
       }
     });
     this.assetService.getAssetsCategories('/api/assets/current/categories/managerOrg').subscribe({
       next: (value: RequestActionModel) => {
         this.managerOrgDataSet = value.data;
       },
-      error: (e: RequestActionModel) => {
-        this.alert.failure(e.message);
+      error: (e: HttpErrorResponse) => {
+        this.alert.failure(`${e.statusText}`);
       }
     });
   }
@@ -121,11 +121,13 @@ export class AssetCurrentUserComponent implements OnInit {
   openAssetReturnDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('只能选中一项进行操作');
+    } else if (this.selection.selected[0].assetStatus === '在途') {
+      this.alert.warn('资产状态为在途，无法交回，请核对后重新提交');
     } else {
       this.returnAssetForm = this.fb.group({
         assetId: [this.selection.selected[0].assetId, [Validators.required]],
         assetName: [this.selection.selected[0].assetName, [Validators.required]],
-        targetOrgId: ['', [Validators.required]],
+        targetOrgId: [this.selection.selected[0].organizationBelongedId, [Validators.required]],
         message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]]
       });
       this.dialog.open(this.returnAssetRef);

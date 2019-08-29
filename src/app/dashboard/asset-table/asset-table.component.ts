@@ -24,7 +24,8 @@ export class AssetTableComponent implements OnInit, OnChanges {
   currentSort: Sort;
   // 显示的列
   displayedColumns: string[] = ['assetName', 'brand', 'assetType', 'assetDescription',
-    'assetNo', 'assetStatus', 'lastModifyComment', 'orgIdentifier', 'orgNam', 'assetThirdLevelCategory', 'assetInStoreLocation'];
+    'assetNo', 'assetStatus', 'lastModifyComment', 'storedOrgIdentifier', 'storedOrgName',
+    'assetThirdLevelCategory', 'assetInStoreLocation'];
   constructor(private dashboardService: DashboardService) {
   }
   ngOnInit() {
