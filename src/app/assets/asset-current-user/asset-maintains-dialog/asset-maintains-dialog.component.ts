@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Maintainer } from 'src/app/models/maintainer';
 import { Observable } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaintainerService } from 'src/app/core/services/maintainer.service';
 import { map } from 'rxjs/operators';
 

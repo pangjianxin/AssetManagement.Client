@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetCategory } from 'src/app/models/asset-category';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetCategoryService } from 'src/app/core/services/asset-category.service';
 import { fromEvent, Observable } from 'rxjs';
@@ -39,13 +39,13 @@ export function tagNumberFormatValidator(control: FormGroup): ValidationErrors {
 })
 export class AssetCategoryAdminComponent implements OnInit {
 
-  @ViewChild('assetCategorySearchInput') assetCategorySearchInput: ElementRef;
-  @ViewChild('changeAssetCategoryMeteringUnit') changeAssetCategoryMeteringUnitRef: TemplateRef<any>;
-  @ViewChild('appAssetCategoryTable') assetCategoryTable: AssetCategoryTableComponent;
-  @ViewChild('assetStorageConfirmRef') assetStorageConfirmRef: TemplateRef<any>;
-  @ViewChild('assetStorageRef') assetStorageRef: TemplateRef<any>;
-  @ViewChild('addMaintainersRef') addMaintainersRef: TemplateRef<any>;
-  @ViewChild('deleteMaintainerRef') deleteMaintainerRef: TemplateRef<any>;
+  @ViewChild('assetCategorySearchInput', { static: true }) assetCategorySearchInput: ElementRef;
+  @ViewChild('changeAssetCategoryMeteringUnit', { static: true }) changeAssetCategoryMeteringUnitRef: TemplateRef<any>;
+  @ViewChild('appAssetCategoryTable', { static: true }) assetCategoryTable: AssetCategoryTableComponent;
+  @ViewChild('assetStorageConfirmRef', { static: true }) assetStorageConfirmRef: TemplateRef<any>;
+  @ViewChild('assetStorageRef', { static: true }) assetStorageRef: TemplateRef<any>;
+  @ViewChild('addMaintainersRef', { static: true }) addMaintainersRef: TemplateRef<any>;
+  @ViewChild('deleteMaintainerRef', { static: true }) deleteMaintainerRef: TemplateRef<any>;
   // 当前构建好的资产入库模型
   currentBuiltAssetStorageViewmodel: StoreAsset;
   // 当前日期

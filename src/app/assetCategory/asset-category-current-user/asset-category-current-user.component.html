@@ -71,7 +71,7 @@
               <mat-option [value]="undefined">
                 请选择一个审批机构进行操作
               </mat-option>
-              <mat-option *ngFor="let item of assetApplyExaminations$ | async" [value]="item.orgId">
+              <mat-option *ngFor="let item of examinationOrgs$ | async" [value]="item.orgId">
                 {{item.orgNam}}
               </mat-option>
             </mat-select>

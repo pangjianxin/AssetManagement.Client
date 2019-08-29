@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { MatPaginator, MatTableDataSource, PageEvent, Sort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { AssetStockTakingDetail } from 'src/app/models/asset-stock-taking-detail';
 import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
@@ -11,7 +14,7 @@ import { AssetStockTakingService } from 'src/app/core/services/asset-stock-takin
 })
 export class StockTakingDetailComponent implements OnInit, OnChanges {
   urlPath = '/api/assetStockTaking/current/assetstocktakingdetails?assetStockTakingOrgId=';
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() urlParameters: string;
   dataSource: MatTableDataSource<AssetStockTakingDetail> = new MatTableDataSource<AssetStockTakingDetail>();
   // 总数

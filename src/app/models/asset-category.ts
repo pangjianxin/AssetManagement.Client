@@ -1,4 +1,4 @@
-import { ManagementLine } from './management-line';
+
 
 export interface AssetCategory {
     assetCategoryId: string;
@@ -6,5 +6,4 @@ export interface AssetCategory {
     assetSecondLevelCategory: string;
     assetThirdLevelCategory: string;
     assetMeteringUnit: string;
-    managementLineDto: ManagementLine;
 }

@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges, Output, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatPaginator, PageEvent, Sort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Asset } from 'src/app/models/asset';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetService } from 'src/app/core/services/asset.service';
@@ -11,7 +14,7 @@ import { AssetOtherInfoComponent } from '../asset-other-info/asset-other-info.co
   styleUrls: ['./asset-table.component.scss']
 })
 export class AssetTableComponent implements OnInit, OnChanges {
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;

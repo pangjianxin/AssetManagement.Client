@@ -1,5 +1,8 @@
 import { Component, OnInit, OnChanges, ViewChild, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { MatPaginator, MatTableDataSource, PageEvent, Sort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime } from 'rxjs/operators';
 import { AssetStockTakingOrg } from 'src/app/models/asset-stock-taking-org';
@@ -12,7 +15,7 @@ import { AssetStockTakingService } from 'src/app/core/services/asset-stock-takin
 })
 export class AssetStockTakingOrgTableComponent implements OnInit, OnChanges {
 
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;

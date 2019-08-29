@@ -14,5 +14,7 @@ export interface Asset {
     lastModifyComment: string;
     assetCategoryDto: AssetCategory;
     orgDto: Organization;
+    storedOrgIdentifier: string;
+    storedOrgName: string;
     assetLocation: string;
 }

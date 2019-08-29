@@ -3,7 +3,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AssetExchangingEvent } from 'src/app/models/asset-exchanging-event';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { RequestActionModel } from 'src/app/models/request-action-model';
@@ -18,8 +18,8 @@ export class AssetExchangingCurrentUserComponent implements OnInit {
 
   assetExchangingCurrentUserUrl = '/api/assetExchange/current/pagination/';
   currentSearchInput: string;
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
   currentSelection: SelectionModel<AssetExchangingEvent> = new SelectionModel<AssetExchangingEvent>(true, []);
   currentSelectedRow: AssetExchangingEvent;
   constructor(private dialog: MatDialog,

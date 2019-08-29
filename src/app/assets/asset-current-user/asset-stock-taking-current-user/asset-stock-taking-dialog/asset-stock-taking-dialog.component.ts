@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef, Input } from '@angular/core';
-import { MAT_DIALOG_DATA, MatStepper } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatStepper } from '@angular/material/stepper';
 import { Asset } from 'src/app/models/asset';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { fromEvent, Observable } from 'rxjs';
@@ -25,7 +26,7 @@ import { AssetService } from 'src/app/core/services/asset.service';
 })
 export class AssetStockTakingDialogComponent implements OnInit {
   StockTakingStatus = StockTakingStatus;
-  @ViewChild('personInChargeInput') personInChargeInput: ElementRef;
+  @ViewChild('personInChargeInput', { static: true }) personInChargeInput: ElementRef;
   candidateEmployees$: Observable<Employee[]>;
   candidateLocations$: Observable<OrgSpace>;
   // 选择盘点状态表单

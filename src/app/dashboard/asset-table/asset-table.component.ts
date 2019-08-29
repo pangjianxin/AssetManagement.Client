@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, Input, SimpleChanges } from '@angular/core';
-import { Sort, MatPaginator, MatTableDataSource, PageEvent } from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Asset } from 'src/app/models/asset';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 
@@ -9,7 +11,7 @@ import { DashboardService } from 'src/app/core/services/dashboard.service';
   styleUrls: ['./asset-table.component.scss']
 })
 export class AssetTableComponent implements OnInit, OnChanges {
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() apiUrl: string;
   @Input() currentSelectedThirdLevel = '';
   @Input() currentSelectedStatus = '';

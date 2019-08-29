@@ -15,7 +15,7 @@ export class OrganizatinCurrentComponent implements OnInit {
   currentSelection = new SelectionModel<Organization>(true, []);
   searchInput: string;
   currentSelectedOrg: Organization;
-  @ViewChild('orgTableFilterInput') orgTableFilterInput: ElementRef;
+  @ViewChild('orgTableFilterInput', { static: true }) orgTableFilterInput: ElementRef;
   constructor() { }
 
   ngOnInit() {

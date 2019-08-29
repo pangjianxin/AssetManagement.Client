@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { OrgSpace } from 'src/app/models/org-space';
 import { SelectionModel } from '@angular/cdk/collections';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
@@ -22,11 +25,11 @@ export class SpaceComponent implements OnInit {
   currentFileterData = '';
   createSpaceForm: FormGroup;
   modifySpaceForm: FormGroup;
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('matSortSpacesTable') spacesSort: MatSort;
-  @ViewChild('spaceSearchInput') spaceSearchInput: ElementRef;
-  @ViewChild('modifySpaceDialog') modifySpaceDialog: TemplateRef<any>;
-  @ViewChild('createSpaceDialog') createSpaceDialog: TemplateRef<any>;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  @ViewChild('matSortSpacesTable', { static: true }) spacesSort: MatSort;
+  @ViewChild('spaceSearchInput', { static: true }) spaceSearchInput: ElementRef;
+  @ViewChild('modifySpaceDialog', { static: true }) modifySpaceDialog: TemplateRef<any>;
+  @ViewChild('createSpaceDialog', { static: true }) createSpaceDialog: TemplateRef<any>;
   spaceDataSource: MatTableDataSource<OrgSpace> = new MatTableDataSource<OrgSpace>();
   // 总数
   totalSpacesCounts: number;

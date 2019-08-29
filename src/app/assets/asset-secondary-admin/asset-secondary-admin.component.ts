@@ -17,7 +17,7 @@ export class AssetSecondaryAdminComponent implements OnInit {
   // 当前ApiUrl
   apiUrl = `/api/assets/secondary/pagination`;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
-  @ViewChild('assetSearchInput') searchInputElement: ElementRef;
+  @ViewChild('assetSearchInput', { static: true }) searchInputElement: ElementRef;
   // 当前过滤逻辑
   searchInput = '';
   // 按资产三级分类资产汇总数据

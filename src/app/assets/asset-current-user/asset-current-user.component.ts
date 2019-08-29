@@ -6,13 +6,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OrgSpace } from 'src/app/models/org-space';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
 import { ModifyAssetLocation } from 'src/app/models/viewmodels/modify-asset-location';
 import { Organization } from 'src/app/models/organization';
-import { ManagementLineService } from 'src/app/core/services/management-line.service';
 import { ReturnAsset } from 'src/app/models/viewmodels/return-asset';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AssetExchangeDialogComponent } from './asset-exchange-dialog/asset-exchange-dialog.component';
@@ -28,9 +27,9 @@ export class AssetCurrentUserComponent implements OnInit {
   // 当前ApiUrl
   apiUrl: string;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
-  @ViewChild('assetSearchInput') searchInputElement: ElementRef;
-  @ViewChild('changeAssetLocationRef') changeAssetLocationRef: TemplateRef<any>;
-  @ViewChild('returnAssetRef') returnAssetRef: TemplateRef<any>;
+  @ViewChild('assetSearchInput', { static: true }) searchInputElement: ElementRef;
+  @ViewChild('changeAssetLocationRef', { static: true }) changeAssetLocationRef: TemplateRef<any>;
+  @ViewChild('returnAssetRef', { static: true }) returnAssetRef: TemplateRef<any>;
   // 当前过滤逻辑
   searchInput = '';
   /**资产按照三级分类的图表数据 */
@@ -43,15 +42,12 @@ export class AssetCurrentUserComponent implements OnInit {
   returnAssetForm: FormGroup;
   /**机构空间数据，用于维护资产摆放位置 */
   orgSpaces: OrgSpace[];
-  /**目标管理机构，用户资产交回 */
-  targetManagementOrg$: Observable<Organization[]>;
   constructor(private assetService: AssetService,
     private assetRreturnService: AssetReturningService,
     private alert: AlertService,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private spaceService: OrgSpaceService,
-    private managementLineService: ManagementLineService) {
+    private spaceService: OrgSpaceService) {
   }
   ngOnInit() {
     this.apiUrl = `/api/assets/current`;
@@ -126,8 +122,6 @@ export class AssetCurrentUserComponent implements OnInit {
     if (!this.isOneSelected) {
       this.alert.warn('只能选中一项进行操作');
     } else {
-      this.targetManagementOrg$ = this.managementLineService.
-        getTargetExaminations(this.selection.selected[0].assetCategoryDto.managementLineDto.managementLineId);
       this.returnAssetForm = this.fb.group({
         assetId: [this.selection.selected[0].assetId, [Validators.required]],
         assetName: [this.selection.selected[0].assetName, [Validators.required]],

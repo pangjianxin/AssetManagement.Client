@@ -14,7 +14,7 @@ export class SignalREventMessageService {
     private alert: AlertService) { }
   async connect() {
     this.connection = new HubConnectionBuilder()
-      .withUrl(`${environment.api_url}/eventMessage`, { accessTokenFactory: this.jwtHelper.tokenGetter })
+      .withUrl(`${environment.host_base_url}/eventMessage`, { accessTokenFactory: this.jwtHelper.tokenGetter })
       .build();
     this.connection.on('notify', (principal: string, time: string, message: string) => {
       this.messageList.push({ principal, time, message });

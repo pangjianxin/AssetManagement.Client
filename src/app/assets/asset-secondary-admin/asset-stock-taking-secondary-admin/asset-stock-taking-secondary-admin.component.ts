@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 import { CreateAssetStockTaking } from 'src/app/models/viewmodels/create-asset-stock-taking';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AssetStockTaking } from 'src/app/models/asset-stock-taking';
 
 @Component({
@@ -26,8 +26,8 @@ export class AssetStockTakingSecondaryAdminComponent implements OnInit {
   assetStockTakingOrganizationForm: FormGroup;
   // 机构查询结果$
   organizationSearchResult$: Observable<Organization[]>;
-  @ViewChild('organizationSearchInput') organizationSearchInput: ElementRef;
-  @ViewChild('stockTakingYear') stockTakingYearInput: ElementRef;
+  @ViewChild('organizationSearchInput', { static: true }) organizationSearchInput: ElementRef;
+  @ViewChild('stockTakingYear', { static: true }) stockTakingYearInput: ElementRef;
   currentOrg$: Observable<Organization>;
   stockTakingHistories$: Observable<AssetStockTaking[]>;
   any$: Observable<boolean>;

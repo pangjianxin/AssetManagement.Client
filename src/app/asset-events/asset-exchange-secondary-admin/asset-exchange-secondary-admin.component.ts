@@ -5,7 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AssetExchangingEvent } from 'src/app/models/asset-exchanging-event';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,10 +20,10 @@ import { HandleAssetExchange } from 'src/app/models/viewmodels/handle-asset-exch
 export class AssetExchangeSecondaryAdminComponent implements OnInit {
   assetExchangingSecondaryAdminUrl = '/api/assetExchange/secondary/pagination/';
   currentSearchInput: string;
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
-  @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;
-  @ViewChild('handleEventRef') handleEventRef: TemplateRef<any>;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
+  @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
+  @ViewChild('handleEventRef', { static: true }) handleEventRef: TemplateRef<any>;
   currentSelection: SelectionModel<AssetExchangingEvent> = new SelectionModel<AssetExchangingEvent>(true, []);
   currentSelectedRow: AssetExchangingEvent;
   revokeEventForm: FormGroup;

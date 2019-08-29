@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { MatPaginator, MatTableDataSource, PageEvent, Sort } from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Asset } from 'src/app/models/asset';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { AssetService } from 'src/app/core/services/asset.service';
@@ -13,7 +15,7 @@ import { AssetService } from 'src/app/core/services/asset.service';
  * 该类主要用来展示机构撤并时相应机构下面的资产
  */
 export class CurrentAssetTableComponent implements OnInit, OnChanges {
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() targetOrgIdentifier: string;
   assetDataSource: MatTableDataSource<Asset> = new MatTableDataSource<Asset>();
   // 总数

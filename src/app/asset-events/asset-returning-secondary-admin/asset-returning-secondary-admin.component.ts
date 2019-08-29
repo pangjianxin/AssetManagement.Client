@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { HandleAssetReturn } from 'src/app/models/viewmodels/handle-asset-return';
@@ -20,10 +20,10 @@ import { RevokeAssetEvent } from 'src/app/models/viewmodels/revoke-asset-event';
 })
 export class AssetReturningSecondaryAdminComponent implements OnInit {
   secondaryAdminApiUrl = '/api/assetReturn/secondary/pagination';
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
-  @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;
-  @ViewChild('handleEventRef') handleEventRef: TemplateRef<any>;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
+  @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
+  @ViewChild('handleEventRef', { static: true }) handleEventRef: TemplateRef<any>;
   currentSearchInput: string;
   selection: SelectionModel<AssetReturningEvent> = new SelectionModel<AssetReturningEvent>(true, []);
   currentSelectedRow: AssetReturningEvent;

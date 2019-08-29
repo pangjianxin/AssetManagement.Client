@@ -4,7 +4,7 @@ import { Organization } from 'src/app/models/organization';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from 'src/app/core/services/account.service';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -26,10 +26,10 @@ export class OrganizationSecondaryadminComponent implements OnInit {
   changeOrgShortNameForm: FormGroup;
   revokeOrgForm: FormGroup;
   recycleOrgAssetsForm: FormGroup;
-  @ViewChild('changeOrgShortNameTemplate') changeOrgShortNameTemplate: TemplateRef<any>;
-  @ViewChild('resetPasswordTemplate') resetPasswordTemplate: TemplateRef<any>;
-  @ViewChild('orgTableFilterInput') orgTableFilterInput: ElementRef;
-  @ViewChild('orgRevocationRef') orgRevocationRef: TemplateRef<any>;
+  @ViewChild('changeOrgShortNameTemplate', { static: true }) changeOrgShortNameTemplate: TemplateRef<any>;
+  @ViewChild('resetPasswordTemplate', { static: true }) resetPasswordTemplate: TemplateRef<any>;
+  @ViewChild('orgTableFilterInput', { static: true }) orgTableFilterInput: ElementRef;
+  @ViewChild('orgRevocationRef', { static: true }) orgRevocationRef: TemplateRef<any>;
   constructor(private alert: AlertService,
     private dialog: MatDialog,
     private accountService: AccountService,

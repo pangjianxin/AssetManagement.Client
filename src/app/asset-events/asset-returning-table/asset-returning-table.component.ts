@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { MatPaginator, MatTableDataSource, PageEvent, Sort } from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetApplyingEvent } from 'src/app/models/asset-applying-event';
 import { debounceTime, filter } from 'rxjs/operators';
@@ -12,7 +14,7 @@ import { AssetReturningService } from 'src/app/core/services/asset-returning.ser
 })
 export class AssetReturningTableComponent implements OnInit, OnChanges {
 
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   // 当前分页的基础url
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定

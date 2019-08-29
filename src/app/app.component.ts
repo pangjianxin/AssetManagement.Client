@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { AccountService } from './core/services/account.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from './core/services/alert.service';
 import { Organization } from './models/organization';
 import { map, filter } from 'rxjs/operators';
 import { RequestActionModel } from './models/request-action-model';
 import { ChangeOrgPassword } from './models/viewmodels/change-org-password';
 import { ChangeOrgShortNam } from './models/viewmodels/change-org-short-nam';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { SignalREventMessageService } from './core/services/signal-revent-message.service';
 
@@ -20,9 +20,9 @@ import { SignalREventMessageService } from './core/services/signal-revent-messag
 export class AppComponent implements OnInit {
   isAuthenticated$: Observable<boolean>;
   currentOrg: Organization;
-  @ViewChild('currentOrgTemplate') currentOrgTemplate: TemplateRef<any>;
-  @ViewChild('changeOrgShortNameTemplate') changeOrgShortNameTemplate: TemplateRef<any>;
-  @ViewChild('changeOrgPasswordTemplate') changeOrgPasswordTemplate: TemplateRef<any>;
+  @ViewChild('currentOrgTemplate', { static: true }) currentOrgTemplate: TemplateRef<any>;
+  @ViewChild('changeOrgShortNameTemplate', { static: true }) changeOrgShortNameTemplate: TemplateRef<any>;
+  @ViewChild('changeOrgPasswordTemplate', { static: true }) changeOrgPasswordTemplate: TemplateRef<any>;
   changeOrgShortNamForm: FormGroup;
   changePasswordForm: FormGroup;
   isLg: boolean;
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     private accountService: AccountService,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private observableMedia: ObservableMedia,
+    private observableMedia: MediaObserver,
     private alert: AlertService,
     public messageService: SignalREventMessageService) { }
   ngOnInit() {
@@ -39,7 +39,8 @@ export class AppComponent implements OnInit {
     this.orgService.currentOrg.pipe(filter(item => item.role !== undefined)).subscribe(value => {
       this.currentOrg = value;
     });
-    this.observableMedia.asObservable().pipe(map(change => change.mqAlias === 'lg')).subscribe(value => this.isLg = value);
+    this.observableMedia.media$.
+      pipe(map(change => change.mqAlias === 'lg')).subscribe(value => this.isLg = value);
   }
   logout() {
     this.orgService.logout();

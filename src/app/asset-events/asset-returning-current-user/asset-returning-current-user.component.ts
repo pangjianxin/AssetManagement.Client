@@ -4,7 +4,7 @@ import { AssetReturningEvent } from 'src/app/models/asset-returning-event';
 import { distinctUntilChanged, pluck, debounceTime } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { AssetReturningTableComponent } from '../asset-returning-table/asset-returning-table.component';
@@ -18,9 +18,9 @@ import { Router } from '@angular/router';
 export class AssetReturningCurrentUserComponent implements OnInit {
 
   currentUserApiUrl = '/api/assetReturn/current/pagination';
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
-  @ViewChild('table') table: AssetReturningTableComponent;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
+  @ViewChild('table', { static: true }) table: AssetReturningTableComponent;
   currentSearchInput: string;
   selection: SelectionModel<AssetReturningEvent> = new SelectionModel<AssetReturningEvent>(true, []);
   constructor(private dialog: MatDialog,

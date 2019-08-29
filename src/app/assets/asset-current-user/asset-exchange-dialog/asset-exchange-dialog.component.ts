@@ -1,11 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Organization } from 'src/app/models/organization';
 import { Observable } from 'rxjs';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { debounceTime, map } from 'rxjs/operators';
-import { ManagementLineService } from 'src/app/core/services/management-line.service';
 import { ExchangeAsset } from 'src/app/models/viewmodels/exchange-asset';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { RequestActionModel } from 'src/app/models/request-action-model';
@@ -32,7 +31,6 @@ export class AssetExchangeDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private orgService: OrganizationService,
-    private managementLineService: ManagementLineService,
     private assetService: AssetService,
     private assetExchangeService: AssetExchangingService,
     private alert: AlertService) { }
@@ -48,8 +46,6 @@ export class AssetExchangeDialogComponent implements OnInit {
     this.assetExchangeForm.get('exchangeOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
       this.exchangeOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
     });
-    this.targetOrgs$ =
-      this.managementLineService.getTargetExaminations(this.data.asset.assetCategoryDto.managementLineDto.managementLineId);
   }
   displayExchangeOrg(org: Organization) {
     if (org) {

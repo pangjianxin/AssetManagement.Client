@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort } from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { AssetCategory } from 'src/app/models/asset-category';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetCategoryService } from 'src/app/core/services/asset-category.service';
@@ -12,7 +14,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AssetCategoryTableComponent implements OnInit, OnChanges {
 
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;
@@ -25,8 +27,7 @@ export class AssetCategoryTableComponent implements OnInit, OnChanges {
   // 当前排序逻辑
   currentSort: Sort;
   // 显示的列
-  displayedColumns: string[] = ['select', 'assetThirdLevelCategory', 'assetSecondLevelCategory', 'assetFirstLevelCategory',
-    'managementLineName', 'managementLineDescription', 'assetMeteringUnit'];
+  displayedColumns: string[] = ['select', 'assetThirdLevelCategory', 'assetSecondLevelCategory', 'assetFirstLevelCategory', 'assetMeteringUnit'];
   // 当前选择的记录行
   selection: SelectionModel<AssetCategory> = new SelectionModel<AssetCategory>(true, []);
   /** Based on the screen size, switch from standard to one column per row */

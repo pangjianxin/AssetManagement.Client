@@ -4,13 +4,13 @@ import { AssetCategory } from 'src/app/models/asset-category';
 import { Observable, fromEvent } from 'rxjs';
 import { Organization } from 'src/app/models/organization';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { ManagementLineService } from 'src/app/core/services/management-line.service';
-import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 import { ApplyAsset } from 'src/app/models/viewmodels/apply-asset';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
+import { CategoryOrgRegistrationService } from 'src/app/core/services/category-org-registration.service';
 
 @Component({
   selector: 'app-asset-category-current-user',
@@ -19,18 +19,18 @@ import { AssetApplyingService } from 'src/app/core/services/asset-applying.servi
 })
 export class AssetCategoryCurrentUserComponent implements OnInit {
 
-  @ViewChild('assetCategorySearchInput') assetCategorySearchInput: ElementRef;
-  @ViewChild('applyAssetRef') applyAssetRef: TemplateRef<any>;
+  @ViewChild('assetCategorySearchInput', { static: true }) assetCategorySearchInput: ElementRef;
+  @ViewChild('applyAssetRef', { static: true }) applyAssetRef: TemplateRef<any>;
   selection: SelectionModel<AssetCategory> = new SelectionModel<AssetCategory>(true, []);
   assetCategoryApiUrl: string;
   assetCategoryFileterData: string;
-  assetApplyExaminations$: Observable<Organization[]>;
   applyAssetForm: FormGroup;
+  examinationOrgs$: Observable<Organization[]>;
   constructor(private dialog: MatDialog,
     private alert: AlertService,
     private fb: FormBuilder,
-    private managementLineService: ManagementLineService,
-    private assetApplyService: AssetApplyingService) { }
+    private assetApplyService: AssetApplyingService,
+    private categoryOrgRegistrationService: CategoryOrgRegistrationService) { }
   ngOnInit() {
     fromEvent(this.assetCategorySearchInput.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
@@ -48,8 +48,8 @@ export class AssetCategoryCurrentUserComponent implements OnInit {
     if (!this.IsOneSelected) {
       this.alert.warn('只能选中一个进行操作');
     } else {
-      this.assetApplyExaminations$ =
-        this.managementLineService.getTargetExaminations(this.selection.selected[0].managementLineDto.managementLineId);
+      this.examinationOrgs$ = this.categoryOrgRegistrationService.getExaminationOrgs(this.selection.selected[0].assetCategoryId)
+        .pipe(map(it => it.data as Organization[]));
       this.applyAssetForm = this.fb.group({
         assetCategoryId: [this.selection.selected[0].assetCategoryId, [Validators.required]],
         thirdLevelCategory: [this.selection.selected[0].assetThirdLevelCategory],

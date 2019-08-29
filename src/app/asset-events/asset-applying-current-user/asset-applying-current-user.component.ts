@@ -5,7 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AssetApplyingEvent } from 'src/app/models/asset-applying-event';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 
 @Component({
@@ -18,8 +18,8 @@ export class AssetApplyingCurrentUserComponent implements OnInit {
   searchInputContent: string;
   selection: SelectionModel<AssetApplyingEvent> = new SelectionModel<AssetApplyingEvent>(true, []);
   currentSelectedRow: AssetApplyingEvent;
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('removeEventRef') removeEventRef: TemplateRef<any>;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
   constructor(private alert: AlertService,
     private assetApplyingService: AssetApplyingService,
     private dialog: MatDialog) { }

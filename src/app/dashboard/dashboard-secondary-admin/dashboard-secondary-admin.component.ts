@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 import { AssetDeploy } from 'src/app/models/asset-deploy';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { Organization } from 'src/app/models/organization';
 export function forbiddenString(): ValidatorFn {
@@ -39,9 +39,9 @@ export class DashboardSecondaryAdminComponent implements OnInit {
   importOrgs$: Observable<Organization[]>;
   exportOrgs$: Observable<Organization[]>;
   currentDate = new Date();
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('downloadAssetDeployFileRef') downloadAssetDeployFileRef: TemplateRef<any>;
-  @ViewChild('downloadAssetDeployLink') downloadAssetDeployLink: ElementRef;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('downloadAssetDeployFileRef', { static: true }) downloadAssetDeployFileRef: TemplateRef<any>;
+  @ViewChild('downloadAssetDeployLink', { static: false }) downloadAssetDeployLink: ElementRef;
   constructor(
     private dashboardService: DashboardService,
     private alert: AlertService,

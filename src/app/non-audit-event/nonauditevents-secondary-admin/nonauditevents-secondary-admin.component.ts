@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/
 import { NonauditeventTableComponent } from '../nonauditevent-table/nonauditevent-table.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NonauditEvent } from 'src/app/models/nonaudit-event';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { NonauditEventService } from 'src/app/core/services/nonaudit-event.service';
 import { fromEvent } from 'rxjs';
@@ -18,9 +18,9 @@ import { RequestActionModel } from 'src/app/models/request-action-model';
 export class NonauditeventsSecondaryAdminComponent implements OnInit {
 
   currentNonAuditEventsUrl = '/api/nonauditevents/secondaryadmin/pagination';
-  @ViewChild('filterInput') filterInput: ElementRef;
-  @ViewChild('removeNonAuditEventRef') removeNonAuditEventRef: TemplateRef<any>;
-  @ViewChild('nonauditEventTable') table: NonauditeventTableComponent;
+  @ViewChild('filterInput', { static: true }) filterInput: ElementRef;
+  @ViewChild('removeNonAuditEventRef', { static: true }) removeNonAuditEventRef: TemplateRef<any>;
+  @ViewChild('nonauditEventTable', { static: true }) table: NonauditeventTableComponent;
   selection: SelectionModel<NonauditEvent> = new SelectionModel<NonauditEvent>(true, []);
   currentFilterInputValue: string;
   constructor(private dialog: MatDialog,

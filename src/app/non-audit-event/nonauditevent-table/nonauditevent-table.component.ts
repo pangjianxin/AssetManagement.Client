@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, PageEvent, Sort, MatCheckboxChange } from '@angular/material';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NonauditEvent } from 'src/app/models/nonaudit-event';
 import { NonauditEventService } from 'src/app/core/services/nonaudit-event.service';
@@ -12,8 +15,8 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class NonauditeventTableComponent implements OnInit, OnChanges {
 
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('matSortNonAuditEventTable') matSortNonAuditEvent: MatSort;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  @ViewChild('matSortNonAuditEventTable', { static: true }) matSortNonAuditEvent: MatSort;
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;

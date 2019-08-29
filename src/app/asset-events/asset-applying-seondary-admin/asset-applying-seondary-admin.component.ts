@@ -6,7 +6,7 @@ import { debounceTime, pluck, filter } from 'rxjs/operators';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 import { AssetApplyingTableComponent } from '../asset-applying-table/asset-applying-table.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -24,9 +24,9 @@ export class AssetApplyingSeondaryAdminComponent implements OnInit {
   selection: SelectionModel<AssetApplyingEvent> = new SelectionModel<AssetApplyingEvent>(true, []);
   currentSelectionRow: AssetApplyingEvent;
   revokeEventForm: FormGroup;
-  @ViewChild('searchInput') searchInput: ElementRef;
-  @ViewChild('table') table: AssetApplyingTableComponent;
-  @ViewChild('revokeEventRef') revokeEventRef: TemplateRef<any>;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  @ViewChild('table', { static: true }) table: AssetApplyingTableComponent;
+  @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
   constructor(private alert: AlertService,
     private assetApplyingService: AssetApplyingService,
     private dialog: MatDialog,

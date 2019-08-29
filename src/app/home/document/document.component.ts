@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector } from '@angular/core';
-import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material';
+import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',

@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
-import { MAT_DIALOG_DATA, PageEvent, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Asset } from 'src/app/models/asset';
 import { AssetService } from 'src/app/core/services/asset.service';
@@ -23,8 +25,8 @@ export class HandleAssetApplyingComponent implements OnInit {
   currentPage: PageEvent;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   currentSelectionRow: Asset;
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('assetApplyingConfirmRef') assetApplyingConfirmRef: TemplateRef<any>;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  @ViewChild('assetApplyingConfirmRef', { static: true }) assetApplyingConfirmRef: TemplateRef<any>;
   // 显示的列
   displayedColumns: string[] = ['select', 'assetName', 'brand', 'assetType', 'assetDescription', 'assetStatus',
     'assetThirdLevelCategory', 'assetInStoreLocation'];

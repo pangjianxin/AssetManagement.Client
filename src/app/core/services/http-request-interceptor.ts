@@ -17,7 +17,7 @@ export class HttpRequsetInterceptor implements HttpInterceptor {
         'content-type': 'application/json',
         'accept': 'application/json'
       },
-      url: `${environment.api_url}${request.url}`
+      url: `${environment.host_base_url}${request.url}`
     });
     return next.handle(clonedRequest);
   }

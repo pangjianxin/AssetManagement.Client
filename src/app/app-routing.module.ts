@@ -11,31 +11,36 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'document', component: DocumentComponent },
   {
-    path: 'nonauditevents', loadChildren: './non-audit-event/non-audit-event.module#NonAuditEventModule', canActivate: [AuthGuard],
+    path: 'nonauditevents',
+    loadChildren: () => import('./non-audit-event/non-audit-event.module').then(m => m.NonAuditEventModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard],
     data: { preload: true }
   },
   {
-    path: 'organization', loadChildren: './organization/organization.module#OrganizationModule', canActivate: [AuthGuard],
+    path: 'organization',
+    loadChildren: () => import('./organization/organization.module').then(m => m.OrganizationModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard], data: { preload: true }
   },
   {
-    path: 'assets', loadChildren: './assets/assets.module#AssetsModule', canActivate: [AuthGuard],
+    path: 'assets',
+    loadChildren: () => import('./assets/assets.module').then(m => m.AssetsModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard],
     data: { preload: true }
   },
   {
-    path: 'assetcategory', loadChildren: './assetCategory/asset-category.module#AssetCategoryModule', canActivate: [AuthGuard],
+    path: 'assetcategory',
+    loadChildren: () => import('./assetCategory/asset-category.module').then(m => m.AssetCategoryModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard],
     data: { preload: true }
   },
   {
-    path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', canActivate: [AuthGuard],
+    path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard],
     data: { preload: true }
   },
   {
-    path: 'assetevents', loadChildren: './asset-events/asset-events.module#AssetEventsModule', canActivate: [AuthGuard],
+    path: 'assetevents',
+    loadChildren: () => import('./asset-events/asset-events.module').then(m => m.AssetEventsModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard],
     data: { preload: true }
   },

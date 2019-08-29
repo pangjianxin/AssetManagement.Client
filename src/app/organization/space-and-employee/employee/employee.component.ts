@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { RequestActionModel } from 'src/app/models/request-action-model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatPaginator, MatTableDataSource, PageEvent, Sort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { fromEvent } from 'rxjs';
@@ -21,10 +24,10 @@ export class EmployeeComponent implements OnInit {
   currentFileterData = '';
   addEmployeeForm: FormGroup;
   modifyEmployeeForm: FormGroup;
-  @ViewChild('paginator') paginator: MatPaginator;
-  @ViewChild('empployeeSearchInput') empployeeSearchInput: ElementRef;
-  @ViewChild('modifyEmployeeDialog') modifyEmployeeDialog: TemplateRef<any>;
-  @ViewChild('addEmployeeDialog') addEmployeeDialog: TemplateRef<any>;
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
+  @ViewChild('empployeeSearchInput', { static: true }) empployeeSearchInput: ElementRef;
+  @ViewChild('modifyEmployeeDialog', { static: true }) modifyEmployeeDialog: TemplateRef<any>;
+  @ViewChild('addEmployeeDialog', { static: true }) addEmployeeDialog: TemplateRef<any>;
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>();
   // 总数
   totalCount: number;

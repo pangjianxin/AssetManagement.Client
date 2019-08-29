@@ -11,7 +11,7 @@ import { AssetStockTakingOrg } from 'src/app/models/asset-stock-taking-org';
   styleUrls: ['./asset-stock-taking-current-user.component.scss']
 })
 export class AssetStockTakingCurrentUserComponent implements OnInit {
-  @ViewChild('stockTakingYear') stockTakingYearInput: ElementRef;
+  @ViewChild('stockTakingYear', { static: true }) stockTakingYearInput: ElementRef;
   assetBaseUrl: string;
   stockTakingDetailUrl: string;
   filterData: string;

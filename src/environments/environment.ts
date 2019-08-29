@@ -4,9 +4,14 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://localhost:5003',
+  host_base_url: 'http://localhost:5003',
   jwt_whiteLists: ['localhost:5003'],
-  jwt_blackLists: ['localhost:5003/api/auth/login']
+  jwt_blackLists: ['localhost:5003/api/auth/login'],
+  apiBaseUrls: {
+    assetCategory: '/api/assetCategory',
+    asset: '/api/assets',
+    categoryOrgRegistration: '/api/categoryOrgRegistration',
+  }
 };
 
 /*

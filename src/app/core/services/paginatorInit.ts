@@ -1,4 +1,4 @@
-import { MatPaginatorIntl } from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 const getRangeLabel = (page: number, pageSize: number, length: number): string => {
     if (length === 0) {
         return `无数据返回`;
