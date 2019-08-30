@@ -54,6 +54,7 @@ export class AssetCurrentUserComponent implements OnInit {
     fromEvent(this.searchInputElement.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((filter: string) => {
+        console.log(filter);
         this.searchInput = filter;
       });
     this.getAssetCategpries();

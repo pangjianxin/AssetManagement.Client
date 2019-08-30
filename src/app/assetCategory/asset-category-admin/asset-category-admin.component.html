@@ -102,42 +102,33 @@
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutGap="10px">
           <mat-toolbar color="primary">
-            <span>资产分类信息</span>
+            <span>
+              <mat-icon>event_note</mat-icon>资产分类信息
+            </span>
           </mat-toolbar>
-          <div fxLayout="row wrap">
-            <mat-list>
-              <mat-list-item>
-                <mat-icon color="warn" matListIcon>filter_1</mat-icon>
-                <p matLine>
-                  资产大类
-                </p>
-                <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
-              </mat-list-item>
-              <mat-list-item>
-                <mat-icon color="warn" matListIcon>filter_4</mat-icon>
-                <p matLine>
-                  归属条线描述
-                </p>
-                <p matLine>{{currentSelectedCategory.managementLineDto.managementLineDescription}}</p>
-              </mat-list-item>
-            </mat-list>
-            <mat-list>
-              <mat-list-item>
-                <mat-icon color="warn" matListIcon>filter_2</mat-icon>
-                <p matLine>
-                  资产小类
-                </p>
-                <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
-              </mat-list-item>
-              <mat-list-item>
-                <mat-icon color="warn" matListIcon>filter_3</mat-icon>
-                <p matLine>
-                  归属条线名称
-                </p>
-                <p matLine>{{currentSelectedCategory.managementLineDto.managementLineName}}</p>
-              </mat-list-item>
-            </mat-list>
-          </div>
+          <mat-list fxLayout="row">
+            <mat-list-item>
+              <mat-icon color="warn" matListIcon>filter_1</mat-icon>
+              <p matLine>
+                <b>资产大类</b>
+              </p>
+              <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon color="warn" matListIcon>filter_4</mat-icon>
+              <p matLine>
+                <b>归属条线描述</b>
+              </p>
+              <p matLine>{{currentSelectedCategory.assetSecondLevelCategory}}</p>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon color="warn" matListIcon>filter_2</mat-icon>
+              <p matLine>
+                <b>资产小类</b>
+              </p>
+              <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
+            </mat-list-item>
+          </mat-list>
           <mat-toolbar color="primary">
             <span>
               <mat-icon>event_note</mat-icon>
@@ -246,44 +237,37 @@
     </mat-card-header>
     <mat-card-content>
       <mat-toolbar color="primary">
-        <span>入库资产分类信息</span>
+        <span>
+          <mat-icon>event_note</mat-icon> 入库资产分类信息
+        </span>
       </mat-toolbar>
-      <div fxLayout="row wrap">
-        <mat-list>
-          <mat-list-item>
-            <mat-icon color="primary" matListIcon>filter_1</mat-icon>
-            <p matLine>
-              资产大类
-            </p>
-            <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon color="primary" matListIcon>filter_4</mat-icon>
-            <p matLine>
-              归属条线描述
-            </p>
-            <p matLine>{{currentSelectedCategory.managementLineDto.managementLineDescription}}</p>
-          </mat-list-item>
-        </mat-list>
-        <mat-list>
-          <mat-list-item>
-            <mat-icon color="primary" matListIcon>filter_2</mat-icon>
-            <p matLine>
-              资产小类
-            </p>
-            <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon color="primary" matListIcon>filter_3</mat-icon>
-            <p matLine>
-              归属条线名称
-            </p>
-            <p matLine>{{currentSelectedCategory.managementLineDto.managementLineName}}</p>
-          </mat-list-item>
-        </mat-list>
-      </div>
+      <mat-list fxLayout="row">
+        <mat-list-item>
+          <mat-icon color="primary" matListIcon>filter_1</mat-icon>
+          <p matLine>
+            资产大类
+          </p>
+          <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" matListIcon>filter_2</mat-icon>
+          <p matLine>
+            资产中类
+          </p>
+          <p matLine>{{currentSelectedCategory.assetSecondLevelCategory}}</p>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" matListIcon>filter_2</mat-icon>
+          <p matLine>
+            资产小类
+          </p>
+          <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
+        </mat-list-item>
+      </mat-list>
       <mat-toolbar color="primary">
-        <span>入库资产信息</span>
+        <span>
+          <mat-icon>event_note</mat-icon> 入库资产信息
+        </span>
       </mat-toolbar>
       <div fxLayout="row">
         <mat-list>

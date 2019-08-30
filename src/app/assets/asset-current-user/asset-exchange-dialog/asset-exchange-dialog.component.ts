@@ -27,7 +27,6 @@ export function forbiddenString(): ValidatorFn {
 export class AssetExchangeDialogComponent implements OnInit {
   assetExchangeForm: FormGroup;
   exchangeOrgs$: Observable<Organization[]>;
-  targetOrgs$: Observable<Organization[]>;
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private orgService: OrganizationService,
@@ -38,7 +37,7 @@ export class AssetExchangeDialogComponent implements OnInit {
   ngOnInit() {
     this.assetExchangeForm = this.fb.group({
       exchangeOrg: [null, [Validators.required, forbiddenString()]],
-      targetOrgId: ['', [Validators.required]],
+      targetOrgId: [this.data.asset.organizationBelongedId, [Validators.required]],
       message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
       assetId: [this.data.asset.assetId, Validators.required],
       assetName: [this.data.asset.assetName, [Validators.required]]

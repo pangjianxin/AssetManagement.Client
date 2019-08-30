@@ -102,7 +102,7 @@ export class AssetTableComponent implements OnInit, OnChanges {
     }
     // 过滤功能
     if (this.currentFileterData) {
-      targetUrl = `${targetUrl}&filters=StockTakingOrgFilter==${this.currentFileterData}`;
+      targetUrl = `${targetUrl}&filters=AssetsFilter==${this.currentFileterData}`;
     }
     // 最终的URL执行分页功能
     this.assetService.getAssetsPagination(targetUrl).subscribe(response => {

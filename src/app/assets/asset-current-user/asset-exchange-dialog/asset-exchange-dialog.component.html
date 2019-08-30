@@ -28,16 +28,14 @@
           </mat-label>
         </mat-form-field>
         <mat-form-field>
-          <mat-select formControlName="targetOrgId">
-            <mat-option [value]="undefined">未选</mat-option>
-            <mat-option *ngFor="let org of targetOrgs$ | async" [value]="org.orgId">
-              {{org.orgNam}}
-            </mat-option>
-          </mat-select>
+          <input matInput formControlName="targetOrgId" readonly>
           <mat-label>
             <mat-icon>message</mat-icon>
-            请选择审核机构
+            审核机构信息
           </mat-label>
+          <mat-hint align="end">
+            免输
+          </mat-hint>
         </mat-form-field>
         <mat-form-field>
           <input matInput type="text" formControlName="exchangeOrg" [matAutocomplete]="exchangeOrg">
