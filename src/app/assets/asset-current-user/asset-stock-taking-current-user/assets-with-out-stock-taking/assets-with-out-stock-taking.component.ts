@@ -33,9 +33,8 @@ export class AssetsWithOutStockTakingComponent implements OnInit, OnChanges {
   currentPage: PageEvent;
   // 当前排序逻辑
   currentSort: Sort;
-  // 显示的列
-  displayedColumns: string[] = ['assetTagNumber', 'assetName', 'assetThirdLevelCategory', 'assetStatus',
-    'orgIdentifier', 'orgNam', 'assetLocation', 'assetOperations'];
+  // 显示的列 (暂时删除了'organizationBelongedId')
+  displayedColumns: string[] = ['assetTagNumber', 'assetName', 'assetThirdLevelCategory', 'assetStatus', 'orgNam', 'assetLocation', 'assetOperations'];
   /** Based on the screen size, switch from standard to one column per row */
   constructor(private assetService: AssetService,
     private dialog: MatDialog) {

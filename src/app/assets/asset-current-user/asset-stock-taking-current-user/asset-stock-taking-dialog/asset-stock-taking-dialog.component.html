@@ -12,37 +12,37 @@
         <mat-list dense>
           <mat-list-item>
             <mat-icon matListIcon color="primary">filter_1</mat-icon>
-            <h3 matLine><strong>资产名称</strong></h3>
-            <p matLine>{{data.asset.assetName}}</p>
+            <h3 matLine><b>资产名称</b></h3>
+            <p matLine>{{data.asset.assetName?data.asset.assetName:"无"}}</p>
           </mat-list-item>
           <mat-list-item>
             <mat-icon matListIcon color="primary">filter_3</mat-icon>
-            <h3 matLine><strong>标签号</strong></h3>
-            <p matLine>{{data.asset.assetTagNumber}}</p>
+            <h3 matLine><b>标签号</b></h3>
+            <p matLine>{{data.asset.assetTagNumber?data.asset.assetTagNumber:"无"}}</p>
           </mat-list-item>
         </mat-list>
         <mat-list dense>
           <mat-list-item>
             <mat-icon matListIcon color="primary">filter_2</mat-icon>
-            <h3 matLine><strong>资产描述</strong></h3>
-            <p matLine>{{data.asset.assetName}}</p>
+            <h3 matLine><b>资产描述</b></h3>
+            <p matLine>{{data.asset.assetName?data.asset.assetName:"无"}}</p>
           </mat-list-item>
           <mat-list-item>
             <mat-icon matListIcon color="primary">filter_4</mat-icon>
-            <h3 matLine><strong>资产序列号</strong></h3>
-            <p matLine>{{data.asset.serialNumber}}</p>
+            <h3 matLine><b>资产序列号</b></h3>
+            <p matLine>{{data.asset.serialNumber?data.asset.serialNumber:"无"}}</p>
           </mat-list-item>
         </mat-list>
         <mat-list dense>
           <mat-list-item>
             <mat-icon matListIcon color="primary">filter_3</mat-icon>
-            <h3 matLine><strong>资产品牌</strong></h3>
-            <p matLine>{{data.asset.brand}}</p>
+            <h3 matLine><b>资产品牌</b></h3>
+            <p matLine>{{data.asset.brand?data.asset.brand:"无"}}</p>
           </mat-list-item>
           <mat-list-item>
             <mat-icon matListIcon color="primary">filter_6</mat-icon>
-            <h3 matLine><strong>资产型号</strong></h3>
-            <p matLine>{{data.asset.assetType}}</p>
+            <h3 matLine><b>资产型号</b></h3>
+            <p matLine>{{data.asset.assetType?data.asset.assetType:"无"}}</p>
           </mat-list-item>
         </mat-list>
       </div>
@@ -157,9 +157,9 @@
               <mat-card-content fxLayout="row">
                 <mat-list dense>
                   <mat-list-item>
-                    <mat-icon matListIcon>filter_1</mat-icon>
+                    <mat-icon matListIcon color="primary">filter_1</mat-icon>
                     <h3 matLine>
-                      资产盘点状态
+                      <b>资产盘点状态</b>
                     </h3>
                     <p matLine>
                       {{StockTakingStatus[submitAssetStockTakingForm.get('selectStockTakingStatusForm').get('stockTakingStatus').value]}}
@@ -168,9 +168,9 @@
                 </mat-list>
                 <mat-list dense>
                   <mat-list-item>
-                    <mat-icon matListIcon>filter_2</mat-icon>
+                    <mat-icon matListIcon color="primary">filter_2</mat-icon>
                     <h3 matLine>
-                      责任人名称
+                      <b>责任人名称</b>
                     </h3>
                     <p matLine>
                       {{submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('personInCharge').value?.name}}
@@ -179,9 +179,9 @@
                 </mat-list>
                 <mat-list dense>
                   <mat-list-item>
-                    <mat-icon matListIcon>filter_3</mat-icon>
+                    <mat-icon matListIcon color="primary">filter_3</mat-icon>
                     <h3 matLine>
-                      责任人工号
+                      <b>责任人工号</b>
                     </h3>
                     <p matLine>
                       {{submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('personInCharge').value?.identifier}}
