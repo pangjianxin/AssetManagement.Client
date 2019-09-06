@@ -1,4 +1,4 @@
-export interface RevokeAssetEvent {
+export interface RevokeAsset {
     eventId: string;
     message: string;
 }

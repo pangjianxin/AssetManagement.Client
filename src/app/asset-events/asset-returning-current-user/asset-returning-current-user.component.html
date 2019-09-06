@@ -1,13 +1,13 @@
 <app-asset-returning-table [apiUrl]="currentUserApiUrl" (selected)="onSelected($event)"
   [currentFileterData]="currentSearchInput" #table>
   <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
-    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
+    <button mat-raised-button color="primary" (click)="openRemoveApplicationDialog()">
       <mat-icon>fast_rewind</mat-icon>
-      撤销资产交回
+      删除申请
     </button>
     <button mat-raised-button color="primary" [routerLink]="['/assets','currentuser']">
       <mat-icon>fast_forward</mat-icon>
-      继续交回资产
+      资产列表
     </button>
     <mat-form-field appearance="standard">
       <input matInput type="text" #searchInput>
@@ -26,7 +26,7 @@
 
 <ng-template #revokeEventRef>
   <mat-toolbar color="warn">
-    <span>撤销资产交回请求</span>
+    <span>删除资产交回请求</span>
     <span fxFlex="1 1 auto"></span>
     <mat-icon>info</mat-icon>
   </mat-toolbar>
@@ -43,7 +43,7 @@
     <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
       <mat-icon>exit_to_app</mat-icon>
     </button>
-    <button mat-icon-button color="primary" (click)="revokeEvent()" matTooltip="确定">
+    <button mat-icon-button color="primary" (click)="removeApplication()" matTooltip="确定">
       <mat-icon>done</mat-icon>
     </button>
   </mat-dialog-actions>

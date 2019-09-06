@@ -8,10 +8,9 @@ import { AssetReturningService } from 'src/app/core/services/asset-returning.ser
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RequestActionModel } from 'src/app/models/request-action-model';
-import { AssetService } from 'src/app/core/services/asset.service';
 import { HandleAssetReturn } from 'src/app/models/viewmodels/handle-asset-return';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RevokeAssetEvent } from 'src/app/models/viewmodels/revoke-asset-event';
+import { RevokeAsset } from 'src/app/models/viewmodels/revoke-asset-event';
 
 @Component({
   selector: 'app-asset-returning-secondary-admin',
@@ -47,7 +46,7 @@ export class AssetReturningSecondaryAdminComponent implements OnInit {
   onSelected($event: SelectionModel<AssetReturningEvent>) {
     this.selection = $event;
   }
-  openRevokeEventDialog() {
+  openRevokeApplicationDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一个进行操作');
     } else if (this.selection.selected[0].status !== '待处理') {
@@ -61,10 +60,10 @@ export class AssetReturningSecondaryAdminComponent implements OnInit {
     }
 
   }
-  revokeEvent() {
+  revokeApplication() {
     const eventId = this.currentSelectedRow.eventId;
     const message = this.revokeEventForm.get('message').value;
-    const model: RevokeAssetEvent = { eventId, message };
+    const model: RevokeAsset = { eventId, message };
     this.assetReturnService.revoke(model).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);
@@ -73,38 +72,19 @@ export class AssetReturningSecondaryAdminComponent implements OnInit {
       error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
     });
   }
-  openHandleEventDialog() {
+  openHandleApplicationDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('只能选中一个进行操作');
     } else {
       this.currentSelectedRow = this.selection.selected[0];
-      switch (this.currentSelectedRow.status) {
-        case '已撤销':
-          this.dialog.open(this.removeEventRef);
-          break;
-        case '已完成':
-          this.dialog.open(this.removeEventRef);
-          break;
-        case '待处理':
-          this.dialog.open(this.handleEventRef);
-          break;
-        default:
-          this.alert.warn('未找到相应的处理流程，请联系管理员');
-          break;
+      if (this.currentSelectedRow.status !== '待处理') {
+        this.alert.warn('该条申请的状态不为待处理，请核对后提交');
+        return;
       }
+      this.dialog.open(this.handleEventRef);
     }
   }
-  removeEvent() {
-    const eventId = this.currentSelectedRow.eventId;
-    this.assetReturnService.remove(eventId).subscribe({
-      next: (value: RequestActionModel) => {
-        this.alert.success(value.message);
-        this.assetReturnService.dataSourceChangedSubject.next(true);
-      },
-      error: (value: RequestActionModel) => this.alert.failure(value.message)
-    });
-  }
-  handleEvent() {
+  handleApplication() {
     const model: HandleAssetReturn = {
       eventId: this.currentSelectedRow.eventId
     };
@@ -117,3 +97,6 @@ export class AssetReturningSecondaryAdminComponent implements OnInit {
     });
   }
 }
+
+
+

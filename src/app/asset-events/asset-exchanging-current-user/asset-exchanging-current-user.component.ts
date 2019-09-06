@@ -36,7 +36,7 @@ export class AssetExchangingCurrentUserComponent implements OnInit {
   get isOneSelected() {
     return this.currentSelection.selected.length === 1;
   }
-  openRevokeEventDialog() {
+  openRemoveApplicationDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一个选择项进行操作');
     } else {
@@ -44,7 +44,7 @@ export class AssetExchangingCurrentUserComponent implements OnInit {
       this.dialog.open(this.removeEventRef);
     }
   }
-  removeEvent() {
+  removeApplication() {
     this.assetExchangeService.remove(this.currentSelectedRow.eventId).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);

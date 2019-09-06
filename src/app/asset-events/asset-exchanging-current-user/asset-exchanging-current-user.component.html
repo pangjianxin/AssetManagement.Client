@@ -1,13 +1,13 @@
 <app-asset-exchange-table [apiUrl]="assetExchangingCurrentUserUrl" [currentFileterData]="currentSearchInput"
   (selected)="onSelected($event)">
   <mat-toolbar class="table-bar" color="primary" fxLayoutGap="10px">
-    <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
+    <button mat-raised-button color="primary" (click)="openRemoveApplicationDialog()">
       <mat-icon>fast_rewind</mat-icon>
-      撤销资产调换请求
+      删除申请
     </button>
     <button mat-raised-button color="primary" [routerLink]="['/assets','currentuser']">
       <mat-icon>fast_forward</mat-icon>
-      回到资产列表页
+      资产列表
     </button>
     <mat-form-field appearance="standard">
       <input matInput #searchInput type="text">
@@ -23,72 +23,28 @@
     <span>资产的机构间调配</span>
   </mat-toolbar>
 </app-asset-exchange-table>
+
 <ng-template #removeEventRef>
-  <mat-dialog-content>
-    <mat-card>
-      <mat-card-title-group>
-        <img src="assets/img/logo.png" alt="logo" mat-card-sm-image>
-        <mat-card-title>删除事件</mat-card-title>
-        <mat-card-subtitle>当前机构可删除当前机构的请求事件，该事件一经删除，无法恢复</mat-card-subtitle>
-      </mat-card-title-group>
-      <mat-card-content fxLayout="row wrap">
-        <mat-list>
-          <mat-list-item>
-            <p matLine>
-              <mat-icon color="warn">filter_1</mat-icon>
-              <strong>请求机构号</strong>
-            </p>
-            <p matLine>{{currentSelectedRow.requestOrgIdentifier}}</p>
-          </mat-list-item>
-          <mat-list-item>
-            <p matLine>
-              <mat-icon color="warn">filter_2</mat-icon>
-              <strong>请求机构名称</strong>
-            </p>
-            <p matLine>{{currentSelectedRow.requestOrgNam}}</p>
-          </mat-list-item>
-        </mat-list>
-        <mat-list>
-          <mat-list-item>
-            <p matLine>
-              <mat-icon color="warn">filter_3</mat-icon>
-              <strong>调换机构号</strong>
-            </p>
-            <p matLine>{{currentSelectedRow.exchangeOrgIdentifier}}</p>
-          </mat-list-item>
-          <mat-list-item>
-            <p matLine>
-              <mat-icon color="warn">filter_4</mat-icon>
-              <strong>调换机构名称</strong>
-            </p>
-            <p matLine>{{currentSelectedRow.exchangeOrgNam}}</p>
-          </mat-list-item>
-        </mat-list>
-        <mat-list>
-          <mat-list-item>
-            <p matLine>
-              <mat-icon color="warn">filter_5</mat-icon>
-              <strong>审批机构号</strong>
-            </p>
-            <p matLine>{{currentSelectedRow.targetOrgIdentifier}}</p>
-          </mat-list-item>
-          <mat-list-item>
-            <p matLine>
-              <mat-icon color="warn">filter_6</mat-icon>
-              <strong>审批机构名称</strong>
-            </p>
-            <p matLine>{{currentSelectedRow.targetOrgNam}}</p>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-icon-button color="accent" mat-dialog-close>
-          <mat-icon>power_settings_new</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" (click)="removeEvent()">
-          <mat-icon>done</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-dialog-content>
-</ng-template>
+    <mat-toolbar color="warn">
+      <span>删除资产交回请求</span>
+      <span fxFlex="1 1 auto"></span>
+      <mat-icon>info</mat-icon>
+    </mat-toolbar>
+    <mat-dialog-content>
+      <mat-list>
+        <mat-list-item>
+          <img src="assets/img/logo.png" alt="logo" matListAvatar>
+          <p matLine>确认撤销该事件么?</p>
+          <p matLine>事件撤销后不可恢复</p>
+        </mat-list-item>
+      </mat-list>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="removeApplication()" matTooltip="确定">
+        <mat-icon>done</mat-icon>
+      </button>
+    </mat-dialog-actions>
+  </ng-template>

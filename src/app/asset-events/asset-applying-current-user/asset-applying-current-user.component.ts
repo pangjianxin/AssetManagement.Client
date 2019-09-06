@@ -35,7 +35,7 @@ export class AssetApplyingCurrentUserComponent implements OnInit {
   onSelected($evnet: SelectionModel<AssetApplyingEvent>) {
     this.selection = $evnet;
   }
-  openRemoveEventDialogRef() {
+  openRemoveApplicationDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('只能选中一个选项进行操作');
     } else {
@@ -43,7 +43,7 @@ export class AssetApplyingCurrentUserComponent implements OnInit {
       this.dialog.open(this.removeEventRef);
     }
   }
-  removeEvent() {
+  removeApplication() {
     this.assetApplyingService.remove(this.currentSelectedRow.eventId).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);

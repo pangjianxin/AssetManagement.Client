@@ -41,14 +41,15 @@ export class AssetReturningCurrentUserComponent implements OnInit {
   onSelected($event: SelectionModel<AssetReturningEvent>) {
     this.selection = $event;
   }
-  openRevokeEventDialog() {
+  openRemoveApplicationDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一项', '重新选择');
     } else {
       this.dialog.open(this.revokeEventRef);
     }
   }
-  revokeEvent() {
+  // 删除
+  removeApplication() {
     const eventId = this.selection.selected[0].eventId;
     this.assetReturningService.remove(eventId).subscribe({
       next: (value: RequestActionModel) => {

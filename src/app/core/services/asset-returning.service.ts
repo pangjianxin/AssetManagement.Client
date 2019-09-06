@@ -4,7 +4,7 @@ import { RequestActionModel } from 'src/app/models/request-action-model';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ReturnAsset } from 'src/app/models/viewmodels/return-asset';
 import { HandleAssetReturn } from 'src/app/models/viewmodels/handle-asset-return';
-import { RevokeAssetEvent } from 'src/app/models/viewmodels/revoke-asset-event';
+import { RevokeAsset } from 'src/app/models/viewmodels/revoke-asset-event';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class AssetReturningService {
   remove(eventId: string): Observable<RequestActionModel> {
     return this.http.delete<RequestActionModel>(`/api/assetReturn/remove?eventId=${eventId}`);
   }
-  revoke(model: RevokeAssetEvent): Observable<RequestActionModel> {
+  revoke(model: RevokeAsset): Observable<RequestActionModel> {
     return this.http.put<RequestActionModel>(`/api/assetReturn/revoke`, JSON.stringify(model));
   }
   returnAsset(model: ReturnAsset): Observable<RequestActionModel> {

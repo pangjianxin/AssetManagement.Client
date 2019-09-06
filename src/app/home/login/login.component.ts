@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       if (this.returnUrl) {
         this.router.navigateByUrl(this.returnUrl);
       } else {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/user']);
       }
     }, (error: HttpErrorResponse) => {
       this.alert.failure(error.error.message);
