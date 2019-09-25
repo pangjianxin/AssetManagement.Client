@@ -4,7 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime } from 'rxjs/operators';
-import { Maintainer } from 'src/app/models/maintainer';
+import { Maintainer } from 'src/app/models/dtos/maintainer';
 import { MaintainerService } from 'src/app/core/services/maintainer.service';
 
 @Component({

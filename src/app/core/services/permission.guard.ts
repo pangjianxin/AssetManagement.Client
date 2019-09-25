@@ -10,7 +10,7 @@ import { AccountService } from './account.service';
 export class PermissionGuard implements CanActivateChild {
   constructor(private alert: AlertService, private account: AccountService) { }
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
-    const currnetRole = this.account.getCurrentOrg().role;
+    const currnetRole = this.account.getCurrentOrg().orgRole;
     const permissionRole = childRoute.data['role'];
     if (currnetRole >= permissionRole) {
       return true;

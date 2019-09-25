@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <img src="assets/img/icons/Devices.png" alt="logo" mat-card-avatar>
     <mat-card-title>资产情况</mat-card-title>
     <mat-card-subtitle>当前页面显示二级权限下所有资产的概况</mat-card-subtitle>
     <button mat-icon-button class="more-button" [matMenuTriggerFor]="assetMenu">
@@ -14,8 +14,8 @@
     <app-asset-bar-chart [dataSet]="assetCategoryByThirdLevelDataset" [chartTitle]="''"
       (thirdLevelEmitter)=onThirdLevelEmitted($event)></app-asset-bar-chart>
     <app-asset-table [apiUrl]="assetTableUrl" [currentSelectedThirdLevel]="currentAssetThirdLevel">
-      <mat-toolbar color="warn" fxLayoutGap="10px">
-        <button mat-raised-button color="warn" (click)="currentAssetThirdLevel=''">
+      <mat-toolbar color="accent" fxLayoutGap="10px">
+        <button mat-raised-button color="accent" (click)="currentAssetThirdLevel=''">
           <mat-icon>settings_backup_restore</mat-icon>
           重置三级分类检索条件
         </button>

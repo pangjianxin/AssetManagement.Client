@@ -1,13 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 import { Observable } from 'rxjs';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { debounceTime, map } from 'rxjs/operators';
 import { ExchangeAsset } from 'src/app/models/viewmodels/exchange-asset';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, ReplaySubject, Observable } from 'rxjs';
-import { Organization } from 'src/app/models/organization';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { OrgInfo } from 'src/app/models/org-info';
+import { TokenInfo } from 'src/app/models/dtos/tokenInfo';
 import { Router } from '@angular/router';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { ChangeOrgShortNam } from 'src/app/models/viewmodels/change-org-short-nam';
 import { ResetOrgPassword } from 'src/app/models/viewmodels/reset-org-password';
@@ -14,42 +13,46 @@ import { ChangeOrgPassword } from 'src/app/models/viewmodels/change-org-password
   providedIn: 'root'
 })
 export class AccountService {
-  /** BehaviorSubject保存最新的值或者初始值*/
-  private currentOrgSubject = new BehaviorSubject<Organization>({} as Organization);
-  /**distinctUntilChanged操作符会发射和最近一次相比较不同的值。 */
-  public currentOrg = this.currentOrgSubject.asObservable().pipe(distinctUntilChanged());
-  /**ReplaySubject的构造函数传入一个数字表示它所能记住的发射的元素数，它本身不管subscribe调用的时机，总会发射出所有的元素 */
-  private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
-  public isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  /*BehaviorSubject保存最新的值或者初始值
+   * ReplaySubject的构造函数传入一个数字表示它所能记住的发射的元素数，它本身不管subscribe调用的时机，总会发射出所有的元素
+  */
+  public currentOrg$ = new BehaviorSubject<TokenInfo>(null);
+  /**判断用户是否登录认证 */
+  public isAuthenticated$ = new BehaviorSubject<boolean>(false);
+  /**作为一种数据发生变化的通知手段，其他service或者component会订阅这个subject用来做出相应的反应 */
   public dataSourceChanged = new BehaviorSubject<boolean>(false);
-  constructor(private http: HttpClient,
-    private jwtHelper: JwtHelperService,
-    private router: Router) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+    this.populate();
   }
   // 这个函数主要用来页面刷新时重新装载用户数据，这里的用户是organization。
-  populate() {
+  // 如果localstorage中存在token信息，就直接用token的信息发布一个登录凭证，否则，清空一下，然后发送未登录指令到app component
+  private populate() {
     if (this.jwtHelper.tokenGetter() && !(this.jwtHelper.isTokenExpired())) {
-      this.http.get<RequestActionModel>('/api/auth/userEndPoint').subscribe(
-        result => this.setAuth(result.data as OrgInfo),
-        error => this.pureAuth());
+      const tokenInfo = this.jwtHelper.decodeToken() as TokenInfo;
+      this.currentOrg$.next(tokenInfo);
+      this.isAuthenticated$.next(true);
     } else {
       this.pureAuth();
-      this.router.navigate(['/login']);
+      this.currentOrg$.next(null);
+      this.isAuthenticated$.next(false);
     }
   }
-  setAuth(org: OrgInfo) {
+  // 登录会调用的逻辑，登录从远端拿到access_token之后存到localstorage
+  private setAuth(org: { access_token: string }) {
     window.localStorage.setItem('access_token', org.access_token);
-    this.isAuthenticatedSubject.next(true);
-    this.currentOrgSubject.next(org.organization);
+    const orgToken = this.jwtHelper.decodeToken() as TokenInfo;
+    this.currentOrg$.next(orgToken);
+    // 然后发送已认证的口令出去
+    this.isAuthenticated$.next(true);
   }
-
-  pureAuth() {
+  // 登出后将相应的access_token清空，然后发送相关的指令出去
+  private pureAuth() {
     window.localStorage.removeItem('access_token');
-    this.currentOrgSubject.next({} as Organization);
-    this.isAuthenticatedSubject.next(false);
+    this.currentOrg$.next(null);
+    this.isAuthenticated$.next(false);
   }
-  getCurrentOrg(): Organization {
-    return this.currentOrgSubject.value;
+  getCurrentOrg(): TokenInfo {
+    return this.currentOrg$.value;
   }
   login(model: any): Observable<RequestActionModel> {
     return this.http.post<RequestActionModel>('/api/auth/login', model).pipe(map(result => {
@@ -61,7 +64,6 @@ export class AccountService {
   }
   logout() {
     this.pureAuth();
-    this.router.navigateByUrl('/login');
   }
   getOrgPagination(urlPath: string): Observable<HttpResponse<RequestActionModel>> {
     return this.http.get<RequestActionModel>(urlPath, { observe: 'response' });

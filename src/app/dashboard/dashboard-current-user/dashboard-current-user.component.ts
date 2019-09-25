@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 
 @Component({
   selector: 'app-dashboard-current-user',

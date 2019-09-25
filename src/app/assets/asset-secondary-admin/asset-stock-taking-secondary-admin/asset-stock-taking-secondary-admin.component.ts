@@ -1,17 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, fromEvent } from 'rxjs';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { AccountService } from 'src/app/core/services/account.service';
 import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 import { CreateAssetStockTaking } from 'src/app/models/viewmodels/create-asset-stock-taking';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { AssetStockTaking } from 'src/app/models/asset-stock-taking';
+import { AssetStockTaking } from 'src/app/models/dtos/asset-stock-taking';
+import { TokenInfo } from 'src/app/models/dtos/tokenInfo';
 
 @Component({
   selector: 'app-asset-stock-taking-secondary-admin',
@@ -28,7 +29,7 @@ export class AssetStockTakingSecondaryAdminComponent implements OnInit {
   organizationSearchResult$: Observable<Organization[]>;
   @ViewChild('organizationSearchInput', { static: true }) organizationSearchInput: ElementRef;
   @ViewChild('stockTakingYear', { static: true }) stockTakingYearInput: ElementRef;
-  currentOrg$: Observable<Organization>;
+  currentOrg$: Observable<TokenInfo>;
   stockTakingHistories$: Observable<AssetStockTaking[]>;
   any$: Observable<boolean>;
   currentSelectedYear: number;
@@ -52,7 +53,7 @@ export class AssetStockTakingSecondaryAdminComponent implements OnInit {
         this.any$ = this.assetStockTakingService.anyStockTaking(value).pipe(map(result => result.data));
       });
     // 对象当前机构与服务绑定
-    this.currentOrg$ = this.accountService.currentOrg;
+    this.currentOrg$ = this.accountService.currentOrg$;
     // 初始化创建资产盘点的表单
     this.assetStockTakingForm = this.fb.group({
       taskName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],

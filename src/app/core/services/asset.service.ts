@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { ModifyAssetLocation } from 'src/app/models/viewmodels/modify-asset-location';
 import { StoreAsset } from 'src/app/models/viewmodels/store-asset';
 import { environment } from 'src/environments/environment';

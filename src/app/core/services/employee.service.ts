@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { Employee } from 'src/app/models/employee';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { Employee } from 'src/app/models/dtos/employee';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { AddEmployee } from 'src/app/models/viewmodels/add-employee';
 
 @Injectable({

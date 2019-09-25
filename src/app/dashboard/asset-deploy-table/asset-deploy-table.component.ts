@@ -3,10 +3,10 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Asset } from 'src/app/models/asset';
+import { Asset } from 'src/app/models/dtos/asset';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { debounceTime } from 'rxjs/operators';
-import { AssetDeploy } from 'src/app/models/asset-deploy';
+import { AssetDeploy } from 'src/app/models/dtos/asset-deploy';
 
 @Component({
   selector: 'app-asset-deploy-table',

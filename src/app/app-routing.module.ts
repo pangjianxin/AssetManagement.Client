@@ -11,12 +11,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'document', component: DocumentComponent },
   {
-    path: 'nonauditevents',
-    loadChildren: () => import('./non-audit-event/non-audit-event.module').then(m => m.NonAuditEventModule), canActivate: [AuthGuard],
-    canActivateChild: [PermissionGuard],
-    data: { preload: true }
-  },
-  {
     path: 'organization',
     loadChildren: () => import('./organization/organization.module').then(m => m.OrganizationModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard], data: { preload: true }

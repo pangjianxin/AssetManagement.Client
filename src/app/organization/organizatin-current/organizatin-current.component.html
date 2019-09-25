@@ -1,5 +1,6 @@
 <mat-card>
   <mat-card-header>
+      <img src="assets/img/icons/Household Carbon Footprint.png" alt="" mat-card-avatar>
     <mat-card-title>
       机构信息查询
     </mat-card-title>
@@ -9,7 +10,7 @@
   </mat-card-header>
   <mat-card-content>
     <app-organization-table [apiUrl]="tableUrl" (selected)="onSelected($event)" [searchInput]="searchInput">
-      <mat-toolbar class="table-bar" fxLayoutGap="10px" color="primary">
+      <mat-toolbar class="table-bar" fxLayoutGap="10px" color="accent">
         <mat-form-field appearance="standard">
           <input matInput #orgTableFilterInput type="text">
           <mat-icon matPrefix>search</mat-icon>

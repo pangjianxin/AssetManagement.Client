@@ -4,7 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime } from 'rxjs/operators';
-import { AssetExchangingEvent } from 'src/app/models/asset-exchanging-event';
+import { AssetExchangingEvent } from 'src/app/models/dtos/asset-exchanging-event';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';
 
 

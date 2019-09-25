@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, ViewChild, Input, SimpleChanges, Output, 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { AssetCategory } from 'src/app/models/asset-category';
+import { AssetCategory } from 'src/app/models/dtos/asset-category';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetCategoryService } from 'src/app/core/services/asset-category.service';
 import { debounceTime } from 'rxjs/operators';

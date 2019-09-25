@@ -1,24 +1,24 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetCategory } from 'src/app/models/asset-category';
+import { AssetCategory } from 'src/app/models/dtos/asset-category';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetCategoryService } from 'src/app/core/services/asset-category.service';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { ChangeAssetCategoryMeterUnit } from 'src/app/models/viewmodels/change-asset-category-meter-unit';
 import { AssetCategoryTableComponent } from '../asset-category-table/asset-category-table.component';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
-import { OrgSpace } from 'src/app/models/org-space';
+import { OrgSpace } from 'src/app/models/dtos/org-space';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { StoreAsset } from 'src/app/models/viewmodels/store-asset';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MaintainerService } from 'src/app/core/services/maintainer.service';
 import { AddMaintainer } from 'src/app/models/viewmodels/add-maintainer';
 import { DeleteMaintainer } from 'src/app/models/viewmodels/delete-maintainer';
-import { Maintainer } from 'src/app/models/maintainer';
+import { Maintainer } from 'src/app/models/dtos/maintainer';
 export function tagNumberVliadator(control: AbstractControl): ValidationErrors {
   const value = control.value as string;
   if (value.length !== 15) {

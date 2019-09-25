@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, fromEvent } from 'rxjs';
 import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
 import { map, debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { Organization } from 'src/app/models/organization';
-import { AssetStockTakingOrg } from 'src/app/models/asset-stock-taking-org';
+import { Organization } from 'src/app/models/dtos/organization';
+import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
 
 @Component({
   selector: 'app-asset-stock-taking-current-user',

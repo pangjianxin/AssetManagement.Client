@@ -133,29 +133,5 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <img src="assets/img/icons/Prediction.png" alt="logo" mat-card-avatar>
-        <mat-card-title><strong>用户事件</strong></mat-card-title>
-        <mat-card-subtitle>用户事件是用来记录用户操作过程中产生的日志信息，这部分信息不需要管理机构进行审核，主要用于记录用户行为并据此来改进用户体验。可以点击
-          <a [routerLink]="[ '/nonauditevents', 'user' ]">这里</a>查看相应的操作记录。你具有删除权限。</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list>
-          <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_1</mat-icon>
-            <h3 matLine>当前机构事件</h3>
-            <p matLine>机构查询适用于所有权限的用户使用，用于查询本机构下发生的操作记录</p>
-            <button mat-raised-button [routerLink]="['/nonauditevents','user']" color="primary">进入该模块</button>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_2</mat-icon>
-            <h3 matLine>二级机构事件</h3>
-            <p matLine>该模块适用于二级行管理员及以上角色使用，用于查看全辖用户的操作记录</p>
-            <button mat-raised-button [routerLink]="['/nonauditevents','secondaryadmin']" color="primary">进入该模块</button>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
   </mat-card-content>
 </mat-card>

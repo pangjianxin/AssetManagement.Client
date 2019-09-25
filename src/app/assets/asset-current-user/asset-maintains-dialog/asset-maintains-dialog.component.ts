@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Maintainer } from 'src/app/models/maintainer';
+import { Maintainer } from 'src/app/models/dtos/maintainer';
 import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaintainerService } from 'src/app/core/services/maintainer.service';

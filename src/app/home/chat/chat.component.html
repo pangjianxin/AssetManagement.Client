@@ -1,0 +1,37 @@
+<mat-toolbar mat-dialog-title color="primary" [ngStyle]="{'position': 'sticky','top':'0','z-index':'1','width':'100%'}">
+    <mat-icon>people</mat-icon>
+    正在与{{data.orgIdentifier}}交谈中
+    <span fxFlex></span>
+    <button mat-button mat-dialog-close matTooltip="关闭对话框">
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-dialog-content [ngStyle]="{'bottom':'30%','max-height':'80%','min-height':'65%'}">
+    <mat-list dense fxFlex>
+        <mat-list-item *ngFor="let item of chatContent;index as i;" dir="{{item.flag?'rtl':'ltr'}}">
+            <mat-icon mat-list-icon color="{{item.flag?'primary':'accent'}}">person</mat-icon>
+            <h2 matLine [ngStyle]="{'color': '#fd7878'}">
+                <strong>{{item.principal}}</strong>在{{item.timeStamp | date:'HH:mm:ss'}}
+            </h2>
+            <div matLine [ngStyle]="{'color': '#7d7d7d'}">{{item.message}}</div>
+        </mat-list-item>
+    </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions [ngStyle]="{'position': 'sticky','bottom':'0','z-index':'1','max-height':'15%'}">
+    <form [formGroup]="chatContentForm" fxLayout="row" fxFlex>
+        <mat-form-field fxFlex="auto">
+            <textarea matInput formControlName="message" (keyup.enter)="sendMessage()" matTextareaAutosize></textarea>
+            <mat-hint align="end">{{chatContentForm.get('message').value.length}}/99</mat-hint>
+            <mat-error *ngIf="chatContentForm.get('message').hasError('maxlength')">发送消息的长度不能超过99</mat-error>
+            <mat-error *ngIf="chatContentForm.get('message').hasError('required')">你不能发送一个毫无意义的空消息.....</mat-error>
+            <mat-label>
+                <mat-icon>email</mat-icon>
+                请输入要发送的信息
+            </mat-label>
+        </mat-form-field>
+        <button mat-button (click)="sendMessage()" color="accent" matTooltip="发送消息"
+            [disabled]="chatContentForm.invalid">
+            <mat-icon>send</mat-icon>
+        </button>
+    </form>
+</mat-dialog-actions>

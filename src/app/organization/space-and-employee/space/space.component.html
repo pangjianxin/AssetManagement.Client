@@ -1,15 +1,11 @@
 <mat-card class="dashboard-card">
-  <mat-card-header>
-    <mat-card-title>机构空间信息</mat-card-title>
-    <mat-card-subtitle>机构空间用于描述机构资产的摆放位置，为了资产清点的顺利进行，应该认真维护机构空间的相关信息。</mat-card-subtitle>
-  </mat-card-header>
   <mat-card-content>
-    <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
-      <button mat-raised-button color="primary" (click)="openModifySpaceDialog()">
+    <mat-toolbar color="accent" class="table-bar" fxLayoutGap="10px">
+      <button mat-raised-button color="accent" (click)="openModifySpaceDialog()">
         <mat-icon>edit</mat-icon>
         维护空间
       </button>
-      <button mat-raised-button color="primary" (click)="openCreateSpaceDialog()">
+      <button mat-raised-button color="accent" (click)="openCreateSpaceDialog()">
         <mat-icon>add</mat-icon>
         新增空间
       </button>

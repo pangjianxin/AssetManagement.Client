@@ -3,7 +3,7 @@
   <ng-container *ngIf="anyMaintainers$ | async else  haveNoMaintainersRef">
     <mat-list>
       <mat-list-item *ngFor="let item of targetMaintainers$ | async">
-        <img src="assets/img/logo.png" alt="logo" matListAvatar>
+        <img src="assets/img/icons/Environmental Monitoring.png" alt="logo" matListAvatar>
         <h3 matLine>{{item.companyName}}</h3>
         <p matLine>{{item.telephone}}</p>
         <p matLine>{{item.maintainerName}}</p>

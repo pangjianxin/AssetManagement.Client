@@ -4,14 +4,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { OrgSpace } from 'src/app/models/org-space';
+import { OrgSpace } from 'src/app/models/dtos/org-space';
 import { SelectionModel } from '@angular/cdk/collections';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { CreateOrgSpace } from 'src/app/models/viewmodels/create-org-space';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { ModifySpace } from 'src/app/models/viewmodels/modify-space';
 
 @Component({

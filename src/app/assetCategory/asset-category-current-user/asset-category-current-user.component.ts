@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetCategory } from 'src/app/models/asset-category';
+import { AssetCategory } from 'src/app/models/dtos/asset-category';
 import { Observable, fromEvent } from 'rxjs';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 import { ApplyAsset } from 'src/app/models/viewmodels/apply-asset';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 import { CategoryOrgRegistrationService } from 'src/app/core/services/category-org-registration.service';
 

@@ -14,12 +14,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { myPaginator } from './core/services/paginatorInit';
 import { HttpResponseInterceptor } from './core/services/http-response-interceptor';
 import { LeftSidenavComponent } from './home/left-sidenav/left-sidenav.component';
-import { RightSidenavComponent } from './home/right-sidenav/right-sidenav.component';
-import { EventMessageComponent } from './home/right-sidenav/event-message/event-message.component';
 import { DocumentComponent } from './home/document/document.component';
 import { LoginComponent } from './home/login/login.component';
 import { PageNotFoundComponent } from './home/page-not-found/page-not-found.component';
-import { FormsModule } from '@angular/forms';
+import { ChatComponent } from './home/chat/chat.component';
+import { ChatHistoryComponent } from './home/chat-history/chat-history.component';
 export function tokenGeter() {
   return window.localStorage.getItem('access_token');
 }
@@ -28,11 +27,11 @@ export function tokenGeter() {
   declarations: [
     AppComponent,
     LeftSidenavComponent,
-    RightSidenavComponent,
-    EventMessageComponent,
     DocumentComponent,
     LoginComponent,
     PageNotFoundComponent,
+    ChatComponent,
+    ChatHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +48,6 @@ export function tokenGeter() {
   ],
   providers: [
   ],
-  entryComponents: []
+  entryComponents: [ChatComponent]
 })
 export class AppModule { }

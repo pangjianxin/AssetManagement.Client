@@ -4,12 +4,12 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Asset } from 'src/app/models/asset';
+import { Asset } from 'src/app/models/dtos/asset';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { debounceTime } from 'rxjs/operators';
 import { AssetStockTakingDialogComponent } from '../asset-stock-taking-dialog/asset-stock-taking-dialog.component';
-import { AssetStockTaking } from 'src/app/models/asset-stock-taking';
-import { AssetStockTakingOrg } from 'src/app/models/asset-stock-taking-org';
+import { AssetStockTaking } from 'src/app/models/dtos/asset-stock-taking';
+import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
 
 @Component({
   selector: 'app-assets-with-out-stock-taking',

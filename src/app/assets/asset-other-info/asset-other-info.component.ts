@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Asset } from 'src/app/models/asset';
+import { Asset } from 'src/app/models/dtos/asset';
 
 @Component({
   selector: 'app-asset-other-info',

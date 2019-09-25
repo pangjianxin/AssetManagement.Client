@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, ViewChild, Input, SimpleChanges } from '@
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Asset } from 'src/app/models/asset';
+import { Asset } from 'src/app/models/dtos/asset';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 
 @Component({

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AddMaintainer } from 'src/app/models/viewmodels/add-maintainer';
 import { Observable, Subject } from 'rxjs';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { DeleteMaintainer } from 'src/app/models/viewmodels/delete-maintainer';
 import { ApplyMaintain } from 'src/app/models/viewmodels/apply-maintain';
 

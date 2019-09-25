@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { AssetStockTakingDetail } from 'src/app/models/asset-stock-taking-detail';
+import { AssetStockTakingDetail } from 'src/app/models/dtos/asset-stock-taking-detail';
 import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
 
 @Component({

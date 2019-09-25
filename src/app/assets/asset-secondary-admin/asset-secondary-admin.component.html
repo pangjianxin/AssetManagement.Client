@@ -1,23 +1,30 @@
-<mat-card>
-  <mat-card-header>
-    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
-    <mat-card-title>资产信息汇总</mat-card-title>
-    <mat-card-subtitle>描述当前管理资产汇总情况</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-lg="column">
-      <app-asset-bar-chart [dataSet]="categoriesByThirdLevelDataset" [chartTitle]="'三级分类'"
-        [chartSubtitle]="'资产按三级分类汇总展示结果'" fxFlex="50" fxFlex.lt-lg="1 1 auto">
+<div fxLayout="row" fxLayout.lt-lg="column">
+  <mat-card fxFlex>
+    <mat-card-header>
+      <img src="assets/img/icons/Prediction.png" alt="" matCardAvatar>
+      <mat-card-title>资产分类汇总</mat-card-title>
+      <mat-card-subtitle>按总行财务资产分类标准汇总</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <app-asset-bar-chart [dataSet]="categoriesByThirdLevelDataset" [chartTitle]="''" [chartSubtitle]="''" fxFlex>
       </app-asset-bar-chart>
-      <app-asset-pie-chart [dataSet]="categoriesByStatusDataset" [chartTitle]="'资产状态'" [chartSubtitle]="'资产按当前状态汇总展示结果'"
-        fxFlex="50" fxFlex.lt-lg="1 1 auto">
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxFlex>
+    <mat-card-header>
+      <img src="assets/img/icons/Smart TV.png" alt="" matCardAvatar>
+      <mat-card-title>资产状态汇总</mat-card-title>
+      <mat-card-subtitle>按当前资产的状态(如在库、在用、在途等)汇总</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <app-asset-pie-chart [dataSet]="categoriesByStatusDataset" [chartTitle]="''" [chartSubtitle]="''" fxFlex>
       </app-asset-pie-chart>
-    </div>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>
 <mat-card>
   <mat-card-header>
-    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <img src="assets/img/icons/Environmental Monitoring.png" alt="logo" mat-card-avatar>
     <mat-card-title>资产信息查询与操作</mat-card-title>
     <mat-card-subtitle>查询某项资产并执行相应操作，此外，可以在该栏位执行资产盘点任务</mat-card-subtitle>
   </mat-card-header>
@@ -25,11 +32,11 @@
     <mat-tab-group mat-align-tabs="end">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon color="primary">computer</mat-icon>现有资产情况
+          <mat-icon color="accent">computer</mat-icon>现有资产情况
         </ng-template>
         <app-asset-table [apiUrl]="apiUrl" [currentFileterData]="searchInput" (selected)="onSelected($event)">
-          <mat-toolbar color="primary" fxLayoutGap="10px" [ngStyle]="{'font-size': '100%'}">
-            <button mat-raised-button color="primary">
+          <mat-toolbar color="accent" fxLayoutGap="10px" [ngStyle]="{'font-size': '100%'}">
+            <button mat-raised-button color="accent">
               <mat-icon>developer_board</mat-icon>
               维护资产信息
             </button>
@@ -44,7 +51,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon color="primary">keyboard</mat-icon>资产盘点
+          <mat-icon color="accent">keyboard</mat-icon>资产盘点
         </ng-template>
         <ng-template matTabContent>
           <app-asset-stock-taking-secondary-admin></app-asset-stock-taking-secondary-admin>

@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="accent">
   <span>创建固定资产盘点任务</span>
 </mat-toolbar>
 <mat-horizontal-stepper [linear]="true" #stepper>
@@ -72,11 +72,11 @@
         </mat-autocomplete>
         <form [formGroup]="assetStockTakingOrganizationForm">
           <mat-chip-list>
-            <mat-chip color="primary"
+            <mat-chip color="accent"
               *ngFor="let organization of assetStockTakingOrganizationForm.get('excludedOrgs').value" [removable]="true"
               (removed)="removeOrg(organization)">
               {{organization.orgNam}}
-              <mat-icon matChipRemove color="warn">cancel</mat-icon>
+              <mat-icon matChipRemove color="accent">cancel</mat-icon>
             </mat-chip>
           </mat-chip-list>
         </form>
@@ -104,7 +104,7 @@
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon color="primary">description</mat-icon>
+              <mat-icon color="accent">description</mat-icon>
               盘点任务发布详情
             </mat-panel-title>
             <mat-panel-description>
@@ -114,36 +114,36 @@
           <div fxLayout="row">
             <mat-list>
               <mat-list-item>
-                <mat-icon matListIcon color="warn">filter_1</mat-icon>
+                <mat-icon matListIcon color="accent">filter_1</mat-icon>
                 <h4 matLine>任务发布机构号</h4>
                 <p matLine>{{(currentOrg$ | async).orgIdentifier}}</p>
               </mat-list-item>
               <mat-list-item>
-                <mat-icon matListIcon color="warn">filter_4</mat-icon>
+                <mat-icon matListIcon color="accent">filter_4</mat-icon>
                 <p matLine>任务发布机构名称</p>
                 <p matLine>{{(currentOrg$ | async).orgNam}}</p>
               </mat-list-item>
             </mat-list>
             <mat-list>
               <mat-list-item>
-                <mat-icon matListIcon color="warn">filter_2</mat-icon>
+                <mat-icon matListIcon color="accent">filter_2</mat-icon>
                 <p matLine>二级行机构名称</p>
                 <p matLine>{{(currentOrg$ | async).orgNam2}}</p>
               </mat-list-item>
               <mat-list-item>
-                <mat-icon matListIcon color="warn">filter_5</mat-icon>
+                <mat-icon matListIcon color="accent">filter_5</mat-icon>
                 <h3 matLine>盘点任务名称</h3>
                 <p matLine>{{assetStockTakingForm.get('taskName').value}}</p>
               </mat-list-item>
             </mat-list>
             <mat-list>
               <mat-list-item>
-                <mat-icon matListIcon color="warn">filter_3</mat-icon>
+                <mat-icon matListIcon color="accent">filter_3</mat-icon>
                 <h3 matLine>盘点任务描述</h3>
                 <p matLine>{{assetStockTakingForm.get('taskComment').value}}</p>
               </mat-list-item>
               <mat-list-item>
-                <mat-icon matListIcon color="warn">filter_6</mat-icon>
+                <mat-icon matListIcon color="accent">filter_6</mat-icon>
                 <h3 matLine>盘点任务过期时间</h3>
                 <p matLine>{{assetStockTakingForm.get('expiryDateTime').value}}</p>
               </mat-list-item>
@@ -153,7 +153,7 @@
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon color="primary">description</mat-icon>
+              <mat-icon color="accent">description</mat-icon>
               例外机构信息
             </mat-panel-title>
             <mat-panel-description>
@@ -183,7 +183,7 @@
     </mat-card>
   </mat-step>
 </mat-horizontal-stepper>
-<mat-toolbar color="primary">
+<mat-toolbar color="accent">
   <span>当前资产盘点任务明细</span>
   <span fxFlex></span>
   <mat-form-field appearance="legacy" floatLabel="never">
@@ -198,7 +198,7 @@
   <mat-expansion-panel hideToggle *ngFor="let item of stockTakingHistories$ | async">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <mat-icon color="primary">perm_device_information</mat-icon>
+        <mat-icon color="accent">perm_device_information</mat-icon>
         <strong>{{item.taskName}}</strong>
       </mat-panel-title>
       <mat-panel-description>

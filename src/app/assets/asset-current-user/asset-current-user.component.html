@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayout.lt-lg="row wrap">
   <mat-card fxFlex>
     <mat-card-header>
-      <img src="assets/img/logo.png" alt="" mat-card-avatar>
+      <img src="assets/img/icons/Environmental Monitoring.png" alt="" mat-card-avatar>
       <mat-card-title>
         机构资产信息
         <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
@@ -20,7 +20,7 @@
   </mat-card>
   <mat-card fxFlex>
     <mat-card-header>
-      <img src="assets/img/logo.png" alt="" mat-card-avatar>
+      <img src="assets/img/icons/Smart TV.png" alt="" mat-card-avatar>
       <mat-card-title>
         机构资产信息
         <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu2" aria-label="Toggle menu">
@@ -40,7 +40,7 @@
 </div>
 <mat-card>
   <mat-card-header>
-    <img src="assets/img/logo.png" alt="logo" matCardAvatar>
+    <img src="assets/img/icons/Automation.png" alt="logo" matCardAvatar>
     <mat-card-title>固定资产查询与操作</mat-card-title>
     <mat-card-subtitle>该页面包含给i顶资产的查询和操作功能，你可以选择右侧TAB进行相关页面的切换</mat-card-subtitle>
   </mat-card-header>
@@ -48,23 +48,23 @@
     <mat-tab-group mat-align-tabs="end">
       <mat-tab>
         <ng-template matTabLabel>
-          <mat-icon color="primary">computer</mat-icon>机构资产情况
+          <mat-icon color="accent">computer</mat-icon>机构资产情况
         </ng-template>
         <app-asset-table [apiUrl]="apiUrl" [currentFileterData]="searchInput" (selected)="onSelected($event)">
-          <mat-toolbar class="table-bar" fxLayoutGap="10px" color="primary">
-            <button mat-raised-button color="primary" (click)="openModifyAssetLocationDialog()">
+          <mat-toolbar class="table-bar" fxLayoutGap="10px" color="accent">
+            <button mat-raised-button color="accent" (click)="openModifyAssetLocationDialog()">
               <mat-icon>edit_location</mat-icon>
               维护资产位置
             </button>
-            <button mat-raised-button color="primary" (click)="openAssetReturnDialog()">
+            <button mat-raised-button color="accent" (click)="openAssetReturnDialog()">
               <mat-icon>assignment_return</mat-icon>
               申请资产交回
             </button>
-            <button mat-raised-button color="primary" (click)="openExchangeAssetDialog()">
+            <button mat-raised-button color="accent" (click)="openExchangeAssetDialog()">
               <mat-icon>import_export</mat-icon>
               申请资产机构间调换
             </button>
-            <button mat-raised-button color="primary" (click)="openApplyMaintainingDialog()">
+            <button mat-raised-button color="accent" (click)="openApplyMaintainingDialog()">
               <mat-icon>phone_forwarded</mat-icon>
               申请资产维修
             </button>
@@ -80,7 +80,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template matTabLabel>
-          <mat-icon>important_devices</mat-icon>固定资产盘点
+          <mat-icon color="accent">important_devices</mat-icon>固定资产盘点
         </ng-template>
         <app-asset-stock-taking-current-user></app-asset-stock-taking-current-user>
       </mat-tab>
@@ -88,7 +88,7 @@
   </mat-card-content>
 </mat-card>
 <ng-template #changeAssetLocationRef>
-  <mat-toolbar color="warn">
+  <mat-toolbar color="accent">
     <span>维护资产摆放位置</span>
     <span fxFlex="1 1 auto"></span>
     <button mat-icon-button matTooltip="添加机构空间" (click)="dialog.closeAll()"
@@ -121,7 +121,7 @@
           <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
             <mat-icon>exit_to_app</mat-icon>
           </button>
-          <button mat-icon-button color="accent" matTooltip="提交" [disabled]="modifyAssetLocationForm.invalid"
+          <button mat-icon-button color="primary" matTooltip="提交" [disabled]="modifyAssetLocationForm.invalid"
             type="submit">
             <mat-icon>done</mat-icon>
           </button>
@@ -131,7 +131,7 @@
   </mat-dialog-content>
 </ng-template>
 <ng-template #returnAssetRef>
-  <mat-toolbar color="warn">
+  <mat-toolbar color="accent">
     <span>当前机构资产</span>
     <span fxFlex="1 1 auto"></span>
     <mat-icon>account_balance</mat-icon>
@@ -179,7 +179,7 @@
           <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
             <mat-icon>exit_to_app</mat-icon>
           </button>
-          <button mat-icon-button color="accent" matTooltip="提交" [disabled]="returnAssetForm.invalid" type="submit">
+          <button mat-icon-button color="primary" matTooltip="提交" [disabled]="returnAssetForm.invalid" type="submit">
             <mat-icon>done</mat-icon>
           </button>
         </mat-card-actions>

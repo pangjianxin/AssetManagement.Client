@@ -7,7 +7,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime, filter } from 'rxjs/operators';
-import { AssetApplyingEvent } from 'src/app/models/asset-applying-event';
+import { AssetApplyingEvent } from 'src/app/models/dtos/asset-applying-event';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 
 @Component({

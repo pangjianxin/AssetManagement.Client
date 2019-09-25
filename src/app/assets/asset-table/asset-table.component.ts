@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Asset } from 'src/app/models/asset';
+import { Asset } from 'src/app/models/dtos/asset';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { debounceTime } from 'rxjs/operators';

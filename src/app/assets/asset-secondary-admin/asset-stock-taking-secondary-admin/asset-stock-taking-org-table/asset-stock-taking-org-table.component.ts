@@ -5,7 +5,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { debounceTime } from 'rxjs/operators';
-import { AssetStockTakingOrg } from 'src/app/models/asset-stock-taking-org';
+import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
 import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
 
 @Component({

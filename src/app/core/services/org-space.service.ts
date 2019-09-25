@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { Observable } from 'rxjs';
 import { ModifySpace } from 'src/app/models/viewmodels/modify-space';
 import { CreateOrgSpace } from 'src/app/models/viewmodels/create-org-space';

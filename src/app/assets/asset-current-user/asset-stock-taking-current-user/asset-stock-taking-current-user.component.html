@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="table-bar">
+<mat-toolbar color="accent" class="table-bar">
     <mat-form-field appreance="standard">
         <input matInput type="number" #stockTakingYear>
         <mat-label>
@@ -11,7 +11,7 @@
     <mat-expansion-panel hideToggle *ngFor="let item of stockTakingOrgHistories$  | async">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                <mat-icon color="primary">perm_device_information</mat-icon>
+                <mat-icon color="accent">perm_device_information</mat-icon>
                 任务名称: <strong>{{item.taskName}}</strong>
             </mat-panel-title>
             <mat-panel-description>
@@ -23,14 +23,14 @@
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
             <app-assets-with-out-stock-taking [urlParameters]="item.id" [currentAssetStockTakingOrg]="item">
-                <mat-toolbar>
-                    <mat-icon>dashboard</mat-icon>
+                <mat-toolbar color="default">
+                    <mat-icon color="accent">dashboard</mat-icon>
                     <span>未盘点资产清单</span>
                 </mat-toolbar>
             </app-assets-with-out-stock-taking>
             <app-stock-taking-detail [urlParameters]="item.id">
-                <mat-toolbar>
-                    <mat-icon>dashboard</mat-icon>
+                <mat-toolbar color="default">
+                    <mat-icon color="accent">dashboard</mat-icon>
                     <span>已盘点任务明细</span>
                 </mat-toolbar>
             </app-stock-taking-detail>

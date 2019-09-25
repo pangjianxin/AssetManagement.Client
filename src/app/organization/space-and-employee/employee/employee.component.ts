@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -9,7 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { Employee } from 'src/app/models/employee';
+import { Employee } from 'src/app/models/dtos/employee';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { AddEmployee } from 'src/app/models/viewmodels/add-employee';
 

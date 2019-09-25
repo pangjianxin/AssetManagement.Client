@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { PermissionNode } from 'src/app/models/permission-node';
-import { OrganizationRole } from 'src/app/models/organization-role';
+import { PermissionNode } from 'src/app/models/dtos/permission-node';
+import { OrganizationRole } from 'src/app/models/dtos/organization-role';
 import { ModifyPermission } from 'src/app/models/viewmodels/modify-permission';
 /**
  * File database, it can build a tree structured Json object from string.

@@ -1,12 +1,12 @@
 <mat-drawer-container>
   <mat-drawer mode="side" position="start" opened [ngStyle]="{'width': '350px'}" #permissionDrawer>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="accent">
       <mat-icon>people</mat-icon>
       <span>可操作的角色列表</span>
     </mat-toolbar>
     <mat-list>
       <mat-list-item *ngFor="let item of roles$ | async;i as index;">
-        <img src="assets/img/logo.png" alt="logo" matListAvatar>
+        <img src="assets/img/icons/Automation.png" alt="logo" matListAvatar>
         <h3 matLine>{{item.roleNam}}</h3>
         <p matLine>{{item.description}}</p>
         <button mat-icon-button matTooltip="设置操作权限" (click)="currentRole=item">
@@ -16,7 +16,7 @@
     </mat-list>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="accent">
       <button mat-icon-button (click)="permissionDrawer.toggle()" matTooltip="左侧导航栏开关">
         <mat-icon>menu</mat-icon>
       </button>

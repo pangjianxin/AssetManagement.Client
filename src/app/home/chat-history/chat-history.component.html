@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="app-sidenav-header">
+    <img src="assets/img/applogo.png" alt="appLogo" [ngStyle]="{'max-width': '80%','max-height':'80%'}">
+    <span fxFlex></span>
+    <h2><strong>
+            <mat-icon>people</mat-icon>
+        </strong>当前在线用户</h2>
+</mat-toolbar>
+<mat-list>
+    <mat-list-item *ngFor="let item of onLineUsers;index as i;">
+        <mat-icon mat-list-icon color="primary">contact_mail</mat-icon>
+        <h2 matLine fxLayout="row"><span [ngStyle]="{'color': '#fd7878'}">{{item.orgIdentifier}}</span>
+            <mat-basic-chip *ngIf="item.hasMessageUnRead&&!dialogOpened">有未读消息</mat-basic-chip>
+        </h2>
+        <p matLine [ngStyle]="{'color': '#7d7d7d'}">{{item.orgName}}</p>
+        <button mat-icon-button matTooltip="和他交谈" (click)="openChatDialog(item.orgIdentifier)">
+            <mat-icon color="primary">chat</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>

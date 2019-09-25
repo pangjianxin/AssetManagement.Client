@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.accountService.isAuthenticated.pipe(map(value => {
+    return this.accountService.isAuthenticated$.pipe(map(value => {
       if (!value) {
         this.alert.warn('你还没有登录，请先登录');
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });

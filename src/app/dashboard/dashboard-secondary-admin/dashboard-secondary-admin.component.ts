@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
-import { AssetDeploy } from 'src/app/models/asset-deploy';
+import { AssetDeploy } from 'src/app/models/dtos/asset-deploy';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { OrganizationService } from 'src/app/core/services/organization.service';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 export function forbiddenString(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (typeof control.value === 'string') {

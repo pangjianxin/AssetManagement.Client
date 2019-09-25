@@ -1,4 +1,4 @@
-import { AssetCategory } from '../asset-category';
+import { AssetCategory } from '../dtos/asset-category';
 
 export interface StoreAsset {
     assetName: string;

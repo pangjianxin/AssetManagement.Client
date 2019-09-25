@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 import { Router } from '@angular/router';
 import { AccountService } from 'src/app/core/services/account.service';
 import { HttpErrorResponse } from '@angular/common/http';

@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+    <img src="assets/img/icons/CPU.png" alt="logo" mat-card-avatar>
     <mat-card-title>固定资产分类(二级权限)</mat-card-title>
     <mat-card-subtitle>显示当前管理条线下的分类明细，可进行相应权限的操作</mat-card-subtitle>
   </mat-card-header>
@@ -8,20 +8,20 @@
     <mat-tab-group mat-align-tabs="end">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon color="primary">computer</mat-icon>固定资产分类明细
+          <mat-icon color="accent">computer</mat-icon>固定资产分类明细
         </ng-template>
         <app-asset-category-table [apiUrl]="assetCategoryApiUrl" [currentFileterData]="assetCategoryFileterData"
           (selected)="onAssetCategorySelected($event)" #appAssetCategoryTable>
-          <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
-            <button mat-raised-button color="primary" (click)="openChangeAssetCategoryMeteringUnitDialog()">
+          <mat-toolbar color="accent" class="table-bar" fxLayoutGap="10px">
+            <button mat-raised-button color="accent" (click)="openChangeAssetCategoryMeteringUnitDialog()">
               <mat-icon>shopping_cart</mat-icon>
               修改计量单位
             </button>
-            <button mat-raised-button color="primary" (click)="openAssetStorageConfirmDialog()">
+            <button mat-raised-button color="accent" (click)="openAssetStorageConfirmDialog()">
               <mat-icon>work</mat-icon>
               资产批量入库
             </button>
-            <button mat-raised-button color="primary" (click)="openAddMaintainersDialog()">
+            <button mat-raised-button color="accent" (click)="openAddMaintainersDialog()">
               <mat-icon>important_devices</mat-icon>
               录入维修公司信息
             </button>
@@ -37,12 +37,12 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon color="primary">settings_phone</mat-icon>服务商管理
+          <mat-icon color="accent">settings_phone</mat-icon>服务商管理
         </ng-template>
         <ng-template matTabContent>
           <app-maintainers [apiUrl]="maintainersUrl" (selected)="onMaintainerSelected($event)">
-            <mat-toolbar color="primary">
-              <button mat-raised-button color="primary" (click)="openDeleteMaintainerDialog()">
+            <mat-toolbar color="accent">
+              <button mat-raised-button color="accent" (click)="openDeleteMaintainerDialog()">
                 <mat-icon>delete_forever</mat-icon>
                 删除记录
               </button>
@@ -52,7 +52,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon color="primary">keyboard</mat-icon>低值易耗品分类明细
+          <mat-icon color="accent">keyboard</mat-icon>低值易耗品分类明细
         </ng-template>
         <app-asset-material-table></app-asset-material-table>
       </mat-tab>
@@ -60,12 +60,11 @@
   </mat-card-content>
 </mat-card>
 <ng-template #changeAssetCategoryMeteringUnit>
-  <h2 mat-dialog-title>修改分类计量单位</h2>
   <mat-dialog-content>
     <form [formGroup]="changeMeteringUnitForm" (ngSubmit)="changeMeteringUnit()">
       <mat-card>
         <mat-card-header>
-          <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+          <img src="assets/img/icons/Automation.png" alt="logo" mat-card-avatar>
           <mat-card-title>修改计量单位</mat-card-title>
           <mat-card-subtitle>有些分类的计量单位的描述可能不太准确，如果需要，那么在下方选择该项分类的新的计量单位</mat-card-subtitle>
         </mat-card-header>
@@ -83,7 +82,7 @@
           <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
             <mat-icon>exit_to_app</mat-icon>
           </button>
-          <button mat-icon-button color="primary" [disabled]="changeMeteringUnitForm.invalid" matTooltip="提交">
+          <button mat-icon-button color="accent" [disabled]="changeMeteringUnitForm.invalid" matTooltip="提交">
             <mat-icon>done</mat-icon>
           </button>
         </mat-card-actions>
@@ -96,40 +95,40 @@
     <form [formGroup]="assetStorageForm" fxFlex>
       <mat-card>
         <mat-card-header>
-          <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+          <img src="assets/img/icons/Smart Home.png" alt="logo" mat-card-avatar>
           <mat-card-title>固定资产入库</mat-card-title>
           <mat-card-subtitle>请仔细核对所选择的分类明细</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content fxLayout="column" fxLayoutGap="10px">
-          <mat-toolbar color="primary">
+          <mat-toolbar color="accent">
             <span>
               <mat-icon>event_note</mat-icon>资产分类信息
             </span>
           </mat-toolbar>
           <mat-list fxLayout="row">
             <mat-list-item>
-              <mat-icon color="warn" matListIcon>filter_1</mat-icon>
+              <mat-icon color="accent" matListIcon>filter_1</mat-icon>
               <p matLine>
                 <b>资产大类</b>
               </p>
               <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
             </mat-list-item>
             <mat-list-item>
-              <mat-icon color="warn" matListIcon>filter_4</mat-icon>
+              <mat-icon color="accent" matListIcon>filter_4</mat-icon>
               <p matLine>
                 <b>归属条线描述</b>
               </p>
               <p matLine>{{currentSelectedCategory.assetSecondLevelCategory}}</p>
             </mat-list-item>
             <mat-list-item>
-              <mat-icon color="warn" matListIcon>filter_2</mat-icon>
+              <mat-icon color="accent" matListIcon>filter_2</mat-icon>
               <p matLine>
                 <b>资产小类</b>
               </p>
               <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
             </mat-list-item>
           </mat-list>
-          <mat-toolbar color="primary">
+          <mat-toolbar color="accent">
             <span>
               <mat-icon>event_note</mat-icon>
               表单
@@ -236,35 +235,35 @@
       <mat-card-subtitle>请仔细核对所填写的资产信息，核对无误方可点击提交确认。</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-toolbar color="primary">
+      <mat-toolbar color="accent">
         <span>
           <mat-icon>event_note</mat-icon> 入库资产分类信息
         </span>
       </mat-toolbar>
       <mat-list fxLayout="row">
         <mat-list-item>
-          <mat-icon color="primary" matListIcon>filter_1</mat-icon>
+          <mat-icon color="accent" matListIcon>filter_1</mat-icon>
           <p matLine>
             资产大类
           </p>
           <p matLine>{{currentSelectedCategory.assetFirstLevelCategory}}</p>
         </mat-list-item>
         <mat-list-item>
-          <mat-icon color="primary" matListIcon>filter_2</mat-icon>
+          <mat-icon color="accent" matListIcon>filter_2</mat-icon>
           <p matLine>
             资产中类
           </p>
           <p matLine>{{currentSelectedCategory.assetSecondLevelCategory}}</p>
         </mat-list-item>
         <mat-list-item>
-          <mat-icon color="primary" matListIcon>filter_2</mat-icon>
+          <mat-icon color="accent" matListIcon>filter_2</mat-icon>
           <p matLine>
             资产小类
           </p>
           <p matLine>{{currentSelectedCategory.assetThirdLevelCategory}}</p>
         </mat-list-item>
       </mat-list>
-      <mat-toolbar color="primary">
+      <mat-toolbar color="accent">
         <span>
           <mat-icon>event_note</mat-icon> 入库资产信息
         </span>
@@ -272,51 +271,51 @@
       <div fxLayout="row">
         <mat-list>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_1</mat-icon>
+            <mat-icon matListIcon color="accent">filter_1</mat-icon>
             <p matLine>资产名称</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.assetName}}</p>
           </mat-list-item>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_4</mat-icon>
+            <mat-icon matListIcon color="accent">filter_4</mat-icon>
             <p matLine>资产品牌</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.brand}}</p>
           </mat-list-item>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_7</mat-icon>
+            <mat-icon matListIcon color="accent">filter_7</mat-icon>
             <p matLine>资产描述</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.assetDescription}}</p>
           </mat-list-item>
         </mat-list>
         <mat-list>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_2</mat-icon>
+            <mat-icon matListIcon color="accent">filter_2</mat-icon>
             <p matLine>资产型号</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.assetType}}</p>
           </mat-list-item>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_5</mat-icon>
+            <mat-icon matListIcon color="accent">filter_5</mat-icon>
             <p matLine>资产位置</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.assetLocation}}</p>
           </mat-list-item>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_8</mat-icon>
+            <mat-icon matListIcon color="accent">filter_8</mat-icon>
             <p matLine>生产日期</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.createDateTime | date:'short'}}</p>
           </mat-list-item>
         </mat-list>
         <mat-list>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_3</mat-icon>
+            <mat-icon matListIcon color="accent">filter_3</mat-icon>
             <p matLine>开始标签号</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.startTagNumber}}</p>
           </mat-list-item>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_6</mat-icon>
+            <mat-icon matListIcon color="accent">filter_6</mat-icon>
             <p matLine>结束标签号</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.endTagNumber}}</p>
           </mat-list-item>
           <mat-list-item>
-            <mat-icon matListIcon color="primary">filter_9</mat-icon>
+            <mat-icon matListIcon color="accent">filter_9</mat-icon>
             <p matLine>入库数量</p>
             <p matLine>{{currentBuiltAssetStorageViewmodel.count()}}</p>
           </mat-list-item>
@@ -335,14 +334,11 @@
 </ng-template>
 
 <ng-template #addMaintainersRef>
-  <h3 mat-dialog-title>
-    添加资产维修服务
-  </h3>
   <mat-dialog-content>
     <form [formGroup]="addMaintainerForm">
       <mat-card>
         <mat-card-header>
-          <img src="assets/img/logo.png" alt="logo" matCardAvatar>
+          <img src="assets/img/icons/Automation.png" alt="logo" matCardAvatar>
           <mat-card-title>添加资产维修服务</mat-card-title>
           <mat-card-subtitle>为指定的资产维修添加相关的服务，当机构有设备出现故障时，会根据添加的维修服务来指定维修人员上门服务</mat-card-subtitle>
         </mat-card-header>
@@ -351,21 +347,21 @@
           <div fxLayout="row">
             <mat-list>
               <mat-list-item>
-                <mat-icon matListIcon color="primary">filter_1</mat-icon>
+                <mat-icon matListIcon color="accent">filter_1</mat-icon>
                 <h4 matLine>资产大类</h4>
                 <p matLine>{{assetCategorySelection.selected[0].assetFirstLevelCategory}}</p>
               </mat-list-item>
             </mat-list>
             <mat-list>
               <mat-list-item>
-                <mat-icon matListIcon color="primary">filter_2</mat-icon>
+                <mat-icon matListIcon color="accent">filter_2</mat-icon>
                 <h4 matLine>资产中类</h4>
                 <p matLine>{{assetCategorySelection.selected[0].assetSecondLevelCategory}}</p>
               </mat-list-item>
             </mat-list>
             <mat-list>
               <mat-list-item>
-                <mat-icon matListIcon color="primary">filter_3</mat-icon>
+                <mat-icon matListIcon color="accent">filter_3</mat-icon>
                 <h4 matLine>资产小类</h4>
                 <p matLine>{{assetCategorySelection.selected[0].assetThirdLevelCategory}}</p>
               </mat-list-item>
@@ -424,7 +420,7 @@
 <ng-template #deleteMaintainerRef>
   <mat-card>
     <mat-card-header>
-      <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+      <img src="assets/img/icons/Automation.png" alt="logo" mat-card-avatar>
       <mat-card-title>删除服务商记录</mat-card-title>
       <mat-card-subtitle>请核对要删除的服务商信息，确认无误可删除</mat-card-subtitle>
     </mat-card-header>

@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Organization } from 'src/app/models/organization';
+import { Organization } from 'src/app/models/dtos/organization';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from 'src/app/core/services/account.service';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResetOrgPassword } from 'src/app/models/viewmodels/reset-org-password';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

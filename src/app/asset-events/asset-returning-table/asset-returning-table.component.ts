@@ -3,7 +3,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetApplyingEvent } from 'src/app/models/asset-applying-event';
+import { AssetApplyingEvent } from 'src/app/models/dtos/asset-applying-event';
 import { debounceTime, filter } from 'rxjs/operators';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 

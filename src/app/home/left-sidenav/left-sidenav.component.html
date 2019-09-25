@@ -78,21 +78,3 @@
     </mat-list-item>
   </mat-nav-list>
 </mat-expansion-panel>
-<mat-expansion-panel expanded="true">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      <mat-icon color="warn">event</mat-icon>
-      用户事件
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <mat-nav-list>
-    <mat-list-item [routerLink]="[ '/nonauditevents','user']" routerLinkActive="active">
-      <mat-icon color="accent">settings</mat-icon>
-      <p>当前机构事件</p>
-    </mat-list-item>
-    <mat-list-item [routerLink]="[ '/nonauditevents','secondaryadmin' ]" routerLinkActive="active">
-      <mat-icon color="accent">perm_device_information</mat-icon>
-      <p>二级机构事件</p>
-    </mat-list-item>
-  </mat-nav-list>
-</mat-expansion-panel>

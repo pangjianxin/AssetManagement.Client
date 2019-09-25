@@ -1,15 +1,11 @@
 <mat-card class="dashboard-card">
-  <mat-card-header>
-    <mat-card-title>员工信息</mat-card-title>
-    <mat-card-subtitle>该页面展示全辖员工信息</mat-card-subtitle>
-  </mat-card-header>
   <mat-card-content>
-    <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
-      <button mat-raised-button color="primary" (click)="openModifyEmployeeDialog()">
+    <mat-toolbar color="accent" class="table-bar" fxLayoutGap="10px">
+      <button mat-raised-button color="accent" (click)="openModifyEmployeeDialog()">
         <mat-icon>edit</mat-icon>
         维护信息
       </button>
-      <button mat-raised-button color="primary" (click)="openAddEmployeeDialog()">
+      <button mat-raised-button color="accent" (click)="openAddEmployeeDialog()">
         <mat-icon>add</mat-icon>
         新增信息
       </button>
@@ -85,71 +81,65 @@
   </mat-card-actions>
 </mat-card>
 <ng-template #addEmployeeDialog>
-  <h3 mat-dialog-title>新增员工信息</h3>
+  <mat-toolbar color="accent">
+    新增员工信息
+  </mat-toolbar>
   <mat-dialog-content>
-    <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()" name="addEmployeeForm" fxFlex>
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>增加员工信息</mat-card-title>
-          <mat-card-subtitle>员工信息主要用于资产盘点信息的录入，员工信息不涉及当前机构</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutGap="10px">
-          <mat-form-field appearance="standard">
-            <input matInput formControlName="name">
-            <mat-error *ngIf="addEmployeeForm.get('name').invalid">
-              必输项，最少2个字符，最多10个
-            </mat-error>
-            <mat-hint align="end">已输入{{addEmployeeForm.get('name')?.value.length}}/10</mat-hint>
-            <mat-label>
-              <mat-icon>
-                message
-              </mat-icon>
-              请输入员工名字
-            </mat-label>
-          </mat-form-field>
-          <mat-form-field appearance="standard">
-            <input matInput formControlName="identifier">
-            <mat-error *ngIf="addEmployeeForm.get('identifier').invalid">
-              必输项，最少5个字符，最多10个
-            </mat-error>
-            <mat-hint align="end">已输入{{addEmployeeForm.get('identifier').value.length}}/10</mat-hint>
-            <mat-label>
-              <mat-icon>message</mat-icon>
-              请输入员工工号
-            </mat-label>
-          </mat-form-field>
-          <mat-form-field appearance="standard">
-            <input matInput formControlName="telephone">
-            <mat-label>
-              <mat-icon>message</mat-icon>
-              请输入手机号
-            </mat-label>
-          </mat-form-field>
-          <mat-form-field appearance="standard">
-            <input matInput formControlName="officePhone">
-            <mat-label>
-              <mat-icon>message</mat-icon>
-              请输入办公电话
-            </mat-label>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-icon-button matTooltip="退出" mat-dialog-close>
-            <mat-icon>
-              <mat-icon color="warn">power_settings_new</mat-icon>
-            </mat-icon>
-          </button>
-          <button mat-icon-button color="primary" type="submit" [disabled]="addEmployeeForm.invalid" matTooltip="提交">
-            <mat-icon>done</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()" name="addEmployeeForm" fxFlex fxLayout="column">
+      <mat-form-field appearance="standard">
+        <input matInput formControlName="name">
+        <mat-error *ngIf="addEmployeeForm.get('name').invalid">
+          必输项，最少2个字符，最多10个
+        </mat-error>
+        <mat-hint align="end">已输入{{addEmployeeForm.get('name')?.value.length}}/10</mat-hint>
+        <mat-label>
+          <mat-icon>
+            message
+          </mat-icon>
+          请输入员工名字
+        </mat-label>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <input matInput formControlName="identifier">
+        <mat-error *ngIf="addEmployeeForm.get('identifier').invalid">
+          必输项，最少5个字符，最多10个
+        </mat-error>
+        <mat-hint align="end">已输入{{addEmployeeForm.get('identifier').value.length}}/10</mat-hint>
+        <mat-label>
+          <mat-icon>message</mat-icon>
+          请输入员工工号
+        </mat-label>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <input matInput formControlName="telephone">
+        <mat-label>
+          <mat-icon>message</mat-icon>
+          请输入手机号
+        </mat-label>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <input matInput formControlName="officePhone">
+        <mat-label>
+          <mat-icon>message</mat-icon>
+          请输入办公电话
+        </mat-label>
+      </mat-form-field>
     </form>
   </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-icon-button matTooltip="退出" mat-dialog-close>
+      <mat-icon>
+        <mat-icon color="warn">power_settings_new</mat-icon>
+      </mat-icon>
+    </button>
+    <button mat-icon-button color="primary" type="submit" [disabled]="addEmployeeForm.invalid" matTooltip="提交">
+      <mat-icon>done</mat-icon>
+    </button>
+  </mat-dialog-actions>
 </ng-template>
 
 <ng-template #modifyEmployeeDialog>
-  <mat-toolbar color="warn">
+  <mat-toolbar color="accent">
     <span>修改空间信息</span>
     <span fxFlex="1 1 auto"></span>
     <mat-icon>settings</mat-icon>

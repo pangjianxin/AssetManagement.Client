@@ -3,13 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PermissionService } from 'src/app/core/services/permission.service';
-import { PermissionFlatNode, PermissionNode } from 'src/app/models/permission-node';
+import { PermissionFlatNode, PermissionNode } from 'src/app/models/dtos/permission-node';
 import { Observable } from 'rxjs';
-import { OrganizationRole } from 'src/app/models/organization-role';
+import { OrganizationRole } from 'src/app/models/dtos/organization-role';
 import { AccountService } from 'src/app/core/services/account.service';
 import { ModifyPermission } from 'src/app/models/viewmodels/modify-permission';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -51,7 +51,7 @@ export class PermissionComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.roles$ = this.permissionService.getRoles(this.accountService.getCurrentOrg().role);
+    this.roles$ = this.permissionService.getRoles(this.accountService.getCurrentOrg().orgRole);
   }
   getLevel = (node: PermissionFlatNode) => node.level;
 

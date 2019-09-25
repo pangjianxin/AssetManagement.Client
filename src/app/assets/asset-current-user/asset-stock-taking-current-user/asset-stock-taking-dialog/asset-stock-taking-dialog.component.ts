@@ -1,20 +1,20 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef, Input } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
-import { Asset } from 'src/app/models/asset';
+import { Asset } from 'src/app/models/dtos/asset';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
-import { Employee } from 'src/app/models/employee';
+import { Employee } from 'src/app/models/dtos/employee';
 import { EmployeeService } from 'src/app/core/services/employee.service';
-import { StockTakingStatus } from 'src/app/models/stock-taking-status.enum';
+import { StockTakingStatus } from 'src/app/models/dtos/stock-taking-status.enum';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
-import { OrgSpace } from 'src/app/models/org-space';
+import { OrgSpace } from 'src/app/models/dtos/org-space';
 import { CreateAssetStockTakingDetail } from 'src/app/models/viewmodels/create-asset-stock-taking-detail';
-import { AssetStockTakingOrg } from 'src/app/models/asset-stock-taking-org';
+import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
 import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
-import { RequestActionModel } from 'src/app/models/request-action-model';
+import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AssetService } from 'src/app/core/services/asset.service';
 
