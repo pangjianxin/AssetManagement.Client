@@ -74,95 +74,76 @@
   </mat-card-actions>
 </mat-card>
 <ng-template #modifySpaceDialog>
-  <mat-toolbar color="warn">
+  <mat-toolbar color="accent">
     <span>修改空间信息</span>
-    <span fxFlex="1 1 auto"></span>
-    <mat-icon>settings</mat-icon>
   </mat-toolbar>
   <form [formGroup]="modifySpaceForm" name="modifySpaceForm" (ngSubmit)="modifySpace()">
-    <mat-dialog-content fxLayout="column" fxLayoutGap="10px">
-      <mat-form-field>
-        <input matInput formControlName="spaceId" type="text" readonly>
-        <mat-error *ngIf="modifySpaceForm.get('spaceId').invalid"></mat-error>
-        <mat-label>
-          <mat-icon>info</mat-icon>
-          空间索引，免输
-        </mat-label>
-      </mat-form-field>
-      <mat-form-field>
+    <mat-dialog-content fxLayout="column">
+      <mat-form-field appearance="standard">
         <input matInput formControlName="spaceName" type="text">
         <mat-error *ngIf="modifySpaceForm.get('spaceName').invalid"></mat-error>
-        <mat-hint align="end">已输入{{modifySpaceForm.get('spaceName').value.length}}</mat-hint>
+        <mat-hint align="end">{{modifySpaceForm.get('spaceName').value.length}}/10</mat-hint>
         <mat-label>
-          <mat-icon>message</mat-icon>
-          按提示输入空间名称
+          <mat-icon color="accent">business</mat-icon>
+          请修改空间名称
         </mat-label>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="standard">
         <input matInput formControlName="spaceDescription" type="text">
         <mat-error *ngIf="modifySpaceForm.get('spaceDescription').invalid"></mat-error>
-        <mat-hint align="end">已输入{{modifySpaceForm.get('spaceDescription').value.length}}</mat-hint>
+        <mat-hint align="end">{{modifySpaceForm.get('spaceDescription').value.length}}/10</mat-hint>
         <mat-label>
-          <mat-icon>message</mat-icon>
-          按提示输入空间描述
+          <mat-icon color="accent">report</mat-icon>
+          请修改空间描述
         </mat-label>
       </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-icon-button mat-dialog-close color="warn">
+      <button mat-icon-button mat-dialog-close color="warn" matTooltip="退出">
         <mat-icon>exit_to_app</mat-icon>
       </button>
-      <button mat-icon-button type="submit" fxFlexAlign="right" color="primary">
+      <button mat-icon-button type="submit" color="primary" matTooltip="提交">
         <mat-icon>done</mat-icon>
       </button>
     </mat-dialog-actions>
   </form>
 </ng-template>
 <ng-template #createSpaceDialog>
-  <h3 mat-dialog-title>新增空间对话框</h3>
-  <mat-dialog-content>
-    <form [formGroup]="createSpaceForm" (ngSubmit)="createSpace()" name="createSpaceForm" fxFlex>
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <img src="assets/img/logo.png" alt="logo" matCardAvatar>
-          <mat-card-title>创建机构空间</mat-card-title>
-          <mat-card-subtitle>机构空间用于描述机构资产的摆放位置，为了资产清点的顺利进行，应该认真维护机构空间的相关信息。</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content fxLayout="column" fxLayoutGap="10px">
-          <mat-form-field appearance="standard">
-            <input matInput formControlName="spaceName">
-            <mat-error *ngIf="createSpaceForm.get('spaceName').invalid">
-              必输项，最少2个字符，最多10个
-            </mat-error>
-            <mat-hint align="end">已输入{{createSpaceForm.get('spaceName')?.value.length}}/10</mat-hint>
-            <mat-label>
-              <mat-icon>
-                message
-              </mat-icon>
-              请输入空间名称
-            </mat-label>
-          </mat-form-field>
-          <mat-form-field appearance="standard">
-            <input matInput formControlName="spaceDescription">
-            <mat-error *ngIf="createSpaceForm.get('spaceDescription').invalid">
-              必输项，最少5个字符，最多10个
-            </mat-error>
-            <mat-hint align="end">已输入{{createSpaceForm.get('spaceDescription').value.length}}/10</mat-hint>
-            <mat-label>
-              <mat-icon>message</mat-icon>
-              请输入空间描述
-            </mat-label>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-icon-button color="warn" matTooltip="取消" mat-dialog-close>
-            <mat-icon>power_settings_new</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" type="submit" [disabled]="createSpaceForm.invalid" matTooltip="提交">s
-            <mat-icon>done</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </form>
-  </mat-dialog-content>
+  <mat-toolbar color="accent">新增空间信息</mat-toolbar>
+  <form [formGroup]="createSpaceForm" (ngSubmit)="createSpace()" name="createSpaceForm">
+    <mat-dialog-content fxLayout="column">
+      <mat-form-field appearance="standard">
+        <input matInput formControlName="spaceName">
+        <mat-error *ngIf="createSpaceForm.get('spaceName').invalid">
+          必输项，最少2个字符，最多10个
+        </mat-error>
+        <mat-hint align="end">已输入{{createSpaceForm.get('spaceName')?.value.length}}/10</mat-hint>
+        <mat-label>
+          <mat-icon color="accent">
+            business
+          </mat-icon>
+          请输入空间名称
+        </mat-label>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <input matInput formControlName="spaceDescription">
+        <mat-error *ngIf="createSpaceForm.get('spaceDescription').invalid">
+          必输项，最少5个字符，最多10个
+        </mat-error>
+        <mat-hint align="end">已输入{{createSpaceForm.get('spaceDescription').value.length}}/10</mat-hint>
+        <mat-label>
+          <mat-icon color="accent">report</mat-icon>
+          请输入空间描述
+        </mat-label>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-icon-button color="accent" matTooltip="取消" mat-dialog-close>
+        <mat-icon>power_settings_new</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" type="submit" [disabled]="createSpaceForm.invalid" matTooltip="提交">
+        <mat-icon>done</mat-icon>
+      </button>
+    </mat-dialog-actions>
+  </form>
 </ng-template>

@@ -84,8 +84,8 @@
   <mat-toolbar color="accent">
     新增员工信息
   </mat-toolbar>
-  <mat-dialog-content>
-    <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()" name="addEmployeeForm" fxFlex fxLayout="column">
+  <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()" name="addEmployeeForm">
+    <mat-dialog-content fxLayout="column">
       <mat-form-field appearance="standard">
         <input matInput formControlName="name">
         <mat-error *ngIf="addEmployeeForm.get('name').invalid">
@@ -93,8 +93,8 @@
         </mat-error>
         <mat-hint align="end">已输入{{addEmployeeForm.get('name')?.value.length}}/10</mat-hint>
         <mat-label>
-          <mat-icon>
-            message
+          <mat-icon color="accent">
+            person
           </mat-icon>
           请输入员工名字
         </mat-label>
@@ -106,36 +106,36 @@
         </mat-error>
         <mat-hint align="end">已输入{{addEmployeeForm.get('identifier').value.length}}/10</mat-hint>
         <mat-label>
-          <mat-icon>message</mat-icon>
+          <mat-icon color="accent">fingerprint</mat-icon>
           请输入员工工号
         </mat-label>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <input matInput formControlName="telephone">
         <mat-label>
-          <mat-icon>message</mat-icon>
+          <mat-icon color="accent">contact_phone</mat-icon>
           请输入手机号
         </mat-label>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <input matInput formControlName="officePhone">
         <mat-label>
-          <mat-icon>message</mat-icon>
+          <mat-icon color="accent">call</mat-icon>
           请输入办公电话
         </mat-label>
       </mat-form-field>
-    </form>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-icon-button matTooltip="退出" mat-dialog-close>
-      <mat-icon>
-        <mat-icon color="warn">power_settings_new</mat-icon>
-      </mat-icon>
-    </button>
-    <button mat-icon-button color="primary" type="submit" [disabled]="addEmployeeForm.invalid" matTooltip="提交">
-      <mat-icon>done</mat-icon>
-    </button>
-  </mat-dialog-actions>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-icon-button matTooltip="退出" mat-dialog-close>
+        <mat-icon>
+          <mat-icon color="warn">power_settings_new</mat-icon>
+        </mat-icon>
+      </button>
+      <button mat-icon-button color="primary" type="submit" [disabled]="addEmployeeForm.invalid" matTooltip="提交">
+        <mat-icon>done</mat-icon>
+      </button>
+    </mat-dialog-actions>
+  </form>
 </ng-template>
 
 <ng-template #modifyEmployeeDialog>
@@ -145,7 +145,7 @@
     <mat-icon>settings</mat-icon>
   </mat-toolbar>
   <form [formGroup]="modifySpaceForm" name="modifySpaceForm" (ngSubmit)="modifySpace()">
-    <mat-dialog-content fxLayout="column" fxLayoutGap="10px">
+    <mat-dialog-content fxLayout="column">
       <mat-form-field>
         <input matInput formControlName="spaceId" type="text" readonly>
         <mat-error *ngIf="modifySpaceForm.get('spaceId').invalid"></mat-error>

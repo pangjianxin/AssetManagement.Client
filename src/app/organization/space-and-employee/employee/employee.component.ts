@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { Employee } from 'src/app/models/dtos/employee';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { AddEmployee } from 'src/app/models/viewmodels/add-employee';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-employee',
@@ -127,18 +128,19 @@ export class EmployeeComponent implements OnInit {
       name: ['', Validators.required],
       identifier: ['', Validators.required],
       telephone: [''],
-      officePhone: []
+      officePhone: ['']
     });
     this.dialog.open(this.addEmployeeDialog);
   }
   addEmployee() {
+    console.log('submit');
     const model = this.addEmployeeForm.value as AddEmployee;
     this.employeeService.addEmployee(model).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);
         this.employeeService.dataSourceChangedBus.next(true);
       },
-      error: (e: RequestActionModel) => { this.alert.failure(e.message); }
+      error: (e: HttpErrorResponse) => this.alert.failure(e.error)
     });
   }
   initPage() {
