@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { CreateAssetStockTaking } from 'src/app/models/viewmodels/create-asset-stock-taking';
+import { CteateAssetInventory } from 'src/app/models/viewmodels/create-asset-inventory';
 import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { Observable, Subject } from 'rxjs';
-import { CreateAssetStockTakingDetail } from 'src/app/models/viewmodels/create-asset-stock-taking-detail';
+import { CreateAssetInventoryDetail } from 'src/app/models/viewmodels/create-asset-inventory-detail';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetStockTakingService {
+export class AssetInventoryService {
   dataSourceChangedSubject: Subject<boolean> = new Subject<boolean>();
   constructor(private http: HttpClient) { }
   // 创建任务
-  createAssetStockTaking(model: CreateAssetStockTaking): Observable<RequestActionModel> {
+  createAssetStockTaking(model: CteateAssetInventory): Observable<RequestActionModel> {
     return this.http.post<RequestActionModel>('/api/assetStockTaking/secondary/create', JSON.stringify(model));
   }
   // 首先查看相应年份相应二级行有没有发布过资产盘点任务
@@ -40,7 +40,7 @@ export class AssetStockTakingService {
   currentStockTakingOrgsInYear(year: number): Observable<RequestActionModel> {
     return this.http.get<RequestActionModel>(`/api/assetStockTaking/current/assetstocktakingorgs?year=${year}`);
   }
-  createAssetStockTakingDetail(model: CreateAssetStockTakingDetail): Observable<RequestActionModel> {
+  createAssetStockTakingDetail(model: CreateAssetInventoryDetail): Observable<RequestActionModel> {
     return this.http.post<RequestActionModel>(`/api/assetStockTaking/current/createdetail`, JSON.stringify(model));
   }
   currentAssetStockTakingDetail(url: string): Observable<HttpResponse<RequestActionModel>> {

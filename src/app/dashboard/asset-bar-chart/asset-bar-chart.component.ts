@@ -27,7 +27,7 @@ export class AssetBarChartComponent implements OnInit, OnChanges {
         dataView: {},
         magicType: { type: ['line', 'bar'] }
       },
-      left: '10',
+      right: '50%',
     },
     dataZoom: [
       { type: 'slider', start: 10, end: 60 },

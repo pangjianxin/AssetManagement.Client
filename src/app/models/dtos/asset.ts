@@ -21,15 +21,15 @@ export interface Asset {
     // 资产状态
     assetStatus: string;
     // 最后修改内容
-    LatestDeployRecord: string;
+    LastDeployRecord: string;
     // 资产分类dto
     assetCategoryDto: AssetCategory;
     // 资产责任机构
-    organizationBelongedId: string;
+    orgInChargeId: string;
     // 资产存放机构
-    storedOrgIdentifier: string;
+    orgInUseIdentifier: string;
     // 资产存放机构名称
-    storedOrgName: string;
+    orgInUseName: string;
     // 资产位置
     assetLocation: string;
 

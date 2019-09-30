@@ -128,7 +128,7 @@ export class AssetCurrentUserComponent implements OnInit {
       this.returnAssetForm = this.fb.group({
         assetId: [this.selection.selected[0].assetId, [Validators.required]],
         assetName: [this.selection.selected[0].assetName, [Validators.required]],
-        targetOrgId: [this.selection.selected[0].organizationBelongedId, [Validators.required]],
+        targetOrgId: [this.selection.selected[0].orgInChargeId, [Validators.required]],
         message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]]
       });
       this.dialog.open(this.returnAssetRef);

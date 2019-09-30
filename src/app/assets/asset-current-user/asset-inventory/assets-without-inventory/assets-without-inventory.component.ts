@@ -1,25 +1,20 @@
-import { Component, OnInit, OnChanges, ViewChild, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { MatPaginator, MatTableDataSource, PageEvent, Sort, MatDialog } from '@angular/material';
+import { AssetInventoryRegister } from 'src/app/models/dtos/asset-inventory-register';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Asset } from 'src/app/models/dtos/asset';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { debounceTime } from 'rxjs/operators';
-import { AssetStockTakingDialogComponent } from '../asset-stock-taking-dialog/asset-stock-taking-dialog.component';
-import { AssetStockTaking } from 'src/app/models/dtos/asset-stock-taking';
-import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
+import { AssetInventoryDialogComponent } from '../asset-inventory-dialog/asset-inventory-dialog.component';
 
 @Component({
-  selector: 'app-assets-with-out-stock-taking',
-  templateUrl: './assets-with-out-stock-taking.component.html',
-  styleUrls: ['./assets-with-out-stock-taking.component.scss']
+  selector: 'app-assets-without-inventory',
+  templateUrl: './assets-without-inventory.component.html',
+  styleUrls: ['./assets-without-inventory.component.scss']
 })
-export class AssetsWithOutStockTakingComponent implements OnInit, OnChanges {
+export class AssetsWithoutInventoryComponent implements OnInit, OnChanges {
 
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
-  @Input() currentAssetStockTakingOrg: AssetStockTakingOrg;
+  @Input() currentAssetStockTakingOrg: AssetInventoryRegister;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;
   @Input() urlParameters: string;
@@ -108,6 +103,7 @@ export class AssetsWithOutStockTakingComponent implements OnInit, OnChanges {
     this.paginator.page.emit({ pageIndex: 0, pageSize: 10, length: null });
   }
   openAssetStockTakingDialog(item: Asset) {
-    this.dialog.open(AssetStockTakingDialogComponent, { data: { asset: item, assetStockTakingOrg: this.currentAssetStockTakingOrg } });
+    this.dialog.open(AssetInventoryDialogComponent, { data: { asset: item, assetStockTakingOrg: this.currentAssetStockTakingOrg } });
   }
+
 }

@@ -1,22 +1,20 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatTableDataSource, PageEvent, Sort, MatDialog } from '@angular/material';
+import { AssetInventoryDetail } from 'src/app/models/dtos/asset-inventory-detail';
 import { AssetService } from 'src/app/core/services/asset.service';
-import { AssetStockTakingDetail } from 'src/app/models/dtos/asset-stock-taking-detail';
-import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
+import { AssetInventoryService } from 'src/app/core/services/asset-inventory-service';
 
 @Component({
-  selector: 'app-stock-taking-detail',
-  templateUrl: './stock-taking-detail.component.html',
-  styleUrls: ['./stock-taking-detail.component.scss']
+  selector: 'app-assets-inventory-details',
+  templateUrl: './assets-inventory-details.component.html',
+  styleUrls: ['./assets-inventory-details.component.scss']
 })
-export class StockTakingDetailComponent implements OnInit, OnChanges {
+export class AssetsInventoryDetailsComponent implements OnInit, OnChanges {
+
   urlPath = '/api/assetStockTaking/current/assetstocktakingdetails?assetStockTakingOrgId=';
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() urlParameters: string;
-  dataSource: MatTableDataSource<AssetStockTakingDetail> = new MatTableDataSource<AssetStockTakingDetail>();
+  dataSource: MatTableDataSource<AssetInventoryDetail> = new MatTableDataSource<AssetInventoryDetail>();
   // 总数
   totalCounts: number;
   // 当前页模型
@@ -27,7 +25,7 @@ export class StockTakingDetailComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['responsibilityIdentity', 'responsibilityName', 'responsibilityOrg2', 'assetStockTakingLocation',
     'assetName', 'assetDescription', 'assetTagNumber'];
   constructor(private assetService: AssetService,
-    private assetStockTakingService: AssetStockTakingService,
+    private assetStockTakingService: AssetInventoryService,
     private dialog: MatDialog) {
   }
   ngOnInit() {

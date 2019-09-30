@@ -1,4 +1,4 @@
-export interface CreateAssetStockTakingDetail {
+export interface CreateAssetInventoryDetail {
     assetId: string;
     assetStockTakingOrganizationId: string;
     responsibilityIdentity: string;

@@ -1,31 +1,30 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef, Input } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatStepper } from '@angular/material/stepper';
-import { Asset } from 'src/app/models/dtos/asset';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { fromEvent, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { AssetInventoryStatus } from 'src/app/models/dtos/asset-inventory-status';
+import { Observable, fromEvent } from 'rxjs';
 import { Employee } from 'src/app/models/dtos/employee';
+import { OrgSpace } from 'src/app/models/dtos/org-space';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { Asset } from 'src/app/models/dtos/asset';
+import { AssetInventoryRegister } from 'src/app/models/dtos/asset-inventory-register';
 import { EmployeeService } from 'src/app/core/services/employee.service';
-import { StockTakingStatus } from 'src/app/models/dtos/stock-taking-status.enum';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { OrgSpaceService } from 'src/app/core/services/org-space.service';
-import { OrgSpace } from 'src/app/models/dtos/org-space';
-import { CreateAssetStockTakingDetail } from 'src/app/models/viewmodels/create-asset-stock-taking-detail';
-import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
-import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
+import { AssetInventoryService } from 'src/app/core/services/asset-inventory-service';
+import { AssetService } from 'src/app/core/services/asset.service';
+import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
+import { CreateAssetInventoryDetail } from 'src/app/models/viewmodels/create-asset-inventory-detail';
 import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AssetService } from 'src/app/core/services/asset.service';
 
 @Component({
-  selector: 'app-asset-stock-taking-dialog',
-  templateUrl: './asset-stock-taking-dialog.component.html',
-  styleUrls: ['./asset-stock-taking-dialog.component.scss'],
-  providers: [MatStepper]
+  selector: 'app-asset-inventory-dialog',
+  templateUrl: './asset-inventory-dialog.component.html',
+  styleUrls: ['./asset-inventory-dialog.component.scss']
 })
-export class AssetStockTakingDialogComponent implements OnInit {
-  StockTakingStatus = StockTakingStatus;
+export class AssetInventoryDialogComponent implements OnInit {
+
+  StockTakingStatus = AssetInventoryStatus;
   @ViewChild('personInChargeInput', { static: true }) personInChargeInput: ElementRef;
   candidateEmployees$: Observable<Employee[]>;
   candidateLocations$: Observable<OrgSpace>;
@@ -35,12 +34,12 @@ export class AssetStockTakingDialogComponent implements OnInit {
   inputStockTakingMessageForm: FormGroup;
   // 提交资产盘点结果form
   submitAssetStockTakingForm: FormGroup;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { asset: Asset, assetStockTakingOrg: AssetStockTakingOrg },
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { asset: Asset, assetStockTakingOrg: AssetInventoryRegister },
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private alert: AlertService,
     private orgSpaceService: OrgSpaceService,
-    private assetStockTakingService: AssetStockTakingService,
+    private assetStockTakingService: AssetInventoryService,
     private assetService: AssetService) { }
 
   ngOnInit() {
@@ -67,7 +66,7 @@ export class AssetStockTakingDialogComponent implements OnInit {
     return null;
   }
   submitStokTaking() {
-    const model: CreateAssetStockTakingDetail = {
+    const model: CreateAssetInventoryDetail = {
       assetId: this.data.asset.assetId,
       assetStockTakingOrganizationId: this.data.assetStockTakingOrg.id,
       responsibilityIdentity: this.submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('personInCharge').value.identifier,
@@ -85,4 +84,5 @@ export class AssetStockTakingDialogComponent implements OnInit {
       error: (error: HttpErrorResponse) => this.alert.failure(error.error.message)
     });
   }
+
 }

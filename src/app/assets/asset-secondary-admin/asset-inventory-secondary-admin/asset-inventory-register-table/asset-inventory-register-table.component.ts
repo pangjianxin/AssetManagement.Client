@@ -1,26 +1,23 @@
-import { Component, OnInit, OnChanges, ViewChild, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { MatPaginator, MatTableDataSource, PageEvent, Sort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { AssetInventoryRegister } from 'src/app/models/dtos/asset-inventory-register';
+import { AssetInventoryService } from 'src/app/core/services/asset-inventory-service';
 import { debounceTime } from 'rxjs/operators';
-import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
-import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
 
 @Component({
-  selector: 'app-asset-stock-taking-org-table',
-  templateUrl: './asset-stock-taking-org-table.component.html',
-  styleUrls: ['./asset-stock-taking-org-table.component.scss']
+  selector: 'app-asset-inventory-register-table',
+  templateUrl: './asset-inventory-register-table.component.html',
+  styleUrls: ['./asset-inventory-register-table.component.scss']
 })
-export class AssetStockTakingOrgTableComponent implements OnInit, OnChanges {
+export class AssetInventoryRegisterTableComponent implements OnInit, OnChanges {
 
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @Input() apiUrl: string;
   // 当前过滤值,由父组件传入的值确定
   @Input() currentFileterData: string;
-  @Output() selected = new EventEmitter<SelectionModel<AssetStockTakingOrg>>();
-  dataSource: MatTableDataSource<AssetStockTakingOrg> = new MatTableDataSource<AssetStockTakingOrg>();
+  @Output() selected = new EventEmitter<SelectionModel<AssetInventoryRegister>>();
+  dataSource: MatTableDataSource<AssetInventoryRegister> = new MatTableDataSource<AssetInventoryRegister>();
   // 总数
   totalCount: number;
   // 当前页模型
@@ -31,8 +28,8 @@ export class AssetStockTakingOrgTableComponent implements OnInit, OnChanges {
   displayedColumns: string[] = ['select', 'orgIdentifier', 'orgNam', 'org2', 'assetStockTakingName',
     'assetStockTakingDescription', 'progress'];
   // 当前选择的记录行
-  selection: SelectionModel<AssetStockTakingOrg> = new SelectionModel<AssetStockTakingOrg>(true, []);
-  constructor(private stockTakingService: AssetStockTakingService) {
+  selection: SelectionModel<AssetInventoryRegister> = new SelectionModel<AssetInventoryRegister>(true, []);
+  constructor(private stockTakingService: AssetInventoryService) {
   }
   ngOnInit() {
     this.initTableParameters();

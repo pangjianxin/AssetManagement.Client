@@ -1,25 +1,26 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable, fromEvent } from 'rxjs';
-import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
-import { map, debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
+import { AssetInventoryRegister } from 'src/app/models/dtos/asset-inventory-register';
 import { Organization } from 'src/app/models/dtos/organization';
-import { AssetStockTakingOrg } from 'src/app/models/dtos/asset-stock-taking-org';
+import { AssetInventoryService } from 'src/app/core/services/asset-inventory-service';
+import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-asset-stock-taking-current-user',
-  templateUrl: './asset-stock-taking-current-user.component.html',
-  styleUrls: ['./asset-stock-taking-current-user.component.scss']
+  selector: 'app-asset-inventory',
+  templateUrl: './asset-inventory.component.html',
+  styleUrls: ['./asset-inventory.component.scss']
 })
-export class AssetStockTakingCurrentUserComponent implements OnInit {
+export class AssetInventoryComponent implements OnInit {
+
   @ViewChild('stockTakingYear', { static: true }) stockTakingYearInput: ElementRef;
   assetBaseUrl: string;
   stockTakingDetailUrl: string;
   filterData: string;
-  stockTakingOrgHistories$: Observable<AssetStockTakingOrg[]>;
+  stockTakingOrgHistories$: Observable<AssetInventoryRegister[]>;
   any$: Observable<boolean>;
   currentSelectedYear: number;
   currentOrg$: Observable<Organization>;
-  constructor(private assetStockTakingService: AssetStockTakingService) {
+  constructor(private assetStockTakingService: AssetInventoryService) {
   }
 
   ngOnInit() {

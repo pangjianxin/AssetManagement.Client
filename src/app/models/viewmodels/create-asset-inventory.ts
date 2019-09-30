@@ -1,4 +1,4 @@
-export interface CreateAssetStockTaking {
+export interface CteateAssetInventory {
     publisherId: string;
     taskName: string;
     taskComment: string;

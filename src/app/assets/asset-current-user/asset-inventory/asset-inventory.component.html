@@ -22,18 +22,18 @@
             </mat-progress-bar>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
-            <app-assets-with-out-stock-taking [urlParameters]="item.id" [currentAssetStockTakingOrg]="item">
+            <app-assets-without-inventory [urlParameters]="item.id" [currentAssetStockTakingOrg]="item">
                 <mat-toolbar color="default">
                     <mat-icon color="accent">dashboard</mat-icon>
                     <span>未盘点资产清单</span>
                 </mat-toolbar>
-            </app-assets-with-out-stock-taking>
-            <app-stock-taking-detail [urlParameters]="item.id">
+            </app-assets-without-inventory>
+            <app-assets-inventory-details [urlParameters]="item.id">
                 <mat-toolbar color="default">
                     <mat-icon color="accent">dashboard</mat-icon>
                     <span>已盘点任务明细</span>
                 </mat-toolbar>
-            </app-stock-taking-detail>
+            </app-assets-inventory-details>
         </ng-template>
     </mat-expansion-panel>
 </ng-container>

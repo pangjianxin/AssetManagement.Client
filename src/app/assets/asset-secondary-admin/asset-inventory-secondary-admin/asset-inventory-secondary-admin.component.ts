@@ -2,24 +2,24 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable, fromEvent } from 'rxjs';
 import { Organization } from 'src/app/models/dtos/organization';
+import { TokenInfo } from 'src/app/models/dtos/tokenInfo';
+import { AssetInventory } from 'src/app/models/dtos/asset-inventory';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { AccountService } from 'src/app/core/services/account.service';
-import { AssetStockTakingService } from 'src/app/core/services/asset-stock-taking.service';
+import { AssetInventoryService } from 'src/app/core/services/asset-inventory-service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
-import { CreateAssetStockTaking } from 'src/app/models/viewmodels/create-asset-stock-taking';
+import { CteateAssetInventory } from 'src/app/models/viewmodels/create-asset-inventory';
 import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { AssetStockTaking } from 'src/app/models/dtos/asset-stock-taking';
-import { TokenInfo } from 'src/app/models/dtos/tokenInfo';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
-  selector: 'app-asset-stock-taking-secondary-admin',
-  templateUrl: './asset-stock-taking-secondary-admin.component.html',
-  styleUrls: ['./asset-stock-taking-secondary-admin.component.scss']
+  selector: 'app-asset-inventory-secondary-admin',
+  templateUrl: './asset-inventory-secondary-admin.component.html',
+  styleUrls: ['./asset-inventory-secondary-admin.component.scss']
 })
-export class AssetStockTakingSecondaryAdminComponent implements OnInit {
+export class AssetInventorySecondaryAdminComponent implements OnInit {
 
   // 资产盘点任务表单
   assetStockTakingForm: FormGroup;
@@ -30,13 +30,13 @@ export class AssetStockTakingSecondaryAdminComponent implements OnInit {
   @ViewChild('organizationSearchInput', { static: true }) organizationSearchInput: ElementRef;
   @ViewChild('stockTakingYear', { static: true }) stockTakingYearInput: ElementRef;
   currentOrg$: Observable<TokenInfo>;
-  stockTakingHistories$: Observable<AssetStockTaking[]>;
+  stockTakingHistories$: Observable<AssetInventory[]>;
   any$: Observable<boolean>;
   currentSelectedYear: number;
   constructor(private organizationService: OrganizationService,
     private accountService: AccountService,
     private fb: FormBuilder,
-    private assetStockTakingService: AssetStockTakingService,
+    private assetStockTakingService: AssetInventoryService,
     private alert: AlertService) { }
 
   ngOnInit() {
@@ -74,7 +74,7 @@ export class AssetStockTakingSecondaryAdminComponent implements OnInit {
     let publisherIdTemp: string;
     this.currentOrg$.subscribe(value => {
       publisherIdTemp = value.orgId;
-      const model: CreateAssetStockTaking = {
+      const model: CteateAssetInventory = {
         publisherId: publisherIdTemp,
         taskName: this.assetStockTakingForm.get('taskName').value,
         taskComment: this.assetStockTakingForm.get('taskComment').value,
