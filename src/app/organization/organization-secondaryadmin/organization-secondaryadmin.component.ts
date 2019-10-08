@@ -47,6 +47,7 @@ export class OrganizationSecondaryadminComponent implements OnInit {
   onSelected($event: SelectionModel<Organization>) {
     this.currentSelection = $event;
   }
+  /**打开修改机构简称对话框 */
   openChangeOrgShortNameDialog() {
     if (!this.isOneSelected()) {
       this.alert.warn('一次只能选中一项进行操作');
@@ -59,36 +60,7 @@ export class OrganizationSecondaryadminComponent implements OnInit {
       this.dialog.open(this.changeOrgShortNameTemplate);
     }
   }
-  modifyOrgRole() { }
-  openResetPasswordDialog() {
-    if (!this.isOneSelected()) {
-      this.alert.warn('一次只能选中一项进行操作');
-    } else {
-      this.currentSelectedOrg = this.currentSelection.selected[0];
-      this.dialog.open(this.resetPasswordTemplate);
-    }
-  }
-  openorgRevocationDialog() {
-    if (!this.isOneSelected()) {
-      this.alert.warn('一次只能选中一项进行操作');
-    } else {
-      this.currentSelectedOrg = this.currentSelection.selected[0];
-      this.revokeOrgForm = this.fb.group({
-        status: [false, [Validators.requiredTrue]]
-      });
-      this.recycleOrgAssetsForm = this.fb.group({
-        orgIdentifier: [this.currentSelectedOrg.orgIdentifier, [Validators.required]]
-      });
-      this.dialog.open(this.orgRevocationRef);
-    }
-  }
-  resetOrgPassword() {
-    const model: ResetOrgPassword = { orgIdentifier: this.currentSelectedOrg.orgIdentifier };
-    this.accountService.resetOrgPassword(model).subscribe({
-      next: (value: RequestActionModel) => this.alert.success(value.message),
-      error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
-    });
-  }
+  /**修改机构简称 */
   changeOrgShortName() {
     const model: ChangeOrgShortNam = this.changeOrgShortNameForm.value as ChangeOrgShortNam;
     this.accountService.changeOrgShortName(model).subscribe({
@@ -99,7 +71,45 @@ export class OrganizationSecondaryadminComponent implements OnInit {
       error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
     });
   }
+
+  /**打开机构撤销对话框 */
+  openorgRevocationDialog() {
+    if (!this.isOneSelected()) {
+      this.alert.warn('一次只能选中一项进行操作');
+    } else {
+      this.currentSelectedOrg = this.currentSelection.selected[0];
+      this.revokeOrgForm = this.fb.group({
+        // 确认机构撤销的复选框
+        status: [false, [Validators.requiredTrue]]
+      });
+      this.recycleOrgAssetsForm = this.fb.group({
+        // 确认机构名下资产的复选框
+        status: [false, [Validators.requiredTrue]]
+      });
+      this.dialog.open(this.orgRevocationRef, { width: '50%' });
+    }
+  }
+  /**机构撤销 */
   orgRevoke() {
     this.alert.warn('not implement');
   }
+  /**打开重置密码对话框 */
+  openResetPasswordDialog() {
+    if (!this.isOneSelected()) {
+      this.alert.warn('一次只能选中一项进行操作');
+    } else {
+      this.currentSelectedOrg = this.currentSelection.selected[0];
+      this.dialog.open(this.resetPasswordTemplate);
+    }
+  }
+  /**重置密码 */
+  resetOrgPassword() {
+    const model: ResetOrgPassword = { orgIdentifier: this.currentSelectedOrg.orgIdentifier };
+    this.accountService.resetOrgPassword(model).subscribe({
+      next: (value: RequestActionModel) => this.alert.success(value.message),
+      error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
+    });
+  }
+  /**修改机构角色 */
+  modifyOrgRole() { }
 }

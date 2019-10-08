@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Asset } from 'src/app/models/dtos/asset';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { AssetService } from 'src/app/core/services/asset.service';
 
 @Component({
@@ -16,20 +14,20 @@ import { AssetService } from 'src/app/core/services/asset.service';
  */
 export class CurrentAssetTableComponent implements OnInit, OnChanges {
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
-  @Input() targetOrgIdentifier: string;
+  @Input() orgInUseId: string;
   assetDataSource: MatTableDataSource<Asset> = new MatTableDataSource<Asset>();
   // 总数
   totalCount: number;
   // 当前页模型
   currentPage: PageEvent;
   // 显示的列
-  displayedColumns: string[] = ['assetName', 'brand', 'assetNo', 'orgIdentifier',
-    'assetThirdLevelCategory', 'assetInStoreLocation'];
+  displayedColumns: string[] = ['assetName', 'brand', 'assetNo', 'orgInUseIdentifier',
+    'assetThirdLevelCategory', 'assetLocation'];
   constructor(
     private assetService: AssetService) {
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes['targetOrgIdentifier'].firstChange) {
+    if (!changes['orgInUseId'].firstChange) {
       this.getAssetPagination();
     }
   }
@@ -50,9 +48,9 @@ export class CurrentAssetTableComponent implements OnInit, OnChanges {
     };
   }
   private getAssetPagination() {
-    let targetUrl = `/api/assets/secondary/current?page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
-    if (this.targetOrgIdentifier) {
-      targetUrl = `${targetUrl}&orgIdentifier=${this.targetOrgIdentifier}`;
+    let targetUrl = `/api/assets/secondary/orgInUse?page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
+    if (this.orgInUseId) {
+      targetUrl = `${targetUrl}&orgInUseId=${this.orgInUseId}`;
     }
     this.assetService.getAssetsPagination(targetUrl).subscribe(response => {
       this.totalCount = JSON.parse(response.headers.get('X-Pagination')).TotalItemsCount;

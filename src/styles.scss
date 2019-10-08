@@ -2,6 +2,7 @@
 
 @import url('../node_modules/@angular/material/prebuilt-themes/indigo-pink.css');
 @import '~material-design-icons/iconfont/material-icons.css';
+
 html,
 body {
     height: 100%;
@@ -10,34 +11,6 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.table-bar {
-    font-size: 100%;
-}
-
-.alertSuccess {
-    background-color: #2545f8 !important;
-    color: white !important;
-    .mat-simple-snackbar-action {
-        color: white !important;
-    }
-}
-
-.alertWarn {
-    background: #ff511d !important;
-    color: white !important;
-    .mat-simple-snackbar-action {
-        color: white !important;
-    }
-}
-
-.alertFailure {
-    background: #ff2727 !important;
-    color: white !important;
-    .mat-simple-snackbar-action {
-        color: white !important;
-    }
 }
 
 .material-icons,
@@ -55,4 +28,35 @@ body {
 .icon-text-tweaked {
     position: relative;
     top: 1px;
+}
+
+.table-bar {
+    font-size: 100%;
+}
+
+.alertSuccess {
+    background-color: #2545f8 !important;
+    color: white !important;
+
+    .mat-simple-snackbar-action {
+        color: white !important;
+    }
+}
+
+.alertWarn {
+    background: #ff511d !important;
+    color: white !important;
+
+    .mat-simple-snackbar-action {
+        color: white !important;
+    }
+}
+
+.alertFailure {
+    background: #ff2727 !important;
+    color: white !important;
+
+    .mat-simple-snackbar-action {
+        color: white !important;
+    }
 }
