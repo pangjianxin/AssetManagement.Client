@@ -25,7 +25,9 @@ export interface Asset {
     // 资产分类dto
     assetCategoryDto: AssetCategory;
     // 资产责任机构
-    orgInChargeId: string;
+    organizationInChargeId: string;
+    // 在用机构Id
+    organizationInUseId: string;
     // 资产存放机构
     orgInUseIdentifier: string;
     // 资产存放机构名称

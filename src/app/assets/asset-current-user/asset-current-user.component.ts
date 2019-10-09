@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AssetExchangeDialogComponent } from './asset-exchange-dialog/asset-exchange-dialog.component';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 import { AssetMaintainsDialogComponent } from './asset-maintains-dialog/asset-maintains-dialog.component';
+import { AssetReturnDialogComponent } from './asset-return-dialog/asset-return-dialog.component';
 
 @Component({
   selector: 'app-asset-current-user',
@@ -29,7 +30,6 @@ export class AssetCurrentUserComponent implements OnInit {
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   @ViewChild('assetSearchInput', { static: true }) searchInputElement: ElementRef;
   @ViewChild('changeAssetLocationRef', { static: true }) changeAssetLocationRef: TemplateRef<any>;
-  @ViewChild('returnAssetRef', { static: true }) returnAssetRef: TemplateRef<any>;
   // 当前过滤逻辑
   searchInput = '';
   /**资产按照三级分类的图表数据 */
@@ -38,12 +38,9 @@ export class AssetCurrentUserComponent implements OnInit {
   managerOrgDataSet: Array<{ name: string, value: number }>;
   /**修改资产摆放位置的表单 */
   modifyAssetLocationForm: FormGroup;
-  /**资产交回表单 */
-  returnAssetForm: FormGroup;
   /**机构空间数据，用于维护资产摆放位置 */
   orgSpaces: OrgSpace[];
   constructor(private assetService: AssetService,
-    private assetRreturnService: AssetReturningService,
     private alert: AlertService,
     private dialog: MatDialog,
     private fb: FormBuilder,
@@ -100,7 +97,7 @@ export class AssetCurrentUserComponent implements OnInit {
       this.spaceService.getAllSpace().subscribe({
         next: (value: RequestActionModel) => {
           this.orgSpaces = value.data;
-          this.dialog.open(this.changeAssetLocationRef);
+          this.dialog.open(this.changeAssetLocationRef, { minWidth: '50%' });
         },
         error: (e: RequestActionModel) => this.alert.failure(e.message),
       });
@@ -124,48 +121,25 @@ export class AssetCurrentUserComponent implements OnInit {
       this.alert.warn('只能选中一项进行操作');
     } else if (this.selection.selected[0].assetStatus === '在途') {
       this.alert.warn('资产状态为在途，无法交回，请核对后重新提交');
-    } else {
-      this.returnAssetForm = this.fb.group({
-        assetId: [this.selection.selected[0].assetId, [Validators.required]],
-        assetName: [this.selection.selected[0].assetName, [Validators.required]],
-        targetOrgId: [this.selection.selected[0].orgInChargeId, [Validators.required]],
-        message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]]
-      });
-      this.dialog.open(this.returnAssetRef);
     }
-  }
-  /**资产交回相关api */
-  returnAsset() {
-    const model: ReturnAsset = {
-      assetId: this.returnAssetForm.get('assetId').value,
-      targetOrgId: this.returnAssetForm.get('targetOrgId').value,
-      message: this.returnAssetForm.get('message').value
-    };
-    this.assetRreturnService.returnAsset(model).subscribe({
-      next: (value: RequestActionModel) => {
-        this.alert.success(value.message);
-        this.assetService.dataSourceChangedSubject.next(true);
+    this.dialog.open(AssetReturnDialogComponent, {
+      data: {
+        asset: this.selection.selected[0]
       },
-      error: (value: HttpErrorResponse) => {
-        console.log(value);
-        this.alert.failure(value.error.message);
-      }
+      minWidth: '50%'
     });
   }
+
   /**资产机构间调配--打开对话框 */
   openExchangeAssetDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一项进行操作');
     } else {
-      const exchangeAssetDialog = this.dialog.open(AssetExchangeDialogComponent, {
+      this.dialog.open(AssetExchangeDialogComponent, {
         data: {
-          title: '资产机构间调配',
-          subtitle: '资产的机构间调换，请核对资产信息，选择审核机构和调配机构',
           asset: this.selection.selected[0]
-        }
-      });
-      exchangeAssetDialog.afterClosed().subscribe(value => {
-        this.assetService.dataSourceChangedSubject.next(true);
+        },
+        minWidth: '50%'
       });
     }
   }
@@ -173,10 +147,11 @@ export class AssetCurrentUserComponent implements OnInit {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一项进行操作');
     } else {
-      const applyMaintainingDialog = this.dialog.open(AssetMaintainsDialogComponent, {
+      this.dialog.open(AssetMaintainsDialogComponent, {
         data: {
           asset: this.selection.selected[0]
-        }
+        },
+        minWidth: '50%'
       });
     }
   }

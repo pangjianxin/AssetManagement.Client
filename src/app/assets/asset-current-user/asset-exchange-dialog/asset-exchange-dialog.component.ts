@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { debounceTime, map } from 'rxjs/operators';
 import { ExchangeAsset } from 'src/app/models/viewmodels/exchange-asset';
-import { AssetService } from 'src/app/core/services/asset.service';
 import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -30,14 +29,15 @@ export class AssetExchangeDialogComponent implements OnInit {
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private orgService: OrganizationService,
-    private assetService: AssetService,
     private assetExchangeService: AssetExchangingService,
-    private alert: AlertService) { }
+    private alert: AlertService) {
+    console.log(data);
+  }
 
   ngOnInit() {
     this.assetExchangeForm = this.fb.group({
       exchangeOrg: [null, [Validators.required, forbiddenString()]],
-      targetOrgId: [this.data.asset.organizationBelongedId, [Validators.required]],
+      targetOrgId: [this.data.asset.organizationInChargeId, [Validators.required]],
       message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
       assetId: [this.data.asset.assetId, Validators.required],
       assetName: [this.data.asset.assetName, [Validators.required]]

@@ -15,6 +15,7 @@ import { AssetsWithoutInventoryComponent } from './asset-current-user/asset-inve
 import { AssetsInventoryDetailsComponent } from './asset-current-user/asset-inventory/assets-inventory-details/assets-inventory-details.component';
 import { AssetInventorySecondaryAdminComponent } from './asset-secondary-admin/asset-inventory-secondary-admin/asset-inventory-secondary-admin.component';
 import { AssetInventoryRegisterTableComponent } from './asset-secondary-admin/asset-inventory-secondary-admin/asset-inventory-register-table/asset-inventory-register-table.component';
+import { AssetReturnDialogComponent } from './asset-current-user/asset-return-dialog/asset-return-dialog.component';
 
 
 
@@ -33,6 +34,7 @@ import { AssetInventoryRegisterTableComponent } from './asset-secondary-admin/as
     AssetsInventoryDetailsComponent,
     AssetInventorySecondaryAdminComponent,
     AssetInventoryRegisterTableComponent,
+    AssetReturnDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,6 @@ import { AssetInventoryRegisterTableComponent } from './asset-secondary-admin/as
     CoreModule,
   ],
   exports: [AssetTableComponent],
-  entryComponents: [AssetExchangeDialogComponent, AssetOtherInfoComponent, AssetMaintainsDialogComponent]
+  entryComponents: [AssetExchangeDialogComponent, AssetOtherInfoComponent, AssetMaintainsDialogComponent, AssetReturnDialogComponent]
 })
 export class AssetsModule { }

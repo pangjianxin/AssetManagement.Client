@@ -56,7 +56,7 @@ export class AssetCategoryCurrentUserComponent implements OnInit {
         targetOrgId: [undefined, [Validators.required]],
         message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]]
       });
-      this.dialog.open(this.applyAssetRef);
+      this.dialog.open(this.applyAssetRef, { minWidth: '50%' });
     }
   }
   applyAsset() {

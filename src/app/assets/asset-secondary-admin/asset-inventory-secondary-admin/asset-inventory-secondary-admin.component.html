@@ -2,10 +2,11 @@
     <span>创建固定资产盘点任务</span>
 </mat-toolbar>
 <mat-horizontal-stepper [linear]="true" #stepper>
-    <mat-step [stepControl]="assetStockTakingForm">
+    <mat-step [stepControl]="assetStockTakingForm" color="accent">
         <ng-template matStepLabel>创建资产盘点任务</ng-template>
         <mat-card>
             <mat-card-header>
+                <img src="assets/img/icons/Automation.png" alt="" matCardAvatar>
                 <mat-card-title>盘点任务发布信息</mat-card-title>
                 <mat-card-subtitle>
                     请仔细核对右侧信息，确认无误填写左侧盘点任务信息
@@ -52,6 +53,7 @@
         <ng-template matStepLabel>管理资产盘点任务参与机构</ng-template>
         <mat-card>
             <mat-card-header>
+                <img src="assets/img/icons/Automation.png" alt="" matCardAvatar>
                 <mat-card-title>选择例外机构</mat-card-title>
                 <mat-card-subtitle>选择不参与此次资产盘点的机构，选中的机构会出现在下方的标签中</mat-card-subtitle>
             </mat-card-header>
@@ -95,6 +97,7 @@
         <ng-template matStepLabel>完成</ng-template>
         <mat-card>
             <mat-card-header>
+                <img src="assets/img/icons/Automation.png" alt="" matCardAvatar>
                 <mat-card-title>信息确认</mat-card-title>
                 <mat-card-subtitle>
                     你已接近完成，现在请仔细核对填写信息，确认无误便可提交
@@ -188,8 +191,8 @@
     <span>当前资产盘点任务明细</span>
     <span fxFlex></span>
     <mat-form-field appearance="legacy" floatLabel="never">
-        <input matInput type="number" #stockTakingYear>
-        <mat-label>
+        <input matInput type="number" #stockTakingYear value="new Date().getYear()">
+        <mat-label class="table-bar">
             <mat-icon>timer</mat-icon>
             输入年分查询...
         </mat-label>
@@ -215,7 +218,7 @@
             </mat-toolbar>
             <app-asset-inventory-register-table
                 [apiUrl]="'/api/assetStockTaking/secondary/assetstocktakingorgs?assetStockTakingId='+item.id">
-                </app-asset-inventory-register-table>
+            </app-asset-inventory-register-table>
         </ng-template>
     </mat-expansion-panel>
 </ng-container>
