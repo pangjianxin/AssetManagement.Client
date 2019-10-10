@@ -29,7 +29,7 @@ export class AssetInventorySecondaryAdminComponent implements OnInit {
   organizationSearchResult$: Observable<Organization[]>;
   @ViewChild('organizationSearchInput', { static: true }) organizationSearchInput: ElementRef;
   @ViewChild('stockTakingYear', { static: true }) stockTakingYearInput: ElementRef;
-  currentOrg$: Observable<TokenInfo>;
+  currentOrg: TokenInfo;
   stockTakingHistories$: Observable<AssetInventory[]>;
   any$: Observable<boolean>;
   currentSelectedYear: number;
@@ -53,7 +53,7 @@ export class AssetInventorySecondaryAdminComponent implements OnInit {
         this.any$ = this.assetStockTakingService.anyStockTaking(value).pipe(map(result => result.data));
       });
     // 对象当前机构与服务绑定
-    this.currentOrg$ = this.accountService.currentOrg$;
+    this.currentOrg = this.accountService.currentOrg$.value;
     // 初始化创建资产盘点的表单
     this.assetStockTakingForm = this.fb.group({
       taskName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]],
@@ -71,20 +71,16 @@ export class AssetInventorySecondaryAdminComponent implements OnInit {
 
   }
   submitAssetStockTaking() {
-    let publisherIdTemp: string;
-    this.currentOrg$.subscribe(value => {
-      publisherIdTemp = value.orgId;
-      const model: CteateAssetInventory = {
-        publisherId: publisherIdTemp,
-        taskName: this.assetStockTakingForm.get('taskName').value,
-        taskComment: this.assetStockTakingForm.get('taskComment').value,
-        expiryDateTime: this.assetStockTakingForm.get('expiryDateTime').value,
-        excludedOrganizations: this.assetStockTakingOrganizationForm.get('excludedOrgs').value.map(item => item.orgId)
-      };
-      this.assetStockTakingService.createAssetStockTaking(model).subscribe({
-        next: (result: RequestActionModel) => this.alert.success(result.message),
-        error: (error: HttpErrorResponse) => this.alert.failure(error.error.message)
-      });
+    const model: CteateAssetInventory = {
+      publisherId: this.currentOrg.orgId,
+      taskName: this.assetStockTakingForm.get('taskName').value,
+      taskComment: this.assetStockTakingForm.get('taskComment').value,
+      expiryDateTime: this.assetStockTakingForm.get('expiryDateTime').value,
+      excludedOrganizations: this.assetStockTakingOrganizationForm.get('excludedOrgs').value.map(item => item.orgId)
+    };
+    this.assetStockTakingService.createAssetStockTaking(model).subscribe({
+      next: (result: RequestActionModel) => this.alert.success(result.message),
+      error: (error: HttpErrorResponse) => this.alert.failure(error.error.message)
     });
   }
   onOrgSelected($event: MatAutocompleteSelectedEvent) {

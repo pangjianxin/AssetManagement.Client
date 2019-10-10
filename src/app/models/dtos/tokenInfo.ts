@@ -13,4 +13,5 @@ export interface TokenInfo {
     orgName: string;
     orgRole: number;
     roleId: string;
+    shortName: string;
 }

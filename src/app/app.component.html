@@ -19,12 +19,9 @@
       <button mat-button [routerLink]="[ '/dashboard','secondary']">综合仪表板</button>
       <button mat-button [routerLink]="[ '/document' ]">文档</button>
       <span fxFlex="1 1 auto"></span>
-      <ng-container *ngIf="(accountService.isAuthenticated$ | async);else notAuthenticatedTemplate;">
-        <button mat-icon-button (click)="rightSidenav.open()" matTooltip="查看在线用户">
-          <mat-icon>people</mat-icon>
-        </button>
+      <ng-container *ngIf="isAuthenticated;else notAuthenticatedTemplate;">
         <button mat-button [matMenuTriggerFor]="orgMenu">
-          欢迎：{{currentOrg.orgIdentifier}}
+          欢迎：{{currentOrg.shortName}}
         </button>
         <mat-menu #orgMenu="matMenu">
           <button mat-menu-item (click)="openCurrentOrgInfoDialog()">
@@ -40,6 +37,9 @@
             登出系统
           </button>
         </mat-menu>
+        <button mat-icon-button (click)="rightSidenav.open()" matTooltip="查看在线用户">
+          <mat-icon>people</mat-icon>
+        </button>
       </ng-container>
       <ng-template #notAuthenticatedTemplate>
         <button mat-icon-button [routerLink]="[ '/login' ]" routerLinkActive="active">
@@ -78,8 +78,8 @@
           <mat-list>
             <mat-list-item>
               <mat-icon matListIcon color="accent">filter_1</mat-icon>
-              <p matLine>机构角色</p>
-              <p matLine>{{currentOrg.orgRole}}</p>
+              <p matLine>机构简称</p>
+              <p matLine>{{currentOrg.shortName}}</p>
             </mat-list-item>
             <mat-list-item>
               <mat-icon matListIcon color="accent">filter_2</mat-icon>

@@ -40,9 +40,10 @@ export class LoginComponent implements OnInit {
       } else {
         this.router.navigate(['/dashboard/user']);
       }
-    }, (error: HttpErrorResponse) => {
-      this.alert.failure(error.error.message);
-    });
+    },
+      (error: HttpErrorResponse) => {
+        this.alert.failure(error.error.message);
+      });
   }
 
 }

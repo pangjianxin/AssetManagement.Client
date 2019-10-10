@@ -29,7 +29,8 @@ export class AssetsWithoutInventoryComponent implements OnInit, OnChanges {
   // 当前排序逻辑
   currentSort: Sort;
   // 显示的列 (暂时删除了'organizationBelongedId')
-  displayedColumns: string[] = ['assetTagNumber', 'assetName', 'assetThirdLevelCategory', 'assetStatus', 'orgNam', 'assetLocation', 'assetOperations'];
+  displayedColumns: string[] = ['assetTagNumber', 'assetName', 'assetType', 'assetThirdLevelCategory', 'assetStatus',
+    'brand', 'assetLocation', 'assetOperations'];
   /** Based on the screen size, switch from standard to one column per row */
   constructor(private assetService: AssetService,
     private dialog: MatDialog) {

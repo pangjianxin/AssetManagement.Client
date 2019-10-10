@@ -15,6 +15,7 @@ import { ChatComponent } from './home/chat/chat.component';
 import { OrganizationService } from './core/services/organization.service';
 import { TokenInfo } from './models/dtos/tokenInfo';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -53,17 +54,15 @@ export class AppComponent implements OnInit {
     this.accountService.isAuthenticated$.subscribe(value => {
       if (value) {
         this.isAuthenticated = value;
+        this.currentOrg = this.accountService.currentOrg$.value;
       } else {
         this.isAuthenticated = !value;
         this.router.navigateByUrl('/login');
       }
     });
-    this.accountService.currentOrg$.subscribe(value => {
-      this.currentOrg = value;
-    });
   }
   logout() {
-    this.accountService.logout();
+    this.accountService.pureAuth();
     this.router.navigateByUrl('/login');
   }
   openCurrentOrgInfoDialog() {
@@ -84,9 +83,10 @@ export class AppComponent implements OnInit {
     const model: ChangeOrgShortNam = this.changeOrgShortNamForm.value as ChangeOrgShortNam;
     this.accountService.changeOrgShortName(model).subscribe(value => {
       this.alert.success(value.message);
-    }, (error: RequestActionModel) => {
-      this.alert.failure(error.message);
-    });
+    },
+      (error: HttpErrorResponse) => {
+        this.alert.failure(error.error.message);
+      });
   }
   /**打开修改机构密码对话框 */
   openChangeOrgPasswordDialog() {
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
     const model: ChangeOrgPassword = this.changePasswordForm.value as ChangeOrgPassword;
     this.accountService.changeOrgPassword(model).subscribe({
       next: (value: RequestActionModel) => this.alert.success(value.message),
-      error: (e: RequestActionModel) => this.alert.failure(e.message)
+      error: (e: HttpErrorResponse) => this.alert.failure(e.error.message)
     });
   }
 }

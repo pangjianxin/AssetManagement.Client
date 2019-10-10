@@ -16,6 +16,8 @@ import { AssetsInventoryDetailsComponent } from './asset-current-user/asset-inve
 import { AssetInventorySecondaryAdminComponent } from './asset-secondary-admin/asset-inventory-secondary-admin/asset-inventory-secondary-admin.component';
 import { AssetInventoryRegisterTableComponent } from './asset-secondary-admin/asset-inventory-secondary-admin/asset-inventory-register-table/asset-inventory-register-table.component';
 import { AssetReturnDialogComponent } from './asset-current-user/asset-return-dialog/asset-return-dialog.component';
+// tslint:disable-next-line:max-line-length
+import { AssetInventoryDialogComponent } from './asset-current-user/asset-inventory/asset-inventory-dialog/asset-inventory-dialog.component';
 
 
 
@@ -35,6 +37,7 @@ import { AssetReturnDialogComponent } from './asset-current-user/asset-return-di
     AssetInventorySecondaryAdminComponent,
     AssetInventoryRegisterTableComponent,
     AssetReturnDialogComponent,
+    AssetInventoryDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +45,7 @@ import { AssetReturnDialogComponent } from './asset-current-user/asset-return-di
     CoreModule,
   ],
   exports: [AssetTableComponent],
-  entryComponents: [AssetExchangeDialogComponent, AssetOtherInfoComponent, AssetMaintainsDialogComponent, AssetReturnDialogComponent]
+  entryComponents: [AssetExchangeDialogComponent, AssetOtherInfoComponent,
+    AssetMaintainsDialogComponent, AssetReturnDialogComponent, AssetInventoryDialogComponent]
 })
 export class AssetsModule { }
