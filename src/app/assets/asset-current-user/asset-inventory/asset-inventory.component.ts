@@ -33,11 +33,11 @@ export class AssetInventoryComponent implements OnInit {
       .subscribe((value: number) => {
         console.log(value);
         this.currentSelectedYear = value;
-        this.any$ = this.assetStockTakingService.anyStockTaking(value).pipe(map(result => result.data));
+        this.any$ = this.assetStockTakingService.anyInventoryRegister(value).pipe(map(result => result.data));
       });
-    this.any$ = this.assetStockTakingService.anyStockTakingOrgs(this.currentSelectedYear).pipe(map(result => result.data));
+    this.any$ = this.assetStockTakingService.anyRegisters(this.currentSelectedYear).pipe(map(result => result.data));
     // tslint:disable-next-line:max-line-length
-    this.stockTakingOrgHistories$ = this.assetStockTakingService.currentStockTakingOrgsInYear(this.currentSelectedYear).pipe(map(item => item.data));
+    this.stockTakingOrgHistories$ = this.assetStockTakingService.allInventoryRegisterInYear(this.currentSelectedYear).pipe(map(item => item.data));
   }
 
 }

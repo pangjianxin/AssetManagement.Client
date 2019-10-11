@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
-import { AssetInventoryStatus } from 'src/app/models/dtos/asset-inventory-status';
 import { Observable, fromEvent } from 'rxjs';
 import { Employee } from 'src/app/models/dtos/employee';
 import { OrgSpace } from 'src/app/models/dtos/org-space';
@@ -17,6 +16,11 @@ import { CreateAssetInventoryDetail } from 'src/app/models/viewmodels/create-ass
 import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 
+export enum AssetInventoryStatus {
+  账面与实物相符 = 1,
+  账面与实物不符 = 2,
+  盘亏 = 3,
+}
 @Component({
   selector: 'app-asset-inventory-dialog',
   templateUrl: './asset-inventory-dialog.component.html',
@@ -24,22 +28,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AssetInventoryDialogComponent implements OnInit {
 
-  StockTakingStatus = AssetInventoryStatus;
+  inventoryStatus = AssetInventoryStatus;
   @ViewChild('personInChargeInput', { static: true }) personInChargeInput: ElementRef;
   candidateEmployees$: Observable<Employee[]>;
   candidateLocations$: Observable<OrgSpace>;
   // 选择盘点状态表单
-  selectStockTakingStatusForm: FormGroup;
+  selectInventoryStatusForm: FormGroup;
   // 输入盘点信息表单
-  inputStockTakingMessageForm: FormGroup;
-  // 提交资产盘点结果form
-  submitAssetStockTakingForm: FormGroup;
+  inputInventoryMessageForm: FormGroup;
   constructor(@Inject(MAT_DIALOG_DATA) public data: { asset: Asset, assetStockTakingOrg: AssetInventoryRegister },
     private fb: FormBuilder,
     private employeeService: EmployeeService,
     private alert: AlertService,
     private orgSpaceService: OrgSpaceService,
-    private assetStockTakingService: AssetInventoryService,
+    private assetInventoryService: AssetInventoryService,
     private assetService: AssetService) { }
 
   ngOnInit() {
@@ -48,15 +50,13 @@ export class AssetInventoryDialogComponent implements OnInit {
         this.candidateEmployees$ = this.employeeService.getEmployeByName(value).pipe(map(actionModel => actionModel.data));
       });
     this.candidateLocations$ = this.orgSpaceService.getAllSpace().pipe(map(item => item.data));
-    this.submitAssetStockTakingForm = this.fb.group({
-      selectStockTakingStatusForm: this.fb.group({
-        stockTakingStatus: ['', [Validators.required]]
-      }),
-      inputStockTakingMessageForm: this.fb.group({
-        personInCharge: [null, [Validators.required]],
-        message: ['', [Validators.required]],
-        location: ['']
-      })
+    this.selectInventoryStatusForm = this.fb.group({
+      inventoryStatus: ['', [Validators.required]]
+    });
+    this.inputInventoryMessageForm = this.fb.group({
+      personInCharge: [null, [Validators.required]],
+      message: ['', [Validators.required]],
+      location: ['']
     });
   }
   displayFn(obj: Employee) {
@@ -65,21 +65,23 @@ export class AssetInventoryDialogComponent implements OnInit {
     }
     return null;
   }
-  submitStokTaking() {
+  submitInventory() {
     const model: CreateAssetInventoryDetail = {
       assetId: this.data.asset.assetId,
-      assetStockTakingOrganizationId: this.data.assetStockTakingOrg.id,
-      responsibilityIdentity: this.submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('personInCharge').value.identifier,
-      responsibilityName: this.submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('personInCharge').value.name,
-      responsibilityOrg2: this.submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('personInCharge').value.org2,
-      assetStockTakingLocation: this.submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('location').value,
-      message: this.submitAssetStockTakingForm.get('inputStockTakingMessageForm').get('message').value,
-      stockTakingStatus: this.submitAssetStockTakingForm.get('selectStockTakingStatusForm').get('stockTakingStatus').value
+      assetInventoryRegisterId: this.data.assetStockTakingOrg.id,
+      responsibilityIdentity: this.inputInventoryMessageForm.get('personInCharge').value.identifier,
+      responsibilityName: this.inputInventoryMessageForm.get('personInCharge').value.name,
+      responsibilityOrg2: this.inputInventoryMessageForm.get('personInCharge').value.org2,
+      assetInventoryLocation: this.inputInventoryMessageForm.get('location').value,
+      message: this.inputInventoryMessageForm.get('message').value,
+      inventoryStatus: this.selectInventoryStatusForm.get('inventoryStatus').value
     };
-    this.assetStockTakingService.createAssetStockTakingDetail(model).subscribe({
+    console.log(model);
+    this.assetInventoryService.createInventoryDetail(model).subscribe({
       next: (value: RequestActionModel) => {
         this.alert.success(value.message);
         this.assetService.dataSourceChangedSubject.next(true);
+        this.assetInventoryService.dataSourceChangedSubject.next(true);
       },
       error: (error: HttpErrorResponse) => this.alert.failure(error.error.message)
     });

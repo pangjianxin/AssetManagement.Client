@@ -92,7 +92,7 @@ export class AssetInventoryRegisterTableComponent implements OnInit, OnChanges {
     if (this.currentFileterData) {
       targetUrl = `${targetUrl}&filters=AssetsFilter==${this.currentFileterData}`;
     }
-    this.stockTakingService.secondaryStockTakingOrgPagination(targetUrl).subscribe(response => {
+    this.stockTakingService.secondaryInventoryRegisters(targetUrl).subscribe(response => {
       this.totalCount = JSON.parse(response.headers.get('X-Pagination')).TotalItemsCount;
       console.log(response.body.data);
       this.dataSource.data = response.body.data;

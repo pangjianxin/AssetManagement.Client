@@ -22,8 +22,8 @@ export class AssetsInventoryDetailsComponent implements OnInit, OnChanges {
   // 当前排序逻辑
   currentSort: Sort;
   // 显示的列
-  displayedColumns: string[] = ['responsibilityIdentity', 'responsibilityName', 'responsibilityOrg2', 'assetStockTakingLocation',
-    'assetName', 'assetDescription', 'assetTagNumber'];
+  displayedColumns: string[] = ['responsibilityIdentity', 'responsibilityName', 'responsibilityOrg2', 'assetInventoryLocation',
+    'assetName', 'assetDescription', 'assetTagNumber', 'inventoryStatus'];
   constructor(private assetService: AssetService,
     private assetStockTakingService: AssetInventoryService,
     private dialog: MatDialog) {

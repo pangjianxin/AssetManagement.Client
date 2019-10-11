@@ -50,7 +50,7 @@ export class AssetInventorySecondaryAdminComponent implements OnInit {
     fromEvent(this.stockTakingYearInput.nativeElement, 'keyup').pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((value: number) => {
         this.currentSelectedYear = value;
-        this.any$ = this.assetStockTakingService.anyStockTaking(value).pipe(map(result => result.data));
+        this.any$ = this.assetStockTakingService.anyInventoryRegister(value).pipe(map(result => result.data));
       });
     // 对象当前机构与服务绑定
     this.currentOrg = this.accountService.currentOrg$.value;
@@ -65,7 +65,7 @@ export class AssetInventorySecondaryAdminComponent implements OnInit {
       excludedOrgs: [[]]
     });
     // 从服务端获取是否在相应年份有过任务的状态值
-    this.any$ = this.assetStockTakingService.anyStockTaking(this.currentSelectedYear).pipe(map(it => it.data));
+    this.any$ = this.assetStockTakingService.anyInventoryRegister(this.currentSelectedYear).pipe(map(it => it.data));
     // (如果有)从服务端获取相应年份的资产盘点任务清单
     this.stockTakingHistories$ = this.assetStockTakingService.secondaryList(this.currentSelectedYear).pipe(map(it => it.data));
 
@@ -78,7 +78,7 @@ export class AssetInventorySecondaryAdminComponent implements OnInit {
       expiryDateTime: this.assetStockTakingForm.get('expiryDateTime').value,
       excludedOrganizations: this.assetStockTakingOrganizationForm.get('excludedOrgs').value.map(item => item.orgId)
     };
-    this.assetStockTakingService.createAssetStockTaking(model).subscribe({
+    this.assetStockTakingService.createAssetInventory(model).subscribe({
       next: (result: RequestActionModel) => this.alert.success(result.message),
       error: (error: HttpErrorResponse) => this.alert.failure(error.error.message)
     });

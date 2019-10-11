@@ -9,5 +9,6 @@ export interface AssetInventoryDetail {
     assetName: string;
     assetDescription: string;
     assetTagNumber: string;
+    inventoryStatus: string;
 }
 

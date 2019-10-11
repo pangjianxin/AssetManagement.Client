@@ -47,8 +47,6 @@ export class AssetsWithoutInventoryComponent implements OnInit, OnChanges {
         this.initPage();
       }
     });
-    console.log(`asset-with-out-stock-taking:${this.currentAssetStockTakingOrg.taskName}-${this.currentAssetStockTakingOrg.id}`);
-
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['urlParameters'] && changes['urlParameters'].firstChange) {

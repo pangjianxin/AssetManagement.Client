@@ -1,10 +1,10 @@
 export interface CreateAssetInventoryDetail {
     assetId: string;
-    assetStockTakingOrganizationId: string;
+    assetInventoryRegisterId: string;
     responsibilityIdentity: string;
     responsibilityName: string;
     responsibilityOrg2: string;
-    assetStockTakingLocation: string;
-    stockTakingStatus: number;
+    assetInventoryLocation: string;
+    inventoryStatus: number;
     message: string;
 }
