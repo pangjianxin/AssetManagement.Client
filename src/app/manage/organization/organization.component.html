@@ -1,0 +1,116 @@
+<mat-card>
+    <mat-card-header>
+        <img src="assets/img/icons/UAV.png" alt="logo" matCardAvatar>
+        <mat-card-title>
+            机构信息与权限管理
+        </mat-card-title>
+        <mat-card-subtitle>
+            可以从该页面调整机构的角色以及角色相对应的权限信息
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-tab-group mat-align-tabs="end">
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <mat-icon color="accent">pages</mat-icon>
+                    机构信息管理
+                </ng-template>
+                <app-organization-table [apiUrl]="tableUrl" (selected)="onSelected($event)" [searchInput]="searchInput">
+                    <mat-toolbar class="table-bar" fxLayoutGap="10px" color="accent">
+                        <button mat-raised-button color="accent" (click)="openChangeOrgShortNameDialog()">
+                            <mat-icon>account_box</mat-icon>
+                            修改机构简称
+                        </button>
+                        <button mat-raised-button color="accent" (click)="openResetPasswordDialog()">
+                            <mat-icon>autorenew</mat-icon>
+                            重置机构密码
+                        </button>
+                        <button mat-raised-button color="accent" (click)="openorgRevocationDialog()">
+                            <mat-icon>delete_sweep</mat-icon>
+                            机构撤并
+                        </button>
+                        <mat-form-field appearance="standard">
+                            <input matInput #orgTableFilterInput type="text">
+                            <mat-label>
+                                输入关键字以检索...
+                            </mat-label>
+                            <mat-icon matSuffix>search</mat-icon>
+                        </mat-form-field>
+                        <span fxFlex></span>
+                        <button mat-raised-button color="accent" (click)="modifyOrgRole()">
+                            <mat-icon>people</mat-icon>
+                            修改机构角色
+                        </button>
+                    </mat-toolbar>
+                </app-organization-table>
+            </mat-tab>
+            <mat-tab>
+                <ng-template matTabLabel>
+                    <mat-icon color="accent">people</mat-icon>
+                    角色权限管理
+                </ng-template>
+                <ng-template matTabContent>
+                    <app-permission></app-permission>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>
+<ng-template #changeOrgShortNameTemplate>
+    <mat-toolbar color="accent">
+        <span>修改机构简称</span>
+    </mat-toolbar>
+    <form [formGroup]="changeOrgShortNameForm" (ngSubmit)="changeOrgShortName()">
+        <mat-dialog-content fxLayout="column">
+            <mat-form-field appearance="standard">
+                <input matInput formControlName="orgIdentifier" readonly>
+                <mat-hint align="end">免输</mat-hint>
+                <mat-label>
+                    <mat-icon color="accent">fiber_pin</mat-icon>
+                    机构号
+                </mat-label>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput formControlName="orgShortNam">
+                <mat-hint align="end">最少输入2个字符，不超过8个字符</mat-hint>
+                <mat-error *ngIf="changeOrgShortNameForm.get('orgShortNam').invalid">输入有误</mat-error>
+                <mat-label>
+                    <mat-icon color="accent">rss_feed</mat-icon>
+                    请输入机构简称
+                </mat-label>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-icon-button mat-dialog-close color="accent">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+            <button type="submit" mat-icon-button color="warn"
+                [disabled]="!changeOrgShortNameForm.dirty || changeOrgShortNameForm.invalid">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>
+
+<ng-template #resetPasswordTemplate>
+    <mat-toolbar color="accent">
+        <span>重置机构密码</span>
+    </mat-toolbar>
+    <mat-dialog-content>
+        <mat-list>
+            <mat-list-item>
+                <img src="assets/img/icons/Automation.png" matListAvatar alt="">
+                <p matLine>确认要重置密码么？</p>
+                <p matLine>密码将被重置为6个0，请通知用户及时更改密码！</p>
+            </mat-list-item>
+        </mat-list>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+        <button mat-icon-button (click)="resetOrgPassword()" color="primary" matTooltip="提交">
+            <mat-icon>done</mat-icon>
+        </button>
+    </mat-dialog-actions>
+</ng-template>

@@ -11,6 +11,9 @@ export const environment = {
     assetCategory: '/api/assetCategory',
     asset: '/api/assets',
     categoryOrgRegistration: '/api/categoryOrgRegistration',
+    assetApplyAdmin_read: '/api/assetApply/secondary/pagination',
+    assetReturnAdmin_read: '/api/assetReturn/secondary/pagination',
+    assetExchangeAdmin_read: '/api/assetExchange/secondary/pagination'
   }
 };
 

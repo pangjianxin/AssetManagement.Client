@@ -1,0 +1,49 @@
+<mat-toolbar color="accent" class="table-bar">
+    <mat-form-field appreance="standard">
+        <input matInput type="number" #stockTakingYear>
+        <mat-label>
+            <mat-icon>message</mat-icon>
+            请输入盘点任务年份进行查询...
+        </mat-label>
+    </mat-form-field>
+</mat-toolbar>
+<ng-container *ngIf="any$ | async;else noAnyTaskYetTemplate">
+    <mat-expansion-panel hideToggle *ngFor="let item of stockTakingOrgHistories$  | async">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon color="accent">perm_device_information</mat-icon>
+                任务名称: <strong>{{item.taskName}}</strong>
+            </mat-panel-title>
+            <mat-panel-description>
+                任务描述: <strong>{{item.taskComment}}</strong>
+            </mat-panel-description>
+            <mat-progress-bar fxFlex="30" fxFlexAlign="center" mode="determinate" [value]="+item.progress"
+                [matTooltip]="'任务进度:'+item.progress+'%'">
+            </mat-progress-bar>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+            <app-assets-without-inventory [urlParameters]="item.id" [currentAssetStockTakingOrg]="item">
+                <mat-toolbar color="default">
+                    <mat-icon color="accent">dashboard</mat-icon>
+                    <span>未盘点资产清单</span>
+                </mat-toolbar>
+            </app-assets-without-inventory>
+            <app-inventory-details [urlParameters]="item.id">
+                <mat-toolbar color="default">
+                    <mat-icon color="accent">dashboard</mat-icon>
+                    <span>已盘点任务明细</span>
+                </mat-toolbar>
+            </app-inventory-details>
+        </ng-template>
+    </mat-expansion-panel>
+</ng-container>
+<ng-template #noAnyTaskYetTemplate>
+    <mat-card>
+        <mat-card-content>
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <h3>未在{{currentSelectedYear}}年发现任何已发布的资产盘点任务</h3>
+                <p>你可以在工具栏上面输入其他年份进行检索，或者联系管理员</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</ng-template>

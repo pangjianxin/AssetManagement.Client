@@ -25,6 +25,7 @@ export class HttpRequsetInterceptor implements HttpInterceptor {
       },
       url: `${environment.host_base_url}${request.url}`
     });
+    console.log(clonedRequest.url);
     return next.handle(clonedRequest);
   }
 }

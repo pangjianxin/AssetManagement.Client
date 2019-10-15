@@ -1,0 +1,122 @@
+<mat-toolbar color="accent">
+    <span>收回撤销机构资产</span>
+</mat-toolbar>
+<mat-dialog-content>
+    <mat-vertical-stepper [linear]="true">
+        <mat-step [stepControl]="revokeOrgForm">
+            <ng-template matStepLabel>
+                第一步:将机构状态设置为已撤销
+            </ng-template>
+            <form [formGroup]="revokeOrgForm">
+                <mat-toolbar color="accent">
+                    <span>确认撤并机构信息</span>
+                </mat-toolbar>
+                <mat-dialog-content>
+                    <div fxLayout="row">
+                        <mat-list>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_1</mat-icon>
+                                <p matLine>机构号</p>
+                                <p matLine>{{data.currentOrg.orgIdentifier}}</p>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_3</mat-icon>
+                                <p matLine>二级机构号</p>
+                                <p matLine>{{data.currentOrg.org2}}</p>
+                            </mat-list-item>
+                        </mat-list>
+                        <mat-list>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_2</mat-icon>
+                                <p matLine>机构号</p>
+                                <p matLine>{{data.currentOrg.orgNam}}</p>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_4</mat-icon>
+                                <p matLine>二级机构名称</p>
+                                <p matLine>{{data.currentOrg.orgNam2}}</p>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    <mat-toolbar color="accent">
+                        <mat-checkbox matInput formControlName="status" color="accent">是否撤销?</mat-checkbox>
+                    </mat-toolbar>
+                </mat-dialog-content>
+                <mat-dialog-actions align="end">
+                    <button mat-icon-button matTooltip="下一步" matStepperNext>
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="recycleOrgAssetsForm">
+            <ng-template matStepLabel>
+                第二步:收回已撤销机构资产
+            </ng-template>
+            <form [formGroup]="recycleOrgAssetsForm">
+                <mat-dialog-content>
+                    <mat-toolbar color="accent">
+                        <span>撤并机构资产信息</span>
+                    </mat-toolbar>
+                    <app-selected-org-asset-table [orgInUseId]="data.currentOrg.orgId">
+                    </app-selected-org-asset-table>
+                    <mat-toolbar color="accent">
+                        <mat-checkbox matInput formControlName="status" color="accent">机构名下资产是否完整?</mat-checkbox>
+                    </mat-toolbar>
+                </mat-dialog-content>
+                <mat-dialog-actions align="end">
+                    <button mat-icon-button color="accent" matTooltip="上一步" matStepperPrevious>
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" matTooltip="下一步" matStepperNext>
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>第三步:信息确认提交</ng-template>
+            <mat-toolbar color="accent">
+                <span>撤并机构信息</span>
+            </mat-toolbar>
+            <form [formGroup]="">
+                <mat-dialog-content>
+                    <div fxLayout="row">
+                        <mat-list>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_1</mat-icon>
+                                <p matLine>机构号</p>
+                                <p matLine>{{data.currentOrg.orgIdentifier}}</p>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_3</mat-icon>
+                                <p matLine>二级机构号</p>
+                                <p matLine>{{data.currentOrg.org2}}</p>
+                            </mat-list-item>
+                        </mat-list>
+                        <mat-list>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_2</mat-icon>
+                                <p matLine>机构号</p>
+                                <p matLine>{{data.currentOrg.orgNam}}</p>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon matListIcon color="accent">filter_4</mat-icon>
+                                <p matLine>二级机构名称</p>
+                                <p matLine>{{data.currentOrg.orgNam2}}</p>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-dialog-content>
+                <mat-dialog-actions align="end">
+                    <button mat-icon-button color="accent" matTooltip="上一步" matStepperPrevious>
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" matTooltip="提交" (click)="orgRevoke()">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                </mat-dialog-actions>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
+</mat-dialog-content>

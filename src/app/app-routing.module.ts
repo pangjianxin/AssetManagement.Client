@@ -11,32 +11,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'document', component: DocumentComponent },
   {
-    path: 'organization',
-    loadChildren: () => import('./organization/organization.module').then(m => m.OrganizationModule), canActivate: [AuthGuard],
+    path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [AuthGuard],
     canActivateChild: [PermissionGuard], data: { preload: true }
   },
   {
-    path: 'assets',
-    loadChildren: () => import('./assets/assets.module').then(m => m.AssetsModule), canActivate: [AuthGuard],
-    canActivateChild: [PermissionGuard],
-    data: { preload: true }
-  },
-  {
-    path: 'assetcategory',
-    loadChildren: () => import('./assetCategory/asset-category.module').then(m => m.AssetCategoryModule), canActivate: [AuthGuard],
-    canActivateChild: [PermissionGuard],
-    data: { preload: true }
-  },
-  {
-    path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuard],
-    canActivateChild: [PermissionGuard],
-    data: { preload: true }
-  },
-  {
-    path: 'assetevents',
-    loadChildren: () => import('./asset-events/asset-events.module').then(m => m.AssetEventsModule), canActivate: [AuthGuard],
-    canActivateChild: [PermissionGuard],
-    data: { preload: true }
+    path: 'manage', loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule), canActivate: [AuthGuard],
+    canActivateChild: [PermissionGuard], data: { preload: true }
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

@@ -1,0 +1,83 @@
+<mat-card class="dashboard-card">
+    <mat-card-content>
+        <ng-content>
+        </ng-content>
+        <table mat-table [dataSource]="assetDataSource" [ngStyle]="{'width': '100%'}" matSort
+            (matSortChange)="changeSort($event)">
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null;"
+                        [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dateTimeFromNow">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                    时间追溯
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.dateTimeFromNow}}</td>
+            </ng-container>
+            <ng-container matColumnDef="assetDeployCategory">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                    流转类型
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.assetDeployCategory}}</td>
+            </ng-container>
+            <ng-container matColumnDef="assetName">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                    资产名称
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.assetName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="exportOrgIdentifier">
+                <th mat-header-cell *matHeaderCellDef>
+                    转出机构
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.exportOrgIdentifier}}</td>
+            </ng-container>
+            <ng-container matColumnDef="exportOrgNam">
+                <th mat-header-cell *matHeaderCellDef>
+                    转出机构名称
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.exportOrgNam}}</td>
+            </ng-container>
+            <ng-container matColumnDef="importOrgIdentifier">
+                <th mat-header-cell *matHeaderCellDef>
+                    转入机构
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.importOrgIdentifier}}</td>
+            </ng-container>
+            <ng-container matColumnDef="importOrgNam">
+                <th mat-header-cell *matHeaderCellDef>
+                    转入机构名称
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.importOrgNam}}</td>
+            </ng-container>
+            <ng-container matColumnDef="authorizeOrgIdentifier">
+                <th mat-header-cell *matHeaderCellDef>
+                    授权机构
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.authorizeOrgIdentifier}}</td>
+            </ng-container>
+            <ng-container matColumnDef="authorizeOrgNam">
+                <th mat-header-cell *matHeaderCellDef>
+                    授权机构名称
+                </th>
+                <td mat-cell *matCellDef="let row">{{row.authorizeOrgNam}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let rows; columns:displayedColumns;"></tr>
+        </table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <mat-paginator #paginator [pageIndex]="0" [length]="totalCount" [pageSize]="10" [pageSizeOptions]="[5,10,15]"
+            showFirstLastButtons="true">
+        </mat-paginator>
+    </mat-card-actions>
+</mat-card>

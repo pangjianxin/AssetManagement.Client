@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Organization } from 'src/app/models/dtos/organization';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       if (this.returnUrl) {
         this.router.navigateByUrl(this.returnUrl);
       } else {
-        this.router.navigate(['/dashboard/user']);
+        this.router.navigate(['/user/assets']);
       }
     },
       (error: HttpErrorResponse) => {

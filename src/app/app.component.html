@@ -15,8 +15,7 @@
       <img src="assets/img/applogo.png" alt="applogo" [ngStyle]="{'max-width': '80%','max-height':'80%'}"
         *ngIf="!leftSidenav.opened">
       <span>固定资产管理系统</span>
-      <button mat-button [routerLink]="[ '/dashboard','user']">资产仪表板</button>
-      <button mat-button [routerLink]="[ '/dashboard','secondary']">综合仪表板</button>
+      <button mat-button [routerLink]="[ '/manage','dashboard']">综合仪表板</button>
       <button mat-button [routerLink]="[ '/document' ]">文档</button>
       <span fxFlex="1 1 auto"></span>
       <ng-container *ngIf="isAuthenticated;else notAuthenticatedTemplate;">

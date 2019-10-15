@@ -1,0 +1,58 @@
+<app-asset-apply-table [apiUrl]="assetApplyManageUrl" [currentFileterData]="searchInputContent"
+    (selected)="onSelected($event)">
+    <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+        <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">
+            <mat-icon>fast_rewind</mat-icon>
+            撤销资产申请
+        </button>
+        <button mat-raised-button color="primary" (click)="openHandleAssetApplyingDialog()">
+            <mat-icon>fast_forward</mat-icon>
+            处理请求事件
+        </button>
+        <mat-form-field appearance="standard">
+            <input matInput #searchInput type="text">
+            <mat-label>
+                <mat-icon>message</mat-icon>
+                请输入关键字检索.....
+            </mat-label>
+        </mat-form-field>
+        <span fxFlex="1 1 auto"></span>
+        <a [routerLink]="['/dashboard']" matTooltip="返回仪表板">
+            <mat-icon>dashboard</mat-icon>
+        </a>
+        <span>机构资产申请(二级权限)</span>
+    </mat-toolbar>
+</app-asset-apply-table>
+
+<ng-template #revokeEventRef>
+    <mat-toolbar color="warn">
+        <span>撤销资产申请请求</span>
+        <span fxFlex="1 1 auto"></span>
+        <mat-icon>info</mat-icon>
+    </mat-toolbar>
+    <form [formGroup]="revokeEventForm" name="revokeEventForm">
+        <h2 mat-dialog-title>请填写撤销事件原因</h2>
+        <mat-dialog-content>
+            <mat-form-field fxFlex>
+                <input matInput formControlName="message" type="text">
+                <mat-error *ngIf="revokeEventForm.get('message').invalid">
+                    必输项，最少2个字符，最多10个
+                </mat-error>
+                <mat-label>
+                    <mat-icon>message</mat-icon>
+                    请输入撤销事件的原因
+                </mat-label>
+                <mat-hint align="end">已输入:{{revokeEventForm.get('message').value.length}}/10</mat-hint>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="revokeEvent()" matTooltip="确定"
+                [disabled]="revokeEventForm.invalid">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

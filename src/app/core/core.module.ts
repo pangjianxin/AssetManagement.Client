@@ -38,6 +38,20 @@ import { RouterModule } from '@angular/router';
 import { HttpRequsetInterceptor } from './services/http-request-interceptor';
 import { HttpResponseInterceptor } from './services/http-response-interceptor';
 import { myPaginator } from './services/paginatorInit';
+import { AssetApplyTableComponent } from './tables/asset-apply-table/asset-apply-table.component';
+import { AssetExchangeTableComponent } from './tables/asset-exchange-table/asset-exchange-table.component';
+import { AssetReturnTableComponent } from './tables/asset-return-table/asset-return-table.component';
+import { AssetTableComponent } from './tables/asset-table/asset-table.component';
+import { AssetOtherInfoComponent } from './tables/asset-other-info/asset-other-info.component';
+import { AssetTableWithConditionComponent } from './tables/asset-table-with-condition/asset-table-with-condition.component';
+import { AssetCategoryTableComponent } from './tables/asset-category-table/asset-category-table.component';
+import { MaintainerTableComponent } from './tables/maintainer-table/maintainer-table.component';
+import { MaterialTableComponent } from './tables/material-table/material-table.component';
+import { OrganizationTableComponent } from './tables/organization-table/organization-table.component';
+import { AssetBarChartComponent } from './charts/asset-bar-chart/asset-bar-chart.component';
+import { AssetPieChartComponent } from './charts/asset-pie-chart/asset-pie-chart.component';
+import { AssetInventoryRegisterTableComponent } from './tables/asset-inventory-register-table/asset-inventory-register-table.component';
+import { AssetDeployTableComponent } from './tables/asset-deploy-table/asset-deploy-table.component';
 export const CN_FORMATS = {
   parse: {
     dateInput: 'YYYY-MM-DD'
@@ -50,7 +64,21 @@ export const CN_FORMATS = {
   }
 };
 @NgModule({
-  declarations: [],
+  declarations: [AssetApplyTableComponent,
+    AssetExchangeTableComponent,
+    AssetReturnTableComponent,
+    AssetTableComponent,
+    AssetOtherInfoComponent,
+    AssetTableWithConditionComponent,
+    AssetCategoryTableComponent,
+    MaintainerTableComponent,
+    MaterialTableComponent,
+    OrganizationTableComponent,
+    AssetBarChartComponent,
+    AssetPieChartComponent,
+    AssetInventoryRegisterTableComponent,
+    AssetDeployTableComponent,
+  ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'zh-CN' },
     { provide: MAT_DATE_FORMATS, useValue: CN_FORMATS },
@@ -58,7 +86,45 @@ export const CN_FORMATS = {
     { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { minLength: '20%', minWidth: '20%', hasBackdrop: true } },
     { provide: MatPaginatorIntl, useValue: myPaginator() }],
-  imports: [],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    FlexLayoutModule,
+    NgxEchartsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatTableModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSnackBarModule,
+    MatChipsModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatCheckboxModule,
+    MatGridListModule,
+    MatExpansionModule,
+    MatSelectModule,
+    MatBadgeModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatProgressBarModule,
+    MatRadioModule,
+    MatTreeModule,
+  ],
   exports: [
     ReactiveFormsModule,
     HttpClientModule,
@@ -97,6 +163,21 @@ export const CN_FORMATS = {
     MatRadioModule,
     MatTreeModule,
     FormsModule,
+    // 导出自定义的组件
+    AssetApplyTableComponent,
+    AssetExchangeTableComponent,
+    AssetReturnTableComponent,
+    AssetTableComponent,
+    AssetOtherInfoComponent,
+    AssetTableWithConditionComponent,
+    AssetCategoryTableComponent,
+    MaintainerTableComponent,
+    MaterialTableComponent,
+    OrganizationTableComponent,
+    AssetBarChartComponent,
+    AssetPieChartComponent,
+    AssetInventoryRegisterTableComponent,
+    AssetDeployTableComponent,
   ],
 })
 export class CoreModule { }

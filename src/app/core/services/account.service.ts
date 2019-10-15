@@ -57,6 +57,7 @@ export class AccountService {
     return this.http.post<RequestActionModel>('/api/auth/login', model).pipe(map(result => {
       if (result.success) {
         this.setAuth(result);
+        console.log(result.data);
       }
       return result;
     }));

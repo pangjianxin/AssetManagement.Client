@@ -1,0 +1,82 @@
+<mat-card class="dashboard-card">
+    <mat-card-content>
+      <ng-content>
+      </ng-content>
+      <table mat-table [dataSource]="assetDataSource" [ngStyle]="{'width': '100%'}" matSort #matSortAssetsTable="matSort"
+        (matSortChange)="changeSort($event)">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null;"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="assetTagNumber">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>
+            资产标签号
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.assetTagNumber}}</td>
+        </ng-container>
+        <ng-container matColumnDef="assetName">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef>
+            资产名称
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.assetName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="assetThirdLevelCategory">
+          <th mat-header-cell *matHeaderCellDef>
+            资产类别
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.assetCategoryDto.assetThirdLevelCategory}}</td>
+        </ng-container>
+        <ng-container matColumnDef="assetStatus">
+          <th mat-header-cell *matHeaderCellDef>
+            资产状态
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.assetStatus}}</td>
+        </ng-container>
+        <ng-container matColumnDef="orgInUseIdentifier">
+          <th mat-header-cell *matHeaderCellDef>
+            存放机构
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.orgInUseIdentifier}}</td>
+        </ng-container>
+        <ng-container matColumnDef="orgInUseName">
+          <th mat-header-cell *matHeaderCellDef>
+            存放机构名称
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.orgInUseName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="assetLocation">
+          <th mat-header-cell *matHeaderCellDef>
+            资产存放位置
+          </th>
+          <td mat-cell *matCellDef="let row">{{row.assetLocation}}</td>
+        </ng-container>
+        <ng-container matColumnDef="assetOperations">
+          <th mat-header-cell *matHeaderCellDef>
+            相关操作
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button matTooltip="其他详细信息" color="accent" (click)="openAssetOthterInfoDialog(row);">
+              <mat-icon>
+                description
+              </mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let rows; columns:displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <mat-paginator #paginator [pageIndex]="0" [length]="totalAssetsCounts" [pageSize]="10" [pageSizeOptions]="[5,10,15]"
+        showFirstLastButtons="true">
+      </mat-paginator>
+    </mat-card-actions>
+  </mat-card>

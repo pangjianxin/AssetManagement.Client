@@ -1,0 +1,50 @@
+<app-asset-return-table [apiUrl]="currentUserApiUrl" (selected)="onSelected($event)"
+  [currentFileterData]="currentSearchInput" #table>
+  <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openRemoveApplicationDialog()">
+      <mat-icon>fast_rewind</mat-icon>
+      删除申请
+    </button>
+    <button mat-raised-button color="primary" [routerLink]="['/assets','currentuser']">
+      <mat-icon>fast_forward</mat-icon>
+      资产列表
+    </button>
+    <mat-form-field appearance="standard">
+      <input matInput type="text" #searchInput>
+      <mat-label>
+        <mat-icon>message</mat-icon>
+        输入关键字进行检索.......
+      </mat-label>
+    </mat-form-field>
+    <span fxFlex="1 1 auto"></span>
+    <a [routerLink]="['/dashboard']" matTooltip="返回仪表板">
+      <mat-icon>dashboard</mat-icon>
+    </a>
+    <span>当前机构资产交回</span>
+  </mat-toolbar>
+</app-asset-return-table>
+
+<ng-template #revokeEventRef>
+  <mat-toolbar color="warn">
+    <span>删除资产交回请求</span>
+    <span fxFlex="1 1 auto"></span>
+    <mat-icon>info</mat-icon>
+  </mat-toolbar>
+  <mat-dialog-content>
+    <mat-list>
+      <mat-list-item>
+        <img src="assets/img/logo.png" alt="logo" matListAvatar>
+        <p matLine>确认撤销该事件么?</p>
+        <p matLine>事件撤销后不可恢复</p>
+      </mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-icon-button color="warn" mat-dialog-close matTooltip="取消">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+    <button mat-icon-button color="primary" (click)="removeApplication()" matTooltip="确定">
+      <mat-icon>done</mat-icon>
+    </button>
+  </mat-dialog-actions>
+</ng-template>
