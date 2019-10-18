@@ -52,6 +52,8 @@ import { AssetBarChartComponent } from './charts/asset-bar-chart/asset-bar-chart
 import { AssetPieChartComponent } from './charts/asset-pie-chart/asset-pie-chart.component';
 import { AssetInventoryRegisterTableComponent } from './tables/asset-inventory-register-table/asset-inventory-register-table.component';
 import { AssetDeployTableComponent } from './tables/asset-deploy-table/asset-deploy-table.component';
+import { TableBaseComponent } from './tables/table-base/table-base.component';
+
 export const CN_FORMATS = {
   parse: {
     dateInput: 'YYYY-MM-DD'
@@ -64,7 +66,8 @@ export const CN_FORMATS = {
   }
 };
 @NgModule({
-  declarations: [AssetApplyTableComponent,
+  declarations: [
+    AssetApplyTableComponent,
     AssetExchangeTableComponent,
     AssetReturnTableComponent,
     AssetTableComponent,
@@ -78,6 +81,7 @@ export const CN_FORMATS = {
     AssetPieChartComponent,
     AssetInventoryRegisterTableComponent,
     AssetDeployTableComponent,
+    TableBaseComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'zh-CN' },

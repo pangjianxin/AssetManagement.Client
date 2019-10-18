@@ -6,7 +6,7 @@ const getRangeLabel = (page: number, pageSize: number, length: number): string =
     length = Math.max(length, 0);
     const startIndex = page * pageSize;
     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-    return `第 ${startIndex + 1}-${endIndex} 条记录 共${length}条记录`;
+    return `第 ${startIndex}-${endIndex} 条记录 共${length}条记录`;
 };
 export function myPaginator() {
     const p = new MatPaginatorIntl();

@@ -1,6 +1,6 @@
 <ng-content>
 </ng-content>
-<table mat-table [dataSource]="assetApplyingDataSource" [ngStyle]="{'width': '100%'}" matSort
+<table mat-table [dataSource]="tableDataSource" [ngStyle]="{'width': '100%'}" matSort
     (matSortChange)="changeSort($event)">
     <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -71,6 +71,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let rows; columns:displayedColumns;"></tr>
 </table>
-<mat-paginator #paginator [pageIndex]="0" [length]="totalAssetApplyingCount" [pageSize]="10"
-    [pageSizeOptions]="[5,10,15]" showFirstLastButtons="true">
+<mat-paginator #paginator [pageIndex]="1" [length]="totalCount" [pageSize]="10" [pageSizeOptions]="[5,10,15]"
+    showFirstLastButtons="true">
 </mat-paginator>

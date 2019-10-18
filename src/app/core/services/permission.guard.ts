@@ -11,9 +11,7 @@ export class PermissionGuard implements CanActivateChild {
   constructor(private alert: AlertService, private account: AccountService) { }
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
     const currnetRole = this.account.getCurrentOrg().orgRole;
-    console.log(`currentrole:${currnetRole}`);
     const permissionRole = childRoute.data['role'];
-    console.log(`permissionRole:${permissionRole}`);
     if (currnetRole >= permissionRole) {
       return true;
     }
