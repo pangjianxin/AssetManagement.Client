@@ -58,8 +58,9 @@
                     <mat-toolbar color="accent">
                         <span>撤并机构资产信息</span>
                     </mat-toolbar>
-                    <app-selected-org-asset-table [orgInUseId]="data.currentOrg.orgId">
+                    <app-selected-org-asset-table [url]="assetUrl" [filter]="filter">
                     </app-selected-org-asset-table>
+
                     <mat-toolbar color="accent">
                         <mat-checkbox matInput formControlName="status" color="accent">机构名下资产是否完整?</mat-checkbox>
                     </mat-toolbar>

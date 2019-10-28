@@ -1,5 +1,5 @@
 export interface OrgSpace {
-    spaceId: string;
+    id: string;
     spaceName: string;
     spaceDescription: string;
     orgId: string;

@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetReturningEvent } from 'src/app/models/dtos/asset-returning-event';
+import { AssetReturn } from 'src/app/models/dtos/asset-return';
 import { MatDialog } from '@angular/material';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-asset-return',
@@ -16,17 +17,18 @@ import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 })
 export class AssetReturnComponent implements OnInit {
 
-  currentUserApiUrl = '/api/assetReturn/current/pagination';
+  assetReturnUrl: string;
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
   @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
   currentSearchInput: string;
-  selection: SelectionModel<AssetReturningEvent> = new SelectionModel<AssetReturningEvent>(true, []);
+  selection: SelectionModel<AssetReturn> = new SelectionModel<AssetReturn>(true, []);
   constructor(private dialog: MatDialog,
     private alert: AlertService,
     private assetReturningService: AssetReturningService,
     private router: Router) { }
 
   ngOnInit() {
+    this.assetReturnUrl = environment.apiBaseUrls.odata.assetReturn_current;
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((value: string) => {
@@ -36,7 +38,7 @@ export class AssetReturnComponent implements OnInit {
   get isOneSelected() {
     return this.selection.selected.length === 1;
   }
-  onSelected($event: SelectionModel<AssetReturningEvent>) {
+  onSelected($event: SelectionModel<AssetReturn>) {
     this.selection = $event;
   }
   openRemoveApplicationDialog() {
@@ -48,13 +50,13 @@ export class AssetReturnComponent implements OnInit {
   }
   // 删除
   removeApplication() {
-    const eventId = this.selection.selected[0].eventId;
+    const eventId = this.selection.selected[0].id;
     this.assetReturningService.remove(eventId).subscribe({
-      next: (value: RequestActionModel) => {
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetReturningService.dataSourceChangedSubject.next(true);
       },
-      error: (value: RequestActionModel) => this.alert.failure(value.message)
+      error: (value: ActionResult) => this.alert.failure(value.message)
     });
   }
 

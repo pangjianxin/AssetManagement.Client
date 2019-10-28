@@ -1,36 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { ReturnAsset } from 'src/app/models/viewmodels/return-asset';
 import { HandleAssetReturn } from 'src/app/models/viewmodels/handle-asset-return';
 import { RevokeAsset } from 'src/app/models/viewmodels/revoke-asset-event';
+import { environment } from 'src/environments/environment';
+import { ServiceBaseService } from './service-base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetReturningService {
+export class AssetReturningService extends ServiceBaseService {
+  post_url: string;
+  delete_url: string;
+  put_handle_url: string;
+  put_revoke_url: string;
   public dataSourceChangedSubject = new BehaviorSubject<boolean>(false);
-  constructor(private http: HttpClient) { }
-  getFirstFiveBySecondaryAdminAsync(): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>('/api/assetReturn/secondary/firstFive');
+  constructor(http: HttpClient) {
+    super(http);
+    this.post_url = environment.apiBaseUrls.api.assetReturn_post;
+    this.delete_url = environment.apiBaseUrls.api.assetReturn_delete;
+    this.put_handle_url = environment.apiBaseUrls.api.assetReturn_put_handle;
+    this.put_revoke_url = environment.apiBaseUrls.api.assetReturn_put_revoke;
   }
-  getFirstFiveByUserAsync(): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>('/api/assetReturn/current/firstFive');
+  remove(eventId: string): Observable<ActionResult> {
+    return this.http.delete<ActionResult>(`${this.delete_url}?eventId=${eventId}`);
   }
-  getPagination(url: string): Observable<HttpResponse<RequestActionModel>> {
-    return this.http.get<RequestActionModel>(url, { observe: 'response' });
+  returnAsset(model: ReturnAsset): Observable<ActionResult> {
+    return this.http.post<ActionResult>(this.post_url, JSON.stringify(model));
   }
-  remove(eventId: string): Observable<RequestActionModel> {
-    return this.http.delete<RequestActionModel>(`/api/assetReturn/remove?eventId=${eventId}`);
+  revoke(model: RevokeAsset): Observable<ActionResult> {
+    return this.http.put<ActionResult>(`${this.put_revoke_url}`, JSON.stringify(model));
   }
-  revoke(model: RevokeAsset): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>(`/api/assetReturn/revoke`, JSON.stringify(model));
-  }
-  returnAsset(model: ReturnAsset): Observable<RequestActionModel> {
-    return this.http.post<RequestActionModel>('/api/assetReturn/return', JSON.stringify(model));
-  }
-  handleAssetReturning(model: HandleAssetReturn): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/assetReturn/secondary/handle', JSON.stringify(model));
+  handle(model: HandleAssetReturn): Observable<ActionResult> {
+    return this.http.put<ActionResult>(`${this.put_handle_url}`, JSON.stringify(model));
   }
 }

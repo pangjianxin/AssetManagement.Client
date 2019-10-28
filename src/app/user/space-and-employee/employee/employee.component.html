@@ -1,0 +1,128 @@
+<mat-card class="dashboard-card">
+    <mat-card-content>
+        <app-employee-table [url]="tableUrl" (selected)="onSelected($event)" [filter]="filter">
+            <mat-toolbar color="accent" class="table-bar" fxLayoutGap="10px">
+                <button mat-raised-button color="accent" (click)="openModifyEmployeeDialog()">
+                    <mat-icon>edit</mat-icon>
+                    维护信息
+                </button>
+                <button mat-raised-button color="accent" (click)="openAddEmployeeDialog()">
+                    <mat-icon>add</mat-icon>
+                    新增信息
+                </button>
+                <mat-form-field appearance="standard">
+                    <input matInput #empployeeSearchInput>
+                    <mat-label>
+                        <mat-icon>message</mat-icon>
+                        请输入关键字进行查询.....
+                    </mat-label>
+                </mat-form-field>
+            </mat-toolbar>
+        </app-employee-table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+    </mat-card-actions>
+</mat-card>
+<ng-template #addEmployeeDialog>
+    <mat-toolbar color="accent">
+        新增员工信息
+    </mat-toolbar>
+    <form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()" name="addEmployeeForm">
+        <mat-dialog-content fxLayout="column">
+            <mat-form-field appearance="standard">
+                <input matInput formControlName="name">
+                <mat-error *ngIf="addEmployeeForm.get('name').invalid">
+                    必输项，最少2个字符，最多10个
+                </mat-error>
+                <mat-hint align="end">已输入{{addEmployeeForm.get('name')?.value.length}}/10</mat-hint>
+                <mat-label>
+                    <mat-icon color="accent">
+                        person
+                    </mat-icon>
+                    请输入员工名字
+                </mat-label>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput formControlName="identifier">
+                <mat-error *ngIf="addEmployeeForm.get('identifier').invalid">
+                    必输项，最少5个字符，最多10个
+                </mat-error>
+                <mat-hint align="end">已输入{{addEmployeeForm.get('identifier').value.length}}/10</mat-hint>
+                <mat-label>
+                    <mat-icon color="accent">fingerprint</mat-icon>
+                    请输入员工工号
+                </mat-label>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput formControlName="telephone">
+                <mat-label>
+                    <mat-icon color="accent">contact_phone</mat-icon>
+                    请输入手机号
+                </mat-label>
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+                <input matInput formControlName="officePhone">
+                <mat-label>
+                    <mat-icon color="accent">call</mat-icon>
+                    请输入办公电话
+                </mat-label>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-icon-button matTooltip="退出" mat-dialog-close>
+                <mat-icon>
+                    <mat-icon color="warn">power_settings_new</mat-icon>
+                </mat-icon>
+            </button>
+            <button mat-icon-button color="primary" type="submit" [disabled]="addEmployeeForm.invalid" matTooltip="提交">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>
+
+<ng-template #modifyEmployeeDialog>
+    <mat-toolbar color="accent">
+        <span>修改空间信息</span>
+        <span fxFlex="1 1 auto"></span>
+        <mat-icon>settings</mat-icon>
+    </mat-toolbar>
+    <form [formGroup]="modifySpaceForm" name="modifySpaceForm" (ngSubmit)="modifySpace()">
+        <mat-dialog-content fxLayout="column">
+            <mat-form-field>
+                <input matInput formControlName="spaceId" type="text" readonly>
+                <mat-error *ngIf="modifySpaceForm.get('spaceId').invalid"></mat-error>
+                <mat-label>
+                    <mat-icon>info</mat-icon>
+                    空间索引，免输
+                </mat-label>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="spaceName" type="text">
+                <mat-error *ngIf="modifySpaceForm.get('spaceName').invalid"></mat-error>
+                <mat-hint align="end">已输入{{modifySpaceForm.get('spaceName').value.length}}</mat-hint>
+                <mat-label>
+                    <mat-icon>message</mat-icon>
+                    按提示输入空间名称
+                </mat-label>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="spaceDescription" type="text">
+                <mat-error *ngIf="modifySpaceForm.get('spaceDescription').invalid"></mat-error>
+                <mat-hint align="end">已输入{{modifySpaceForm.get('spaceDescription').value.length}}</mat-hint>
+                <mat-label>
+                    <mat-icon>message</mat-icon>
+                    按提示输入空间描述
+                </mat-label>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-icon-button mat-dialog-close color="warn">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+            <button mat-icon-button type="submit" fxFlexAlign="right" color="primary">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

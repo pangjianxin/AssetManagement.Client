@@ -13,14 +13,15 @@ import { ExchangeAssetDialogComponent } from './asset/exchange-asset-dialog/exch
 import { ReturnAssetDialogComponent } from './asset/return-asset-dialog/return-asset-dialog.component';
 import { MaintainerDetailDialogComponent } from './asset/maintainer-detail-dialog/maintainer-detail-dialog.component';
 import { AssetInventoryComponent } from './asset/asset-inventory/asset-inventory.component';
-import { InventoryDialogComponent } from './asset/asset-inventory/inventory-dialog/inventory-dialog.component';
+import { InventoryDialogComponent } from './asset/asset-inventory/assets-without-inventory/inventory-dialog/inventory-dialog.component';
 import { InventoryDetailsComponent } from './asset/asset-inventory/inventory-details/inventory-details.component';
 import { AssetsWithoutInventoryComponent } from './asset/asset-inventory/assets-without-inventory/assets-without-inventory.component';
 import { AssetOtherInfoComponent } from '../core/tables/asset-other-info/asset-other-info.component';
 import { OrganizationComponent } from './organization/organization.component';
-import { SpaceAndEmployeeComponent } from './organization/space-and-employee/space-and-employee.component';
-import { EmployeeComponent } from './organization/space-and-employee/employee/employee.component';
-import { SpaceComponent } from './organization/space-and-employee/space/space.component';
+import { SpaceAndEmployeeComponent } from './space-and-employee/space-and-employee.component';
+import { EmployeeComponent } from './space-and-employee/employee/employee.component';
+import { SpaceComponent } from './space-and-employee/space/space.component';
+import { ChangeAssetLocationComponent } from './asset/change-asset-location/change-asset-location.component';
 
 
 @NgModule({
@@ -40,14 +41,16 @@ import { SpaceComponent } from './organization/space-and-employee/space/space.co
     OrganizationComponent,
     SpaceAndEmployeeComponent,
     EmployeeComponent,
-    SpaceComponent
+    SpaceComponent,
+    ChangeAssetLocationComponent
   ],
   imports: [
     CommonModule,
-    UserRoutingModule,
     CoreModule,
+    UserRoutingModule,
+
   ],
   entryComponents: [ReturnAssetDialogComponent, ExchangeAssetDialogComponent, MaintainerDetailDialogComponent, InventoryDialogComponent,
-    AssetOtherInfoComponent]
+    AssetOtherInfoComponent, ChangeAssetLocationComponent]
 })
 export class UserModule { }

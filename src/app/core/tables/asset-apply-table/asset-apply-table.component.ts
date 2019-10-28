@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, SimpleChanges, OnChanges, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, PageEvent, Sort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetApplyingEvent } from 'src/app/models/dtos/asset-applying-event';
+import { AssetApply } from 'src/app/models/dtos/asset-apply';
 import { AssetApplyingService } from '../../services/asset-applying.service';
 import { debounceTime, filter } from 'rxjs/operators';
 import { TableBaseComponent } from '../table-base/table-base.component';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { TableBaseComponent } from '../table-base/table-base.component';
   templateUrl: './asset-apply-table.component.html',
   styleUrls: ['./asset-apply-table.component.scss']
 })
-export class AssetApplyTableComponent extends TableBaseComponent<AssetApplyingEvent> implements OnInit, OnChanges {
+export class AssetApplyTableComponent extends TableBaseComponent<AssetApply> implements OnInit, OnChanges {
   // 显示的列
   displayedColumns: string[] = ['select', 'dateTimeFromNow', 'status',
     'requestOrgIdentifier', 'requestOrgNam', 'org2', 'targetOrgIdentifier',
@@ -30,25 +31,23 @@ export class AssetApplyTableComponent extends TableBaseComponent<AssetApplyingEv
       this.currentPage = page;
       this.getAssetApplyingPagination();
     });
-    this.initPage();
-    this.assetApplyingService.dataSourceChangedSubject.asObservable().pipe(filter(value => value === true)).subscribe(value => {
-      this.initPage();
+    this.assetApplyingService.dataSourceChangedSubject.subscribe(value => {
+      if (value) {
+        this.initPage();
+      }
     });
+    this.getAssetApplyingPagination();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['currentFileterData'].firstChange) {
+    if (!changes['filter'].firstChange) {
       this.initPage();
     }
-    this.apiUrl = changes['apiUrl'].currentValue;
   }
-
   getAssetApplyingPagination() {
-    let targetUrl = `${this.apiUrl}?page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
-    targetUrl = this.applyFilter(targetUrl);
-    targetUrl = this.applySort(targetUrl);
-    this.assetApplyingService.getPagination(targetUrl).subscribe(response => {
-      this.totalCount = JSON.parse(response.headers.get('X-Pagination')).TotalItemsCount;
-      this.tableDataSource.data = response.body.data;
+    const targetUrl = this.manipulateFinalUrl(this.url);
+    this.assetApplyingService.getByUrl(targetUrl).subscribe(response => {
+      this.totalCount = response['@odata.count'];
+      this.dataSource.data = response.value;
       this.selection.clear();
     });
   }

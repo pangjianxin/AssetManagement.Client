@@ -7,8 +7,8 @@
         </mat-label>
     </mat-form-field>
 </mat-toolbar>
-<ng-container *ngIf="any$ | async;else noAnyTaskYetTemplate">
-    <mat-expansion-panel hideToggle *ngFor="let item of stockTakingOrgHistories$  | async">
+<ng-container *ngIf="any;else noAnyTaskYetTemplate">
+    <mat-expansion-panel hideToggle *ngFor="let item of inventoryHistories">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <mat-icon color="accent">perm_device_information</mat-icon>
@@ -22,17 +22,9 @@
             </mat-progress-bar>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
-            <app-assets-without-inventory [urlParameters]="item.id" [currentAssetStockTakingOrg]="item">
-                <mat-toolbar color="default">
-                    <mat-icon color="accent">dashboard</mat-icon>
-                    <span>未盘点资产清单</span>
-                </mat-toolbar>
+            <app-assets-without-inventory [currentInventoryRegister]="item">
             </app-assets-without-inventory>
-            <app-inventory-details [urlParameters]="item.id">
-                <mat-toolbar color="default">
-                    <mat-icon color="accent">dashboard</mat-icon>
-                    <span>已盘点任务明细</span>
-                </mat-toolbar>
+            <app-inventory-details [currentInventoryRegister]="item">
             </app-inventory-details>
         </ng-template>
     </mat-expansion-panel>

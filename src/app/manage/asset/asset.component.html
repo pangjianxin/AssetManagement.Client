@@ -1,28 +1,14 @@
-<div fxLayout="row" fxLayout.lt-lg="column">
-    <mat-card fxFlex>
-        <mat-card-header>
-            <img src="assets/img/icons/Prediction.png" alt="" matCardAvatar>
-            <mat-card-title>资产分类汇总</mat-card-title>
-            <mat-card-subtitle>按总行财务资产分类标准汇总</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <app-asset-bar-chart [dataSet]="categoriesByThirdLevelDataset" [chartTitle]="''" [chartSubtitle]="''"
-                fxFlex>
-            </app-asset-bar-chart>
-        </mat-card-content>
-    </mat-card>
-    <mat-card fxFlex>
-        <mat-card-header>
-            <img src="assets/img/icons/Smart TV.png" alt="" matCardAvatar>
-            <mat-card-title>资产状态汇总</mat-card-title>
-            <mat-card-subtitle>按当前资产的状态(如在库、在用、在途等)汇总</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <app-asset-pie-chart [dataSet]="categoriesByStatusDataset" [chartTitle]="''" [chartSubtitle]="''" fxFlex>
-            </app-asset-pie-chart>
-        </mat-card-content>
-    </mat-card>
-</div>
+<mat-card>
+    <mat-card-header>
+        <img src="assets/img/icons/Prediction.png" alt="" matCardAvatar>
+        <mat-card-title>资产按机构汇总</mat-card-title>
+        <mat-card-subtitle>汇总各个机构在用资产数量</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <app-asset-bar-chart [dataSet]="sumarryByCountDataset" [chartTitle]="''" [chartSubtitle]="''" fxFlex>
+        </app-asset-bar-chart>
+    </mat-card-content>
+</mat-card>
 <mat-card>
     <mat-card-header>
         <img src="assets/img/icons/Environmental Monitoring.png" alt="logo" mat-card-avatar>
@@ -35,7 +21,7 @@
                 <ng-template mat-tab-label>
                     <mat-icon color="accent">computer</mat-icon>现有资产情况
                 </ng-template>
-                <app-asset-table [apiUrl]="apiUrl" [currentFileterData]="searchInput" (selected)="onSelected($event)">
+                <app-asset-table [url]="assetUrl" [filter]="searchInput" (selected)="onSelected($event)">
                     <mat-toolbar color="accent" fxLayoutGap="10px" [ngStyle]="{'font-size': '100%'}">
                         <button mat-raised-button color="accent">
                             <mat-icon>developer_board</mat-icon>

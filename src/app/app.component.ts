@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertService } from './core/services/alert.service';
 import { Organization } from './models/dtos/organization';
 import { map, filter, debounceTime } from 'rxjs/operators';
-import { RequestActionModel } from './models/dtos/request-action-model';
+import { ActionResult } from './models/dtos/request-action-model';
 import { ChangeOrgPassword } from './models/viewmodels/change-org-password';
 import { ChangeOrgShortNam } from './models/viewmodels/change-org-short-nam';
 import { MediaObserver } from '@angular/flex-layout';
@@ -16,6 +16,7 @@ import { OrganizationService } from './core/services/organization.service';
 import { TokenInfo } from './models/dtos/tokenInfo';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  orgUrl: string;
   currentOrg: TokenInfo;
   isAuthenticated: boolean;
   @ViewChild('currentOrgTemplate', { static: true }) currentOrgTemplate: TemplateRef<any>;
@@ -43,13 +45,16 @@ export class AppComponent implements OnInit {
     private orgService: OrganizationService,
     private router: Router) { }
   ngOnInit() {
+    this.orgUrl = environment.apiBaseUrls.odata.organization;
     this.observableMedia.media$.
       pipe(map(change => change.mqAlias === 'lg')).subscribe(value => this.isLg = value);
     this.selectOrgToChatForm = this.fb.group({
       targetOrg: ['', [Validators.required]]
     });
     this.selectOrgToChatForm.get('targetOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
-      this.targetOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
+      this.targetOrgs$ = this.orgService
+        .getByUrl(`${this.orgUrl}?$filter=contains(orgIdentifier,'${input}') or contains(orgNam,'${input}')`)
+        .pipe(map(result => result.value));
     });
     this.accountService.isAuthenticated$.subscribe(value => {
       if (value) {
@@ -103,8 +108,8 @@ export class AppComponent implements OnInit {
   changeOrgPassword() {
     const model: ChangeOrgPassword = this.changePasswordForm.value as ChangeOrgPassword;
     this.accountService.changeOrgPassword(model).subscribe({
-      next: (value: RequestActionModel) => this.alert.success(value.message),
-      error: (e: HttpErrorResponse) => this.alert.failure(e.error.message)
+      next: (value: ActionResult) => this.alert.success(value.message),
+      error: (e: HttpErrorResponse) => { this.alert.failure(e.error.message); }
     });
   }
 }

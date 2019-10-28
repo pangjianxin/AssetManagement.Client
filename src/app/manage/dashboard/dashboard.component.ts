@@ -4,12 +4,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { AssetDeploy } from 'src/app/models/dtos/asset-deploy';
 import { Observable, fromEvent } from 'rxjs';
 import { Organization } from 'src/app/models/dtos/organization';
-import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MatDialog } from '@angular/material';
 import { OrganizationService } from 'src/app/core/services/organization.service';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
-import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
+import { debounceTime, distinctUntilChanged, pluck, map, switchMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AssetDeployService } from 'src/app/core/services/asset-deploy.service';
 export function forbiddenString(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (typeof control.value === 'string') {
@@ -27,14 +28,8 @@ export function forbiddenString(): ValidatorFn {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-
-  assetCategoryByThirdLevelDataset: Array<{ name: string, value: number }>;
-  assetCategoryByStatusDataset: Array<{ name: string, value: number }>;
-  assetTableUrl: string;
-  assetDeployUrl = '/api/dashboard/secondaryadmin/assetdeploy/pagination';
-  currentAssetThirdLevel: string;
-  currentAssetStatus: string;
-  currentSearchInput: string;
+  assetDeployUrl: string;
+  orgUrl: string;
   selection: SelectionModel<AssetDeploy> = new SelectionModel<AssetDeploy>(true, []);
   downLoadAssetDeployForm: FormGroup;
   importOrgs$: Observable<Organization[]>;
@@ -44,42 +39,28 @@ export class DashboardComponent implements OnInit {
   @ViewChild('downloadAssetDeployFileRef', { static: true }) downloadAssetDeployFileRef: TemplateRef<any>;
   @ViewChild('downloadAssetDeployLink', { static: false }) downloadAssetDeployLink: ElementRef;
   constructor(
-    private dashboardService: DashboardService,
+    private deployService: AssetDeployService,
     private alert: AlertService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private orgService: OrganizationService) { }
   ngOnInit(): void {
-    this.assetTableUrl = `/api/dashboard/secondaryadmin/assets/pagination`;
-    this.dashboardService.getSecondaryAssetCategories().subscribe({
-      next: (value: RequestActionModel) => {
-        this.assetCategoryByThirdLevelDataset = value.data.categoriesByThirdLevel;
-        this.assetCategoryByStatusDataset = value.data.categoriesByStatus;
-      }
-    });
-    fromEvent(this.searchInput.nativeElement, 'keyup').pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
-      .subscribe((value: string) => this.currentSearchInput = value);
+    this.orgUrl = environment.apiBaseUrls.odata.organization;
+    this.assetDeployUrl = environment.apiBaseUrls.odata.assetDeploy;
     this.downLoadAssetDeployForm = this.fb.group({
       startDate: [{ value: '' }, [Validators.required]],
       endDate: [{ value: '' }, [Validators.required]],
       importOrg: [null, [forbiddenString()]],
       exportOrg: [null, [forbiddenString()]],
     });
-    this.downLoadAssetDeployForm.get('importOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
-      this.importOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
-    });
-    this.downLoadAssetDeployForm.get('exportOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
-      this.exportOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
-    });
-  }
-  onThirdLevelEmitted($event) {
-    this.currentAssetThirdLevel = $event;
-  }
-  onStatusEmitted($event) {
-    this.currentAssetStatus = $event;
-  }
-  onAssetDeploySelectedEmitted($event: SelectionModel<AssetDeploy>) {
-    this.selection = $event;
+    this.importOrgs$ = this.downLoadAssetDeployForm.get('importOrg').valueChanges.pipe(debounceTime(300), switchMap((input: string) => {
+      return this.orgService.getByUrl(`${this.orgUrl}?$filter=contains(orgIdentifier,'${input}') or contains(orgNam,'${input}')`)
+        .pipe(map(result => result.value));
+    }));
+    this.exportOrgs$ = this.downLoadAssetDeployForm.get('exportOrg').valueChanges.pipe(debounceTime(300), switchMap((input: string) => {
+      return this.orgService.getByUrl(`${this.orgUrl}?$filter=contains(orgIdentifier,'${input}') or contains(orgNam,'${input}')`)
+        .pipe(map(result => result.value));
+    }));
   }
   displayOrg(org: Organization) {
     if (org) {
@@ -100,12 +81,12 @@ export class DashboardComponent implements OnInit {
       let importOrgId = '';
       let exportOrgId = '';
       if (this.downLoadAssetDeployForm.get('importOrg').value) {
-        importOrgId = this.downLoadAssetDeployForm.get('importOrg').value.orgId;
+        importOrgId = this.downLoadAssetDeployForm.get('importOrg').value.id;
       }
       if (this.downLoadAssetDeployForm.get('exportOrg').value) {
-        exportOrgId = this.downLoadAssetDeployForm.get('exportOrg').value.orgId;
+        exportOrgId = this.downLoadAssetDeployForm.get('exportOrg').value.id;
       }
-      const blob = await this.dashboardService.downloadAssetDeployFile(startDate, endDate, exportOrgId, importOrgId);
+      const blob = await this.deployService.downloadAssetDeployFile(startDate, endDate, exportOrgId, importOrgId);
       const url = window.URL.createObjectURL(blob);
       const link = this.downloadAssetDeployLink.nativeElement;
       link.href = url;

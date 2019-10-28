@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './core/services/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 import { PageNotFoundComponent } from './home/page-not-found/page-not-found.component';
 import { ModulePreloadStrategyService } from './core/services/module-preload-strategy.service';
 import { DocumentComponent } from './home/document/document.component';
-import { PermissionGuard } from './core/services/permission.guard';
+import { PermissionGuard } from './core/guards/permission.guard';
 import { LoginComponent } from './home/login/login.component';
 
 const routes: Routes = [

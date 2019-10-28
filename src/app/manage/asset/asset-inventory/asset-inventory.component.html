@@ -2,7 +2,7 @@
     <span>创建固定资产盘点任务</span>
 </mat-toolbar>
 <mat-horizontal-stepper [linear]="true" #stepper>
-    <mat-step [stepControl]="assetStockTakingForm" color="accent">
+    <mat-step [stepControl]="assetInventoryForm" color="accent">
         <ng-template matStepLabel>创建资产盘点任务</ng-template>
         <mat-card>
             <mat-card-header>
@@ -13,14 +13,14 @@
                 </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content fxLayoutGap="10px" fxLayout="column">
-                <form [formGroup]="assetStockTakingForm" fxLayout="column" fxLayoutGap="10px">
+                <form [formGroup]="assetInventoryForm" fxLayout="column" fxLayoutGap="10px">
                     <mat-form-field>
                         <input matInput type="text" formControlName="taskName">
                         <mat-label>
                             <mat-icon>message</mat-icon>
                             请输入盘点任务名称
                         </mat-label>
-                        <mat-error *ngIf="assetStockTakingForm.get('taskName').invalid">盘点任务名称不符合规则</mat-error>
+                        <mat-error *ngIf="assetInventoryForm.get('taskName').invalid">盘点任务名称不符合规则</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput type="text" formControlName="taskComment">
@@ -28,7 +28,7 @@
                             <mat-icon>message</mat-icon>
                             请输入盘点任务备注
                         </mat-label>
-                        <mat-error *ngIf="assetStockTakingForm.get('taskComment').invalid">盘点任务备注不符合规则</mat-error>
+                        <mat-error *ngIf="assetInventoryForm.get('taskComment').invalid">盘点任务备注不符合规则</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput [matDatepicker]="expiryDatePicker" type="text" formControlName="expiryDateTime">
@@ -36,7 +36,7 @@
                             <mat-icon>message</mat-icon>
                             请选择结束日期
                         </mat-label>
-                        <mat-error *ngIf="assetStockTakingForm.get('expiryDateTime').invalid"></mat-error>
+                        <mat-error *ngIf="assetInventoryForm.get('expiryDateTime').invalid"></mat-error>
                         <mat-datepicker-toggle [for]="expiryDatePicker" matSuffix></mat-datepicker-toggle>
                         <mat-datepicker #expiryDatePicker disabled="false"></mat-datepicker>
                     </mat-form-field>
@@ -49,7 +49,7 @@
             </mat-card-actions>
         </mat-card>
     </mat-step>
-    <mat-step [stepControl]="assetStockTakingOrganizationForm">
+    <mat-step [stepControl]="inventoryRegisterForm">
         <ng-template matStepLabel>管理资产盘点任务参与机构</ng-template>
         <mat-card>
             <mat-card-header>
@@ -72,10 +72,10 @@
                         {{organization.orgNam}}
                     </mat-option>
                 </mat-autocomplete>
-                <form [formGroup]="assetStockTakingOrganizationForm">
+                <form [formGroup]="inventoryRegisterForm">
                     <mat-chip-list>
                         <mat-chip color="accent"
-                            *ngFor="let organization of assetStockTakingOrganizationForm.get('excludedOrgs').value"
+                            *ngFor="let organization of inventoryRegisterForm.get('excludedOrgs').value"
                             [removable]="true" (removed)="removeOrg(organization)">
                             {{organization.orgNam}}
                             <mat-icon matChipRemove color="accent">cancel</mat-icon>
@@ -136,19 +136,19 @@
                             <mat-list-item>
                                 <mat-icon matListIcon color="accent">filter_5</mat-icon>
                                 <h3 matLine>盘点任务名称</h3>
-                                <p matLine>{{assetStockTakingForm.get('taskName').value}}</p>
+                                <p matLine>{{assetInventoryForm.get('taskName').value}}</p>
                             </mat-list-item>
                         </mat-list>
                         <mat-list>
                             <mat-list-item>
                                 <mat-icon matListIcon color="accent">filter_3</mat-icon>
                                 <h3 matLine>盘点任务描述</h3>
-                                <p matLine>{{assetStockTakingForm.get('taskComment').value}}</p>
+                                <p matLine>{{assetInventoryForm.get('taskComment').value}}</p>
                             </mat-list-item>
                             <mat-list-item>
                                 <mat-icon matListIcon color="accent">filter_6</mat-icon>
                                 <h3 matLine>盘点任务过期时间</h3>
-                                <p matLine>{{assetStockTakingForm.get('expiryDateTime').value}}</p>
+                                <p matLine>{{assetInventoryForm.get('expiryDateTime').value}}</p>
                             </mat-list-item>
                         </mat-list>
                     </div>
@@ -164,8 +164,7 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <mat-chip-list>
-                        <mat-chip
-                            *ngFor="let organization of assetStockTakingOrganizationForm.get('excludedOrgs').value">
+                        <mat-chip *ngFor="let organization of inventoryRegisterForm.get('excludedOrgs').value">
                             {{organization.orgNam}}
                         </mat-chip>
                     </mat-chip-list>
@@ -178,7 +177,7 @@
                     </mat-icon>
                 </button>
                 <span fxFlex="10px"></span>
-                <button mat-fab (click)="submitAssetStockTaking()" matTooltip="提交" color="primary">
+                <button mat-fab (click)="submitAssetInventory()" matTooltip="提交" color="primary">
                     <mat-icon>
                         play_arrow
                     </mat-icon>
@@ -192,15 +191,15 @@
     <span fxFlex></span>
     <mat-form-field appearance="legacy" floatLabel="never">
         <mat-icon matSuffix>timer</mat-icon>
-        <input matInput type="number" #stockTakingYear value="new Date().getYear()">
+        <input matInput type="number" #inventoryYear value="currentSelectedYear">
         <mat-label [ngStyle]="{'font-size': '60%'}">
             输入四位年分查询...
         </mat-label>
     </mat-form-field>
 </mat-toolbar>
-<ng-container *ngIf="any$ | async;else noAnyTaskYet">
+<ng-container *ngIf="any$ | async;else noAnyTaskYet;">
     <mat-accordion>
-        <mat-expansion-panel hideToggle *ngFor="let item of stockTakingHistories$ | async">
+        <mat-expansion-panel hideToggle *ngFor="let item of inventoryHistories">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <mat-icon color="accent">perm_device_information</mat-icon>
@@ -218,7 +217,8 @@
                     <span>盘点任务参与机构</span>
                 </mat-toolbar>
                 <app-asset-inventory-register-table
-                    [apiUrl]="'/api/assetStockTaking/secondary/assetstocktakingorgs?assetStockTakingId='+item.id">
+                    [url]="inventoryRegisterUrl+'?$expand=participation,assetInventory&inventoryId='+item.id"
+                    [filter]="''">
                 </app-asset-inventory-register-table>
             </ng-template>
         </mat-expansion-panel>
@@ -228,8 +228,8 @@
     <mat-card>
         <mat-card-content>
             <div fxLayout="column" fxLayoutAlign="center center">
-                <h3>未在{{currentSelectedYear}}年发现任何已发布的资产盘点任务</h3>
-                <p>你可以在工具栏上面输入其他年份进行检索，或者联系管理员</p>
+                <h3>查询未初始化</h3>
+                <p>你可以在工具栏上面输入相应年份进行检索</p>
             </div>
         </mat-card-content>
     </mat-card>

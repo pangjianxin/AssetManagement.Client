@@ -1,0 +1,29 @@
+<mat-dialog-content>
+    <form [formGroup]="changeMeteringUnitForm" (ngSubmit)="changeMeteringUnit()">
+        <mat-card>
+            <mat-card-header>
+                <img src="assets/img/icons/Automation.png" alt="logo" mat-card-avatar>
+                <mat-card-title>修改计量单位</mat-card-title>
+                <mat-card-subtitle>有些分类的计量单位的描述可能不太准确，如果需要，那么在下方选择该项分类的新的计量单位</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content fxLayout="column" fxLayoutGap="10px">
+                <mat-form-field>
+                    <mat-select formControlName="assetMeteringUnit">
+                        <mat-option *ngFor="let unit of meteringUnits;" [value]="unit.value">
+                            {{unit.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-label>请选择计量单位</mat-label>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
+                    <mat-icon>exit_to_app</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" [disabled]="changeMeteringUnitForm.invalid" matTooltip="提交">
+                    <mat-icon>done</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</mat-dialog-content>

@@ -9,51 +9,34 @@
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <mat-tab-group mat-align-tabs="end">
-            <mat-tab>
-                <ng-template matTabLabel>
-                    <mat-icon color="accent">pages</mat-icon>
-                    机构信息管理
-                </ng-template>
-                <app-organization-table [apiUrl]="tableUrl" (selected)="onSelected($event)" [searchInput]="searchInput">
-                    <mat-toolbar class="table-bar" fxLayoutGap="10px" color="accent">
-                        <button mat-raised-button color="accent" (click)="openChangeOrgShortNameDialog()">
-                            <mat-icon>account_box</mat-icon>
-                            修改机构简称
-                        </button>
-                        <button mat-raised-button color="accent" (click)="openResetPasswordDialog()">
-                            <mat-icon>autorenew</mat-icon>
-                            重置机构密码
-                        </button>
-                        <button mat-raised-button color="accent" (click)="openorgRevocationDialog()">
-                            <mat-icon>delete_sweep</mat-icon>
-                            机构撤并
-                        </button>
-                        <mat-form-field appearance="standard">
-                            <input matInput #orgTableFilterInput type="text">
-                            <mat-label>
-                                输入关键字以检索...
-                            </mat-label>
-                            <mat-icon matSuffix>search</mat-icon>
-                        </mat-form-field>
-                        <span fxFlex></span>
-                        <button mat-raised-button color="accent" (click)="modifyOrgRole()">
-                            <mat-icon>people</mat-icon>
-                            修改机构角色
-                        </button>
-                    </mat-toolbar>
-                </app-organization-table>
-            </mat-tab>
-            <mat-tab>
-                <ng-template matTabLabel>
-                    <mat-icon color="accent">people</mat-icon>
-                    角色权限管理
-                </ng-template>
-                <ng-template matTabContent>
-                    <app-permission></app-permission>
-                </ng-template>
-            </mat-tab>
-        </mat-tab-group>
+        <app-organization-table [url]="orgUrl" (selected)="onSelected($event)" [filter]="searchInput">
+            <mat-toolbar class="table-bar" fxLayoutGap="10px" color="accent">
+                <button mat-raised-button color="accent" (click)="openChangeOrgShortNameDialog()">
+                    <mat-icon>account_box</mat-icon>
+                    修改机构简称
+                </button>
+                <button mat-raised-button color="accent" (click)="openResetPasswordDialog()">
+                    <mat-icon>autorenew</mat-icon>
+                    重置机构密码
+                </button>
+                <button mat-raised-button color="accent" (click)="openorgRevocationDialog()">
+                    <mat-icon>delete_sweep</mat-icon>
+                    机构撤并
+                </button>
+                <mat-form-field appearance="standard">
+                    <input matInput #orgTableFilterInput type="text">
+                    <mat-label>
+                        输入关键字以检索...
+                    </mat-label>
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+                <span fxFlex></span>
+                <button mat-raised-button color="accent" (click)="modifyOrgRole()">
+                    <mat-icon>people</mat-icon>
+                    修改机构角色
+                </button>
+            </mat-toolbar>
+        </app-organization-table>
     </mat-card-content>
 </mat-card>
 <ng-template #changeOrgShortNameTemplate>

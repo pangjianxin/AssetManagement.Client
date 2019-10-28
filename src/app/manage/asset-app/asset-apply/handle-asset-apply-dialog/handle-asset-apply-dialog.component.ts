@@ -6,7 +6,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 import { HandleAssetApply } from 'src/app/models/viewmodels/handle-asset-apply';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -47,7 +47,7 @@ export class HandleAssetApplyDialogComponent implements OnInit {
   }
   private getAssetPagination() {
     const targetUrl = `${this.apiUrl}&page=${this.currentPage.pageIndex}&pageSize=${this.currentPage.pageSize}`;
-    this.assetService.getAssetsPagination(targetUrl).subscribe(response => {
+    this.assetService.getByUrl(targetUrl).subscribe(response => {
       this.totalAssetsCounts = JSON.parse(response.headers.get('X-Pagination')).TotalItemsCount;
       this.assetDataSource.data = response.body.data;
     });
@@ -90,11 +90,11 @@ export class HandleAssetApplyDialogComponent implements OnInit {
   }
   handleAssetApplying() {
     const model: HandleAssetApply = {
-      assetId: this.currentSelectionRow.assetId,
+      assetId: this.currentSelectionRow.id,
       eventId: this.data.assetApplyingEvent.eventId
     };
     this.assetApplyService.handleAsync(model).subscribe({
-      next: (value: RequestActionModel) => {
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetService.dataSourceChangedSubject.next(true);
       },

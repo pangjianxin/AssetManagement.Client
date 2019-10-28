@@ -1,7 +1,6 @@
 <ng-content>
 </ng-content>
-<table mat-table [dataSource]="tableDataSource" [ngStyle]="{'width': '100%'}" matSort
-  (matSortChange)="changeSort($event)">
+<table mat-table [dataSource]="dataSource" [ngStyle]="{'width': '100%'}" matSort (matSortChange)="changeSort($event)">
   <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef>
       <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
@@ -83,6 +82,6 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let rows; columns:displayedColumns;"></tr>
 </table>
-<mat-paginator #paginator [pageIndex]="0" [length]="totalCount" [pageSize]="10" [pageSizeOptions]="[5,10,15]"
+<mat-paginator #paginator [length]="totalCount" [pageSize]="10" [pageSizeOptions]="[5,10,15]"
   showFirstLastButtons="true">
 </mat-paginator>

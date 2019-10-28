@@ -43,7 +43,6 @@ import { AssetExchangeTableComponent } from './tables/asset-exchange-table/asset
 import { AssetReturnTableComponent } from './tables/asset-return-table/asset-return-table.component';
 import { AssetTableComponent } from './tables/asset-table/asset-table.component';
 import { AssetOtherInfoComponent } from './tables/asset-other-info/asset-other-info.component';
-import { AssetTableWithConditionComponent } from './tables/asset-table-with-condition/asset-table-with-condition.component';
 import { AssetCategoryTableComponent } from './tables/asset-category-table/asset-category-table.component';
 import { MaintainerTableComponent } from './tables/maintainer-table/maintainer-table.component';
 import { MaterialTableComponent } from './tables/material-table/material-table.component';
@@ -53,6 +52,9 @@ import { AssetPieChartComponent } from './charts/asset-pie-chart/asset-pie-chart
 import { AssetInventoryRegisterTableComponent } from './tables/asset-inventory-register-table/asset-inventory-register-table.component';
 import { AssetDeployTableComponent } from './tables/asset-deploy-table/asset-deploy-table.component';
 import { TableBaseComponent } from './tables/table-base/table-base.component';
+import { EmployeeTableComponent } from './tables/employee-table/employee-table.component';
+import { SpaceTableComponent } from './tables/space-table/space-table.component';
+import { AssetInventoryDetailTableComponent } from './tables/asset-inventory-detail-table/asset-inventory-detail-table.component';
 
 export const CN_FORMATS = {
   parse: {
@@ -72,7 +74,6 @@ export const CN_FORMATS = {
     AssetReturnTableComponent,
     AssetTableComponent,
     AssetOtherInfoComponent,
-    AssetTableWithConditionComponent,
     AssetCategoryTableComponent,
     MaintainerTableComponent,
     MaterialTableComponent,
@@ -82,6 +83,9 @@ export const CN_FORMATS = {
     AssetInventoryRegisterTableComponent,
     AssetDeployTableComponent,
     TableBaseComponent,
+    EmployeeTableComponent,
+    SpaceTableComponent,
+    AssetInventoryDetailTableComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'zh-CN' },
@@ -173,7 +177,6 @@ export const CN_FORMATS = {
     AssetReturnTableComponent,
     AssetTableComponent,
     AssetOtherInfoComponent,
-    AssetTableWithConditionComponent,
     AssetCategoryTableComponent,
     MaintainerTableComponent,
     MaterialTableComponent,
@@ -182,6 +185,9 @@ export const CN_FORMATS = {
     AssetPieChartComponent,
     AssetInventoryRegisterTableComponent,
     AssetDeployTableComponent,
+    EmployeeTableComponent,
+    SpaceTableComponent,
+    AssetInventoryDetailTableComponent,
   ],
 })
 export class CoreModule { }

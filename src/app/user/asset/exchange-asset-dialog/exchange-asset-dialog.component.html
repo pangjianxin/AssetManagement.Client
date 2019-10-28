@@ -36,7 +36,7 @@
           <mat-form-field appearance="standard">
             <input matInput type="text" formControlName="exchangeOrg" [matAutocomplete]="exchangeOrg">
             <mat-error *ngIf="assetExchangeForm.get('exchangeOrg').invalid">没有选择到正确的结果，请重新搜索.....</mat-error>
-            <mat-hint align="end">键入关键字查找目标机构</mat-hint>
+            <mat-hint align="end">最少键入俩个字符进行查找</mat-hint>
             <mat-label>
               <mat-icon>message</mat-icon>
               查找调换机构

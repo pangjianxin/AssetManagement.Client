@@ -7,10 +7,11 @@ import { Organization } from 'src/app/models/dtos/organization';
 import { MatDialog } from '@angular/material';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
-import { CategoryOrgRegistrationService } from 'src/app/core/services/category-org-registration.service';
+import { CategoryManageRegistrationService } from 'src/app/core/services/category-manage-registration.service';
 import { debounceTime, distinctUntilChanged, pluck, map } from 'rxjs/operators';
 import { ApplyAsset } from 'src/app/models/viewmodels/apply-asset';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-asset-category',
@@ -22,20 +23,21 @@ export class AssetCategoryComponent implements OnInit {
   @ViewChild('assetCategorySearchInput', { static: true }) assetCategorySearchInput: ElementRef;
   @ViewChild('applyAssetRef', { static: true }) applyAssetRef: TemplateRef<any>;
   selection: SelectionModel<AssetCategory> = new SelectionModel<AssetCategory>(true, []);
-  assetCategoryApiUrl: string;
-  assetCategoryFileterData: string;
+  tableUrl: string;
+  filter: string;
   applyAssetForm: FormGroup;
   examinationOrgs$: Observable<Organization[]>;
   constructor(private dialog: MatDialog,
     private alert: AlertService,
     private fb: FormBuilder,
     private assetApplyService: AssetApplyingService,
-    private categoryOrgRegistrationService: CategoryOrgRegistrationService) { }
+    private categoryOrgRegistrationService: CategoryManageRegistrationService) { }
   ngOnInit() {
     fromEvent(this.assetCategorySearchInput.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
-      .subscribe((value: string) => this.assetCategoryFileterData = value);
-    this.assetCategoryApiUrl = '/api/assetcategory/current/pagination';
+      .subscribe((value: string) => this.filter = this.manipulateOdataFilter(value));
+    this.tableUrl = environment.apiBaseUrls.odata.assetCategory;
+    this.filter = '';
   }
   /**判断是否直选中了一行 */
   get IsOneSelected() {
@@ -48,10 +50,12 @@ export class AssetCategoryComponent implements OnInit {
     if (!this.IsOneSelected) {
       this.alert.warn('只能选中一个进行操作');
     } else {
-      this.examinationOrgs$ = this.categoryOrgRegistrationService.getExaminationOrgs(this.selection.selected[0].assetCategoryId)
-        .pipe(map(it => it.data as Organization[]));
+      this.examinationOrgs$ = this.categoryOrgRegistrationService.getOrgsByCategory(this.selection.selected[0].id)
+        .pipe(map(it => {
+          return it.value as Organization[];
+        }));
       this.applyAssetForm = this.fb.group({
-        assetCategoryId: [this.selection.selected[0].assetCategoryId, [Validators.required]],
+        assetCategoryId: [this.selection.selected[0].id, [Validators.required]],
         thirdLevelCategory: [this.selection.selected[0].assetThirdLevelCategory],
         targetOrgId: [undefined, [Validators.required]],
         message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]]
@@ -65,10 +69,15 @@ export class AssetCategoryComponent implements OnInit {
       targetOrgId: this.applyAssetForm.get('targetOrgId').value,
       message: this.applyAssetForm.get('message').value
     };
-    this.assetApplyService.applyAsset(viewModel).subscribe({
-      next: (value: RequestActionModel) => this.alert.success(value.message),
-      error: (value: RequestActionModel) => this.alert.failure(value.message)
+    this.assetApplyService.createApply(viewModel).subscribe({
+      next: (value: ActionResult) => this.alert.success(value.message),
+      error: (value: ActionResult) => this.alert.failure(value.message)
     });
   }
-
+  manipulateOdataFilter(input: string): string {
+    if (input) {
+      return `$filter=contains(assetThirdLevelCategory,'${input}')`;
+    }
+    return '';
+  }
 }

@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
     <mat-card-header>
         <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
         <mat-card-title>资产情况</mat-card-title>
@@ -34,8 +34,8 @@
                     </mat-card-content>
                 </mat-card>
             </div>
-        </div>
-        <app-asset-table-with-condition [apiUrl]="assetTableUrl" [currentSelectedThirdLevel]="currentAssetThirdLevel"
+        </div> -->
+<!-- <app-asset-table-with-condition [url]="assetTableUrl" [filter]="currentAssetThirdLevel"
             [currentSelectedStatus]="currentAssetStatus">
             <mat-toolbar color="warn" fxLayoutGap="10px">
                 <button mat-raised-button color="warn" (click)="currentAssetThirdLevel=''">
@@ -51,9 +51,9 @@
                     <mat-icon>dashboard</mat-icon>
                 </button>
             </mat-toolbar>
-        </app-asset-table-with-condition>
-    </mat-card-content>
-</mat-card>
+        </app-asset-table-with-condition> -->
+<!-- </mat-card-content>
+</mat-card> -->
 <mat-card>
     <mat-card-header>
         <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
@@ -61,7 +61,7 @@
         <mat-card-subtitle>展示当前二级权限管理的资产流转明细</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <app-asset-deploy-table [apiUrl]="assetDeployUrl" [currentFileterData]="currentSearchInput"
+        <app-asset-deploy-table [url]="assetDeployUrl" [filter]="currentSearchInput"
             (selected)="onAssetDeploySelectedEmitted($event)">
             <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
                 <button mat-raised-button color="primary" (click)="openDownloadAssetDeployFileRef()">

@@ -1,5 +1,6 @@
 /**对应AssetInventoryDetailDto，表示一个已盘点的结果*/
 export interface AssetInventoryDetail {
+    id: string;
     assetInventoryRegisterId: string;
     assetId: string;
     responsibilityIdentity: string;

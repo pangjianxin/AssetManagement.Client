@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="assetDataSource" [ngStyle]="{'width': '100%'}">
+<table mat-table [dataSource]="dataSource" [ngStyle]="{'width': '100%'}">
     <ng-container matColumnDef="assetName">
         <th mat-header-cell *matHeaderCellDef>
             <mat-icon color="accent">payment</mat-icon>
@@ -46,6 +46,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let rows; columns:displayedColumns;"></tr>
 </table>
-<mat-paginator #paginator [pageIndex]="0" [length]="totalCount" [pageSize]="5" [pageSizeOptions]="[5]"
-    showFirstLastButtons="true">
+<mat-paginator #paginator [length]="totalCount" [pageSize]="5" [pageSizeOptions]="[5]" showFirstLastButtons="true">
 </mat-paginator>

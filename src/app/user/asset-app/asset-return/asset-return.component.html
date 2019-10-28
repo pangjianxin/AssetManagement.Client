@@ -1,5 +1,4 @@
-<app-asset-return-table [apiUrl]="currentUserApiUrl" (selected)="onSelected($event)"
-  [currentFileterData]="currentSearchInput" #table>
+<app-asset-return-table [url]="assetReturnUrl" (selected)="onSelected($event)" [filter]="currentSearchInput" #table>
   <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
     <button mat-raised-button color="primary" (click)="openRemoveApplicationDialog()">
       <mat-icon>fast_rewind</mat-icon>

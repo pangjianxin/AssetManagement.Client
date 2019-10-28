@@ -3,7 +3,7 @@ import { Organization } from './organization';
 
 export interface Asset {
     // 资产id
-    assetId: string;
+    id: string;
     // 资产名称
     assetName: string;
     // 资产序列号

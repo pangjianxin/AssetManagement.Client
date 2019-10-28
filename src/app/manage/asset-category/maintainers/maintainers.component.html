@@ -1,0 +1,33 @@
+<app-maintainer-table [url]="maintainersUrl" [filter]="filter" (selected)="onMaintainerSelected($event)">
+    <mat-toolbar color="accent">
+        <button mat-raised-button color="accent" (click)="openDeleteMaintainerDialog()">
+            <mat-icon>delete_forever</mat-icon>
+            删除记录
+        </button>
+    </mat-toolbar>
+</app-maintainer-table>
+<ng-template #deleteMaintainerRef>
+    <mat-card>
+        <mat-card-header>
+            <img src="assets/img/icons/Automation.png" alt="logo" mat-card-avatar>
+            <mat-card-title>删除服务商记录</mat-card-title>
+            <mat-card-subtitle>请核对要删除的服务商信息，确认无误可删除</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-icon color="accent">warning</mat-icon>
+            该条记录一经删除便无法找回，请确认是否删除
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-icon-button mat-dialog-close matTooltip="关闭" color="warn">
+                <mat-icon>
+                    power_settings_new
+                </mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="提交" color="primary" (click)="deleteMaintainer()">
+                <mat-icon>
+                    done
+                </mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</ng-template>

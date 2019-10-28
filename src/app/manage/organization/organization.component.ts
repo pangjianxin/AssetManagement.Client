@@ -8,10 +8,11 @@ import { AccountService } from 'src/app/core/services/account.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { ChangeOrgShortNam } from 'src/app/models/viewmodels/change-org-short-nam';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ResetOrgPassword } from 'src/app/models/viewmodels/reset-org-password';
 import { RevokeOrganizationDialogComponent } from './revoke-organization-dialog/revoke-organization-dialog.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-organization',
@@ -20,8 +21,8 @@ import { RevokeOrganizationDialogComponent } from './revoke-organization-dialog/
 })
 export class OrganizationComponent implements OnInit {
 
-  tableUrl = `/api/auth/accounts/org2`;
-  assetUrl = `/api/assets/current`;
+  orgUrl: string;
+  assetUrl: string;
   currentSelection = new SelectionModel<Organization>(true, []);
   searchInput: string;
   currentSelectedOrg: Organization;
@@ -35,9 +36,11 @@ export class OrganizationComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.orgUrl = environment.apiBaseUrls.odata.organization;
+    this.assetUrl = environment.apiBaseUrls.odata.asset_manage;
     fromEvent(this.orgTableFilterInput.nativeElement, 'keyup').pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((filter: string) => {
-        this.searchInput = filter;
+        this.searchInput = this.manipulateOdataFilter(filter);
       });
   }
   isOneSelected() {
@@ -63,7 +66,7 @@ export class OrganizationComponent implements OnInit {
   changeOrgShortName() {
     const model: ChangeOrgShortNam = this.changeOrgShortNameForm.value as ChangeOrgShortNam;
     this.accountService.changeOrgShortName(model).subscribe({
-      next: (value: RequestActionModel) => {
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.accountService.dataSourceChanged.next(true);
       },
@@ -93,11 +96,16 @@ export class OrganizationComponent implements OnInit {
   resetOrgPassword() {
     const model: ResetOrgPassword = { orgIdentifier: this.currentSelectedOrg.orgIdentifier };
     this.accountService.resetOrgPassword(model).subscribe({
-      next: (value: RequestActionModel) => this.alert.success(value.message),
+      next: (value: ActionResult) => this.alert.success(value.message),
       error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
     });
   }
   /**修改机构角色 */
   modifyOrgRole() { }
+  manipulateOdataFilter(input: string): string {
+    if (input) {
+      return `$filter=contains(orgNam,'${input}') or contains(orgIdentifier,'${input} ')`;
+    }
+  }
 
 }

@@ -1,13 +1,13 @@
+import { Organization } from './organization';
+import { AssetInventory } from './asset-inventory';
 
-/**对应AssetInventoryResgiterDto，表示一个资产盘点的机构注册 */
+/**资产盘点参与机构，表示一个资产盘点的机构注册 */
 export interface AssetInventoryRegister {
     id: string;
-    orgId: string;
-    assetInventoryId: string;
-    orgIdentifier: string;
-    orgNam: string;
-    org2: string;
-    taskName: string;
-    taskComment: string;
+    createDateTime: string;
     progress: string;
+    participation: Organization;
+    assetInventory: AssetInventory;
+
+
 }

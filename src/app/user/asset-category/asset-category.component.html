@@ -10,7 +10,7 @@
                 <ng-template mat-tab-label>
                     <mat-icon color="accent">computer</mat-icon>固定资产分类明细
                 </ng-template>
-                <app-asset-category-table [apiUrl]="assetCategoryApiUrl" [currentFileterData]="assetCategoryFileterData"
+                <app-asset-category-table [url]="tableUrl" [filter]="filter"
                     (selected)="onSelected($event)">
                     <mat-toolbar color="accent" class="table-bar" fxLayoutGap="10px">
                         <button mat-raised-button color="accent" (click)="openApplyAssetsDialog()">
@@ -66,7 +66,7 @@
                     <mat-option [value]="undefined">
                         请选择一个审批机构进行操作
                     </mat-option>
-                    <mat-option *ngFor="let item of examinationOrgs$ | async" [value]="item.orgId">
+                    <mat-option *ngFor="let item of examinationOrgs$ | async" [value]="item.id">
                         {{item.orgNam}}
                     </mat-option>
                 </mat-select>

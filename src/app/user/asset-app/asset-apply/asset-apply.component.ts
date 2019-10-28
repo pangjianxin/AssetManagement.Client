@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetApplyingEvent } from 'src/app/models/dtos/asset-applying-event';
+import { AssetApply } from 'src/app/models/dtos/asset-apply';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
 import { MatDialog } from '@angular/material';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-asset-apply',
@@ -15,10 +16,10 @@ import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 })
 export class AssetApplyComponent implements OnInit {
 
-  assetApplyingCurrnetUserUrl = '/api/assetApply/current/pagination';
+  assetApplyUrl: string;
   searchInputContent: string;
-  selection: SelectionModel<AssetApplyingEvent> = new SelectionModel<AssetApplyingEvent>(true, []);
-  currentSelectedRow: AssetApplyingEvent;
+  selection: SelectionModel<AssetApply> = new SelectionModel<AssetApply>(true, []);
+  currentSelectedRow: AssetApply;
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
   @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
   constructor(private alert: AlertService,
@@ -26,14 +27,21 @@ export class AssetApplyComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.assetApplyUrl = environment.apiBaseUrls.odata.assetApply_current;
     fromEvent(this.searchInput.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
-      .subscribe((value: string) => this.searchInputContent = value);
+      .subscribe((value: string) => {
+        if (value.length < 2) {
+          this.searchInputContent = '';
+          return;
+        }
+        this.searchInputContent = this.manipulateOdataFiter(value);
+      });
   }
   get isOneSelected() {
     return this.selection.selected.length === 1;
   }
-  onSelected($evnet: SelectionModel<AssetApplyingEvent>) {
+  onSelected($evnet: SelectionModel<AssetApply>) {
     this.selection = $evnet;
   }
   openRemoveApplicationDialog() {
@@ -45,13 +53,18 @@ export class AssetApplyComponent implements OnInit {
     }
   }
   removeApplication() {
-    this.assetApplyingService.remove(this.currentSelectedRow.eventId).subscribe({
-      next: (value: RequestActionModel) => {
+    this.assetApplyingService.remove(this.currentSelectedRow.id).subscribe({
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetApplyingService.dataSourceChangedSubject.next(true);
       },
-      error: (value: RequestActionModel) => this.alert.failure(value.message)
+      error: (value: ActionResult) => this.alert.failure(value.message)
     });
+  }
+  manipulateOdataFiter(input: string) {
+    if (input) {
+      return `$filter=contains(requestOrgIdentifier,'${input}') or contains(requestOrgNam,'${input}')`;
+    } return '';
   }
 
 }

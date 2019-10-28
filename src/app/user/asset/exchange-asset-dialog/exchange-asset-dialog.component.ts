@@ -8,8 +8,10 @@ import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-s
 import { AlertService } from 'src/app/core/services/alert.service';
 import { debounceTime, map } from 'rxjs/operators';
 import { ExchangeAsset } from 'src/app/models/viewmodels/exchange-asset';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AssetService } from 'src/app/core/services/asset.service';
 export function forbiddenString(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (typeof control.value === 'string') {
@@ -24,15 +26,16 @@ export function forbiddenString(): ValidatorFn {
   styleUrls: ['./exchange-asset-dialog.component.scss']
 })
 export class ExchangeAssetDialogComponent implements OnInit {
-
+  orgUrl: string;
   assetExchangeForm: FormGroup;
   exchangeOrgs$: Observable<Organization[]>;
   constructor(private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private orgService: OrganizationService,
     private assetExchangeService: AssetExchangingService,
-    private alert: AlertService) {
-    console.log(data);
+    private alert: AlertService,
+    private assetService: AssetService) {
+    this.orgUrl = environment.apiBaseUrls.odata.organization;
   }
 
   ngOnInit() {
@@ -40,11 +43,15 @@ export class ExchangeAssetDialogComponent implements OnInit {
       exchangeOrg: [null, [Validators.required, forbiddenString()]],
       targetOrgId: [this.data.asset.organizationInChargeId, [Validators.required]],
       message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-      assetId: [this.data.asset.assetId, Validators.required],
+      assetId: [this.data.asset.id, Validators.required],
       assetName: [this.data.asset.assetName, [Validators.required]]
     });
-    this.assetExchangeForm.get('exchangeOrg').valueChanges.pipe(debounceTime(300)).subscribe(input => {
-      this.exchangeOrgs$ = this.orgService.getOrgsBySearchInput(input).pipe(map(value => value.data));
+    this.assetExchangeForm.get('exchangeOrg').valueChanges.pipe(debounceTime(300)).subscribe((input: string) => {
+      if (input && input.length < 2) {
+        return;
+      }
+      this.exchangeOrgs$ = this.orgService.getByUrl(`${this.orgUrl}?$filter=contains(orgIdentifier,'${input}') or contains(orgNam,'${input}')`)
+        .pipe(map(it => it.value));
     });
   }
   displayExchangeOrg(org: Organization) {
@@ -56,14 +63,15 @@ export class ExchangeAssetDialogComponent implements OnInit {
   }
   exchangeAsset() {
     const model: ExchangeAsset = {
-      exchangeOrgId: this.assetExchangeForm.get('exchangeOrg').value.orgId,
+      exchangeOrgId: this.assetExchangeForm.get('exchangeOrg').value.id,
       targetOrgId: this.assetExchangeForm.get('targetOrgId').value,
-      assetId: this.data.asset.assetId,
+      assetId: this.data.asset.id,
       message: this.assetExchangeForm.get('message').value
     };
     this.assetExchangeService.exchangeAsset(model).subscribe({
-      next: (value: RequestActionModel) => {
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
+        this.assetService.dataSourceChangedSubject.next(true);
       },
       error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
     });

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetApplyingEvent } from 'src/app/models/dtos/asset-applying-event';
+import { AssetApply } from 'src/app/models/dtos/asset-apply';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetApplyingService } from 'src/app/core/services/asset-applying.service';
@@ -8,10 +8,11 @@ import { MatDialog } from '@angular/material';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, pluck, filter } from 'rxjs/operators';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HandleAssetApplyDialogComponent } from './handle-asset-apply-dialog/handle-asset-apply-dialog.component';
 import { environment } from '../../../../environments/environment';
+import { RevokeApplyDialogComponent } from './revoke-apply-dialog/revoke-apply-dialog.component';
 
 @Component({
   selector: 'app-asset-apply',
@@ -20,29 +21,23 @@ import { environment } from '../../../../environments/environment';
 })
 export class AssetApplyComponent implements OnInit {
 
-  assetApplyManageUrl: string;
+  assetApplyUrl: string;
   searchInputContent: string;
-  selection: SelectionModel<AssetApplyingEvent> = new SelectionModel<AssetApplyingEvent>(true, []);
-  currentSelectionRow: AssetApplyingEvent;
-  revokeEventForm: FormGroup;
+  selection: SelectionModel<AssetApply> = new SelectionModel<AssetApply>(true, []);
+  currentSelectionRow: AssetApply;
+
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
-  @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
   constructor(private alert: AlertService,
-    private assetApplyingService: AssetApplyingService,
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private assetService: AssetService) {
-    this.assetApplyManageUrl = environment.apiBaseUrls.assetApplyAdmin_read;
+    private dialog: MatDialog) {
+    this.assetApplyUrl = environment.apiBaseUrls.odata.assetApply_manage;
   }
 
   ngOnInit() {
     fromEvent(this.searchInput.nativeElement, 'keyup')
-      .pipe(debounceTime(300), pluck('target', 'value')).subscribe((value: string) => this.searchInputContent = value);
-    this.assetService.dataSourceChangedSubject.asObservable().pipe(filter(value => value === true)).subscribe(value => {
-      this.assetApplyingService.dataSourceChangedSubject.next(true);
-    });
+      .pipe(debounceTime(300), pluck('target', 'value'))
+      .subscribe((value: string) => this.searchInputContent = this.manipulateOdataFilter(value));
   }
-  onSelected($evnet: SelectionModel<AssetApplyingEvent>) {
+  onSelected($evnet: SelectionModel<AssetApply>) {
     this.selection = $evnet;
   }
   get isOneSelected() {
@@ -62,25 +57,10 @@ export class AssetApplyComponent implements OnInit {
           break;
         default:
           this.currentSelectionRow = this.selection.selected[0];
-          this.revokeEventForm = this.fb.group({
-            message: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]]
-          });
-          this.dialog.open(this.revokeEventRef);
+          this.dialog.open(RevokeApplyDialogComponent, { data: { assetApply: this.currentSelectionRow } });
           break;
       }
     }
-  }
-  /**撤销事件的逻辑 */
-  revokeEvent() {
-    const eventId = this.currentSelectionRow.eventId;
-    const message = this.revokeEventForm.get('message').value;
-    this.assetApplyingService.revoke(eventId, message).subscribe({
-      next: (value: RequestActionModel) => {
-        this.alert.success(value.message);
-        this.assetApplyingService.dataSourceChangedSubject.next(true);
-      },
-      error: (value: HttpErrorResponse) => this.alert.failure(value.error.message)
-    });
   }
   openHandleAssetApplyingDialog() {
     if (!this.isOneSelected) {
@@ -102,5 +82,10 @@ export class AssetApplyComponent implements OnInit {
       }
     }
   }
-
+  manipulateOdataFilter(input: string): string {
+    if (input) {
+      return `$filter=contains(requestOrgIdentifier,'${input}') or contains(requestOrgNam,'${input}')`;
+    }
+    return '';
+  }
 }

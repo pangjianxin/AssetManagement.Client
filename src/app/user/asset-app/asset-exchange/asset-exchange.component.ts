@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetExchangingEvent } from 'src/app/models/dtos/asset-exchanging-event';
+import { AssetExchange } from 'src/app/models/dtos/asset-exchange';
 import { MatDialog } from '@angular/material';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-asset-exchange',
@@ -16,17 +17,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AssetExchangeComponent implements OnInit {
 
-  assetExchangingCurrentUserUrl = '/api/assetExchange/current/pagination/';
+  assetExchangeUrl: string;
   currentSearchInput: string;
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
   @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
-  currentSelection: SelectionModel<AssetExchangingEvent> = new SelectionModel<AssetExchangingEvent>(true, []);
-  currentSelectedRow: AssetExchangingEvent;
+  currentSelection: SelectionModel<AssetExchange> = new SelectionModel<AssetExchange>(true, []);
+  currentSelectedRow: AssetExchange;
   constructor(private dialog: MatDialog,
     private assetExchangeService: AssetExchangingService,
     private alert: AlertService) { }
 
   ngOnInit() {
+    this.assetExchangeUrl = environment.apiBaseUrls.odata.assetExchange_current;
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((value: string) => this.currentSearchInput = value);
   }
@@ -45,8 +47,8 @@ export class AssetExchangeComponent implements OnInit {
     }
   }
   removeApplication() {
-    this.assetExchangeService.remove(this.currentSelectedRow.eventId).subscribe({
-      next: (value: RequestActionModel) => {
+    this.assetExchangeService.remove(this.currentSelectedRow.id).subscribe({
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetExchangeService.dataSourceChangedSubject.next(true);
       },

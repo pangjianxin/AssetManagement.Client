@@ -1,0 +1,86 @@
+<form [formGroup]="addMaintainerForm">
+    <mat-dialog-content>
+        <mat-card>
+            <mat-card-header>
+                <img src="assets/img/icons/Automation.png" alt="logo" matCardAvatar>
+                <mat-card-title>添加资产维修服务</mat-card-title>
+                <mat-card-subtitle>为指定的资产维修添加相关的服务，当机构有设备出现故障时，会根据添加的维修服务来指定维修人员上门服务</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content fxLayout="column">
+                <mat-toolbar color="accent">
+                    <span>请核对资产分类的关键信息，避免在错误的资产分类上面添加维修服务</span>
+                </mat-toolbar>
+                <div fxLayout="row">
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-icon matListIcon color="accent">filter_1</mat-icon>
+                            <h4 matLine>资产大类</h4>
+                            <p matLine>{{data.currentCategory.assetFirstLevelCategory}}</p>
+                        </mat-list-item>
+                    </mat-list>
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-icon matListIcon color="accent">filter_2</mat-icon>
+                            <h4 matLine>资产中类</h4>
+                            <p matLine>{{data.currentCategory.assetSecondLevelCategory}}</p>
+                        </mat-list-item>
+                    </mat-list>
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-icon matListIcon color="accent">filter_3</mat-icon>
+                            <h4 matLine>资产小类</h4>
+                            <p matLine>{{data.currentCategory.assetThirdLevelCategory}}</p>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <mat-toolbar color="accent">
+                    <span>核对无误请填写下面表单，然后提交</span>
+                </mat-toolbar>
+                <mat-form-field>
+                    <input matInput formControlName="companyName" type="text">
+                    <mat-label>
+                        <mat-icon>message</mat-icon>
+                        请输入服务公司名称
+                    </mat-label>
+                    <mat-hint align="end">该项为必输项</mat-hint>
+                    <mat-error *ngIf="addMaintainerForm.get('companyName').invalid">输入格式错误</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="maintainerName" type="text">
+                    <mat-label>
+                        <mat-icon>message</mat-icon>
+                        请输入维修人员姓名
+                    </mat-label>
+                    <mat-hint align="end">该项为必输项</mat-hint>
+                    <mat-error *ngIf="addMaintainerForm.get('maintainerName').invalid">输入格式错误</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="telephone" type="text">
+                    <mat-label>
+                        <mat-icon>message</mat-icon>
+                        请输入维修人员手机号
+                    </mat-label>
+                    <mat-hint align="end">该项为必输项</mat-hint>
+                    <mat-error *ngIf="addMaintainerForm.get('telephone').invalid">输入格式错误</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="officePhone" type="text">
+                    <mat-label>
+                        <mat-icon>message</mat-icon>
+                        请输入维修人员座机电话
+                    </mat-label>
+                    <mat-hint align="end">该项不是必输</mat-hint>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button type="button" mat-icon-button matTooltip="关闭" mat-dialog-close>
+                    <mat-icon>power_settings_new</mat-icon>
+                </button>
+                <button type="button" mat-icon-button matTooltip="提交" (click)="addMaintainer()"
+                    [disabled]="addMaintainerForm.invalid">
+                    <mat-icon>done</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-dialog-content>
+</form>

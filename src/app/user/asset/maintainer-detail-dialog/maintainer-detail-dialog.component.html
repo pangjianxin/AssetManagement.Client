@@ -1,39 +1,39 @@
 <mat-toolbar color="accent">
-        <span>该类资产维修商清单</span>
-      </mat-toolbar>
-      <ng-container *ngIf="anyMaintainers$ | async else  haveNoMaintainersRef">
-        <mat-dialog-content>
-          <mat-list>
-            <mat-list-item *ngFor="let item of targetMaintainers$ | async">
-              <img src="assets/img/icons/Environmental Monitoring.png" alt="logo" matListAvatar>
-              <h3 matLine>{{item.companyName}}</h3>
-              <p matLine>{{item.telephone}}</p>
-              <p matLine>{{item.maintainerName}}</p>
-            </mat-list-item>
-          </mat-list>
-        </mat-dialog-content>
-        <mat-dialog-actions align="end">
-          <button mat-icon-button matTooltip="关闭对话框" mat-dialog-close>
-            <mat-icon>
-              power_settings_new
-            </mat-icon>
-          </button>
-        </mat-dialog-actions>
-      </ng-container>
-      <ng-template #haveNoMaintainersRef>
-        <mat-dialog-content>
-          <div fxLayout="column" fxLayoutAlign="center center">
-            <h3>
-              <mat-icon color="accent">warning</mat-icon>你选择维修的资产在当前没有匹配的服务商提供服务
-            </h3>
-            <p>请联系相应管理部门对该类资产的维修服务商进行维护</p>
-          </div>
-        </mat-dialog-content>
-        <mat-dialog-actions align="end">
-          <button mat-icon-button matTooltip="关闭对话框" mat-dialog-close>
-            <mat-icon>
-              power_settings_new
-            </mat-icon>
-          </button>
-        </mat-dialog-actions>
-      </ng-template>
+  <span>该类资产维修商清单</span>
+</mat-toolbar>
+<ng-container *ngIf="anyMaintainers else  haveNoMaintainersRef">
+  <mat-dialog-content>
+    <mat-list>
+      <mat-list-item *ngFor="let item of targetMaintainers$ | async">
+        <img src="assets/img/icons/Environmental Monitoring.png" alt="logo" matListAvatar>
+        <h3 matLine>{{item.companyName}}</h3>
+        <p matLine>{{item.telephone}}</p>
+        <p matLine>{{item.maintainerName}}</p>
+      </mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-icon-button matTooltip="关闭对话框" mat-dialog-close>
+      <mat-icon>
+        power_settings_new
+      </mat-icon>
+    </button>
+  </mat-dialog-actions>
+</ng-container>
+<ng-template #haveNoMaintainersRef>
+  <mat-dialog-content>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <h3>
+        <mat-icon color="accent">warning</mat-icon>你选择维修的资产在当前没有匹配的服务商提供服务
+      </h3>
+      <p>请联系相应管理部门对该类资产的维修服务商进行维护</p>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-icon-button matTooltip="关闭对话框" mat-dialog-close>
+      <mat-icon>
+        power_settings_new
+      </mat-icon>
+    </button>
+  </mat-dialog-actions>
+</ng-template>

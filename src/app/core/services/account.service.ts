@@ -4,15 +4,20 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenInfo } from 'src/app/models/dtos/tokenInfo';
 import { Router } from '@angular/router';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { ChangeOrgShortNam } from 'src/app/models/viewmodels/change-org-short-nam';
 import { ResetOrgPassword } from 'src/app/models/viewmodels/reset-org-password';
 import { ChangeOrgPassword } from 'src/app/models/viewmodels/change-org-password';
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
+  loginUrl: string;
+  changeOrgShortNameUrl: string;
+  resetOrgPasswordUrl: string;
+  changeOrgPasswordUrl: string;
   /* ①BehaviorSubject保存最新的值或者初始值
    * ②ReplaySubject的构造函数传入一个数字表示它所能记住的发射的元素数，它本身不管subscribe调用的时机，总会发射出所有的元素
   */
@@ -23,6 +28,10 @@ export class AccountService {
   public dataSourceChanged = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
     this.populate();
+    this.loginUrl = environment.apiUrls.login;
+    this.changeOrgShortNameUrl = environment.apiUrls.changeOrgShortName;
+    this.resetOrgPasswordUrl = environment.apiUrls.resetOrgPassword;
+    this.changeOrgPasswordUrl = environment.apiUrls.changeOrgPassword;
   }
   // 这个函数主要用来页面刷新时重新装载用户数据，这里的用户是organization。
   // 如果localstorage中存在token信息，就直接用token的信息发布一个登录凭证，否则，清空一下，然后发送未登录指令到app component
@@ -38,7 +47,7 @@ export class AccountService {
     }
   }
   // 登录会调用的逻辑，登录从远端拿到access_token之后存到localstorage
-  public setAuth(model: RequestActionModel) {
+  public setAuth(model: ActionResult) {
     // 首先清除一次凭证
     this.pureAuth();
     window.localStorage.setItem('access_token', model.data.access_token);
@@ -53,8 +62,8 @@ export class AccountService {
   getCurrentOrg(): TokenInfo {
     return this.currentOrg$.value;
   }
-  login(model: any): Observable<RequestActionModel> {
-    return this.http.post<RequestActionModel>('/api/auth/login', model).pipe(map(result => {
+  login(model: any): Observable<ActionResult> {
+    return this.http.post<ActionResult>(this.loginUrl, model).pipe(map(result => {
       if (result.success) {
         this.setAuth(result);
         console.log(result.data);
@@ -62,11 +71,11 @@ export class AccountService {
       return result;
     }));
   }
-  getOrgPagination(urlPath: string): Observable<HttpResponse<RequestActionModel>> {
-    return this.http.get<RequestActionModel>(urlPath, { observe: 'response' });
+  getOrgPagination(urlPath: string): Observable<HttpResponse<ActionResult>> {
+    return this.http.get<ActionResult>(urlPath, { observe: 'response' });
   }
-  changeOrgShortName(viewModel: ChangeOrgShortNam): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/auth/changeOrgShortName', JSON.stringify(viewModel)).pipe(map(value => {
+  changeOrgShortName(viewModel: ChangeOrgShortNam): Observable<ActionResult> {
+    return this.http.put<ActionResult>(this.changeOrgShortNameUrl, JSON.stringify(viewModel)).pipe(map(value => {
       if (viewModel.orgIdentifier === this.getCurrentOrg().orgIdentifier) {
         this.setAuth(value);
       }
@@ -74,11 +83,11 @@ export class AccountService {
     }));
   }
   /**当前重置密码是由管理部门发起的。用户部门没有发起重置密码的权限 */
-  resetOrgPassword(model: ResetOrgPassword): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/auth/resetPassword', JSON.stringify(model));
+  resetOrgPassword(model: ResetOrgPassword): Observable<ActionResult> {
+    return this.http.put<ActionResult>(this.resetOrgPasswordUrl, JSON.stringify(model));
   }
-  changeOrgPassword(model: ChangeOrgPassword): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>('/api/auth/changeOrgPassword', JSON.stringify(model))
+  changeOrgPassword(model: ChangeOrgPassword): Observable<ActionResult> {
+    return this.http.put<ActionResult>(this.changeOrgPasswordUrl, JSON.stringify(model))
       .pipe(map(value => {
         this.setAuth(value);
         return value;

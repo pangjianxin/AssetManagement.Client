@@ -1,0 +1,228 @@
+<form [formGroup]="assetStorageForm" fxFlex>
+    <mat-dialog-content>
+        <mat-toolbar color="accent">
+            <mat-icon>event_note</mat-icon>
+            <span>
+                资产分类信息
+            </span>
+        </mat-toolbar>
+        <mat-list fxLayout="row">
+            <mat-list-item>
+                <mat-icon color="accent" matListIcon>filter_1</mat-icon>
+                <p matLine>
+                    <b>资产大类</b>
+                </p>
+                <p matLine>{{data.currentSelectedCategory.assetFirstLevelCategory}}</p>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon color="accent" matListIcon>filter_4</mat-icon>
+                <p matLine>
+                    <b>归属条线描述</b>
+                </p>
+                <p matLine>{{data.currentSelectedCategory.assetSecondLevelCategory}}</p>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon color="accent" matListIcon>filter_2</mat-icon>
+                <p matLine>
+                    <b>资产小类</b>
+                </p>
+                <p matLine>{{data.currentSelectedCategory.assetThirdLevelCategory}}</p>
+            </mat-list-item>
+        </mat-list>
+        <mat-toolbar color="accent">
+            <mat-icon>event_note</mat-icon>
+            <span>
+                表单
+            </span>
+        </mat-toolbar>
+        <div fxLayout="column">
+            <mat-form-field>
+                <input matInput formControlName="assetName" type="text">
+                <mat-label>
+                    <mat-icon>message</mat-icon>请填写资产名称
+                </mat-label>
+                <mat-hint align="end">必输项</mat-hint>
+                <mat-error *ngIf="assetStorageForm.get('assetName').invalid">资产名称为必输项</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="brand" type="text">
+                <mat-label>
+                    <mat-icon>message</mat-icon>请填写资产品牌
+                </mat-label>
+                <mat-hint align="end">必输项</mat-hint>
+                <mat-error *ngIf="assetStorageForm.get('brand').invalid">资产品牌必须填写</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="assetDescription" type="text">
+                <mat-label>
+                    <mat-icon>message</mat-icon>请填写资产描述
+                </mat-label>
+                <mat-hint align="end">必输项，一般该项用于描述资产配置</mat-hint>
+                <mat-error *ngIf="assetStorageForm.get('assetDescription').invalid">资产描述必须填写</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="assetType" type="text">
+                <mat-label>
+                    <mat-icon>message</mat-icon>请填写资产型号
+                </mat-label>
+                <mat-hint align="end">必输项</mat-hint>
+                <mat-error *ngIf="assetStorageForm.get('assetType').invalid">资产型号必须填写</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-select formControlName="assetLocation">
+                    <mat-option [value]="null">
+                        <mat-icon>info</mat-icon>选择一个入库位置
+                    </mat-option>
+                    <mat-option *ngFor="let item of candidateOrgSpaces$| async" [value]="item.spaceName">
+                        {{item.spaceName}}
+                    </mat-option>
+                </mat-select>
+                <mat-label>
+                    <mat-icon>message</mat-icon>请选择入库位置
+                </mat-label>
+                <mat-hint align="end">入库位置在机构空间中进行维护</mat-hint>
+                <mat-error *ngIf="assetStorageForm.get('assetLocation').invalid">入库位置为必填项目</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [matDatepicker]="endDatePicker" type="text" formControlName="createDateTime"
+                    [max]="currentDate">
+                <mat-label>
+                    <mat-icon>message</mat-icon>请选择资产生产日期
+                </mat-label>
+                <mat-error *ngIf="assetStorageForm.get('createDateTime').invalid">生产日期为必输项</mat-error>
+                <mat-datepicker-toggle [for]="endDatePicker" matSuffix></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <div fxLayout="row" fxLayoutGap="10px" formGroupName="tagNumbers">
+                <mat-form-field>
+                    <input matInput formControlName="startTagNumber" type="text">
+                    <mat-label>
+                        <mat-icon>message</mat-icon>请输入起始标签号
+                    </mat-label>
+                    <mat-error *ngIf="assetStorageForm.get('tagNumbers').get('startTagNumber').invalid">
+                        标签号的格式不正确
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput formControlName="endTagNumber" type="text">
+                    <mat-label>
+                        <mat-icon>message</mat-icon>请输入结束标签号
+                    </mat-label>
+                    <mat-error *ngIf="assetStorageForm.get('tagNumbers').get('endTagNumber').invalid">标签号的格式不正确
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <mat-error *ngIf="assetStorageForm.get('tagNumbers').hasError('tagNumberFormat')">
+                <mat-icon>important_devices</mat-icon>
+                起始标签号和结束标签号的格式不一致
+            </mat-error>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-icon-button color="accent" matTooltip="退出" mat-dialog-close>
+            <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="提交" (click)="storeAssetsConfirm()"
+            [disabled]="assetStorageForm.invalid">
+            <mat-icon>done</mat-icon>
+        </button>
+    </mat-dialog-actions>
+</form>
+<ng-template #assetStoreConfirmRef>
+    <mat-dialog-content>
+        <mat-toolbar color="accent">
+            <span>
+                <mat-icon>event_note</mat-icon> 入库资产分类信息
+            </span>
+        </mat-toolbar>
+        <mat-list fxLayout="row">
+            <mat-list-item>
+                <mat-icon color="accent" matListIcon>filter_1</mat-icon>
+                <p matLine>
+                    资产大类
+                </p>
+                <p matLine>{{data.currentSelectedCategory.assetFirstLevelCategory}}</p>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon color="accent" matListIcon>filter_2</mat-icon>
+                <p matLine>
+                    资产中类
+                </p>
+                <p matLine>{{data.currentSelectedCategory.assetSecondLevelCategory}}</p>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon color="accent" matListIcon>filter_2</mat-icon>
+                <p matLine>
+                    资产小类
+                </p>
+                <p matLine>{{data.currentSelectedCategory.assetThirdLevelCategory}}</p>
+            </mat-list-item>
+        </mat-list>
+        <mat-toolbar color="accent">
+            <span>
+                <mat-icon>event_note</mat-icon> 入库资产信息
+            </span>
+        </mat-toolbar>
+        <div fxLayout="row">
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_1</mat-icon>
+                    <p matLine>资产名称</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.assetName}}</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_4</mat-icon>
+                    <p matLine>资产品牌</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.brand}}</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_7</mat-icon>
+                    <p matLine>资产描述</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.assetDescription}}</p>
+                </mat-list-item>
+            </mat-list>
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_2</mat-icon>
+                    <p matLine>资产型号</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.assetType}}</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_5</mat-icon>
+                    <p matLine>资产位置</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.assetLocation}}</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_8</mat-icon>
+                    <p matLine>生产日期</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.createDateTime | date:'short'}}</p>
+                </mat-list-item>
+            </mat-list>
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_3</mat-icon>
+                    <p matLine>开始标签号</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.startTagNumber}}</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_6</mat-icon>
+                    <p matLine>结束标签号</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.endTagNumber}}</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon matListIcon color="accent">filter_9</mat-icon>
+                    <p matLine>入库数量</p>
+                    <p matLine>{{currentBuiltAssetStorageViewmodel.count()}}</p>
+                </mat-list-item>
+            </mat-list>
+        </div>>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-icon-button color="accent" mat-dialog-close>
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="assetsStore()" [disabled]="hasSubmitAssetStored">
+            <mat-icon>done</mat-icon>
+        </button>
+    </mat-dialog-actions>
+</ng-template>

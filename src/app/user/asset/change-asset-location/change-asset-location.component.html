@@ -1,0 +1,36 @@
+<mat-toolbar color="accent">
+    <span>维护资产摆放位置</span>
+    <span fxFlex="1 1 auto"></span>
+    <button mat-icon-button matTooltip="添加机构空间" (click)="dialog.closeAll()"
+        [routerLink]="['/organization','spaceandemployee']">
+        <mat-icon>add</mat-icon>
+    </button>
+</mat-toolbar>
+<form [formGroup]="modifyAssetLocationForm" (ngSubmit)="modifyAssetLocation()">
+    <mat-dialog-content>
+        <mat-form-field fxFlex appearance="standard">
+            <mat-select formControlName="assetLocation">
+                <mat-option *ngFor="let space of orgSpaces$ | async" [value]="space.spaceName">
+                    {{space.spaceName}}
+                </mat-option>
+            </mat-select>
+            <mat-error></mat-error>
+            <mat-label>
+                <mat-icon>get_app</mat-icon>
+                请选择一个位置.......
+            </mat-label>
+            <mat-hint align="end">
+                如果没有合适的,可以点击上方加号按钮新增一个
+            </mat-hint>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-icon-button mat-dialog-close color="accent" matTooltip="退出">
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="提交" [disabled]="modifyAssetLocationForm.invalid"
+            type="submit">
+            <mat-icon>done</mat-icon>
+        </button>
+    </mat-dialog-actions>
+</form>

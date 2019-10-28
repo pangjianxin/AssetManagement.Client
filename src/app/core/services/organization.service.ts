@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 import { HttpClient } from '@angular/common/http';
+import { ServiceBaseService } from './service-base.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrganizationService {
-
-  constructor(private http: HttpClient) { }
-  getOrgsBySearchInput(searchInput: string): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>(`/api/auth/accounts/search?searchInput=${searchInput}`);
-  }
-  getOrgsByOrg2(): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>(`/api/auth/accounts/org2`);
+export class OrganizationService extends ServiceBaseService {
+  public dataSourceChanged: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  constructor(http: HttpClient) {
+    super(http);
   }
 }

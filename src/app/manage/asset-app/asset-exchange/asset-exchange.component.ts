@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetExchangingEvent } from 'src/app/models/dtos/asset-exchanging-event';
+import { AssetExchange } from 'src/app/models/dtos/asset-exchange';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetExchangingService } from 'src/app/core/services/asset-exchanging-service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { HandleAssetExchange } from 'src/app/models/viewmodels/handle-asset-exchange';
@@ -25,14 +25,14 @@ export class AssetExchangeComponent implements OnInit {
   @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
   @ViewChild('removeEventRef', { static: true }) removeEventRef: TemplateRef<any>;
   @ViewChild('handleEventRef', { static: true }) handleEventRef: TemplateRef<any>;
-  currentSelection: SelectionModel<AssetExchangingEvent> = new SelectionModel<AssetExchangingEvent>(true, []);
-  currentSelectedRow: AssetExchangingEvent;
+  currentSelection: SelectionModel<AssetExchange> = new SelectionModel<AssetExchange>(true, []);
+  currentSelectedRow: AssetExchange;
   revokeEventForm: FormGroup;
   currentRevokeSubmited = false;
   currentRemoveSubmited = false;
   currentHandleSubmited = false;
   requestObserver = {
-    next: (value: RequestActionModel) => {
+    next: (value: ActionResult) => {
       this.alert.success(value.message);
       this.assetExchangeService.dataSourceChangedSubject.next(true);
     },
@@ -43,14 +43,14 @@ export class AssetExchangeComponent implements OnInit {
     private assetService: AssetService,
     private dialog: MatDialog,
     private fb: FormBuilder) {
-    this.assetExchangeAdminUrl_read = environment.apiBaseUrls.assetExchangeAdmin_read;
+    this.assetExchangeAdminUrl_read = environment.apiBaseUrls.odata.assetExchange_manage;
   }
 
   ngOnInit() {
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((value: string) => this.currentSearchInput = value);
   }
-  onSelected($event: SelectionModel<AssetExchangingEvent>) {
+  onSelected($event: SelectionModel<AssetExchange>) {
     this.currentSelection = $event;
   }
   get isOneSelected() {
@@ -103,16 +103,16 @@ export class AssetExchangeComponent implements OnInit {
   revokeEvent() {
     this.currentRevokeSubmited = true;
     const message = this.revokeEventForm.get('message').value;
-    this.assetExchangeService.revoke(this.currentSelectedRow.eventId, message).subscribe(this.requestObserver);
+    this.assetExchangeService.revoke(this.currentSelectedRow.id, message).subscribe(this.requestObserver);
   }
   removeEvent() {
     this.currentRemoveSubmited = true;
-    const eventId = this.currentSelectedRow.eventId;
+    const eventId = this.currentSelectedRow.id;
     this.assetExchangeService.remove(eventId).subscribe(this.requestObserver);
   }
   handleEvent() {
     const model: HandleAssetExchange = {
-      eventId: this.currentSelectedRow.eventId
+      eventId: this.currentSelectedRow.id
     };
     this.assetExchangeService.handleAssetExchanging(model).subscribe(this.requestObserver);
   }

@@ -1,11 +1,10 @@
-<app-asset-apply-table [apiUrl]="assetApplyingCurrnetUserUrl" [currentFileterData]="searchInputContent"
-    (selected)="onSelected($event)">
+<app-asset-apply-table [url]="assetApplyUrl" [filter]="searchInputContent" (selected)="onSelected($event)">
     <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
         <button mat-raised-button color="primary" (click)="openRemoveApplicationDialog()">
             <mat-icon>fast_rewind</mat-icon>
             删除申请
         </button>
-        <button mat-raised-button color="primary" [routerLink]="['/assetcategory','user']">
+        <button mat-raised-button color="primary" [routerLink]="['/user','assetCategory']">
             <mat-icon>fast_forward</mat-icon>
             继续申请
         </button>

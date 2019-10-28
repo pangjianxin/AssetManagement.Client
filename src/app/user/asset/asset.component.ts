@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, TemplateRef, Input } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Asset } from 'src/app/models/dtos/asset';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,9 +12,12 @@ import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { ExchangeAssetDialogComponent } from './exchange-asset-dialog/exchange-asset-dialog.component';
 import { ReturnAssetDialogComponent } from './return-asset-dialog/return-asset-dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { ModifyAssetLocation } from 'src/app/models/viewmodels/modify-asset-location';
 import { MaintainerDetailDialogComponent } from './maintainer-detail-dialog/maintainer-detail-dialog.component';
+import { environment } from 'src/environments/environment';
+import { ChartData } from 'src/app/models/dtos/chart-data';
+import { ChangeAssetLocationComponent } from './change-asset-location/change-asset-location.component';
 
 @Component({
   selector: 'app-asset',
@@ -22,37 +25,29 @@ import { MaintainerDetailDialogComponent } from './maintainer-detail-dialog/main
   styleUrls: ['./asset.component.scss']
 })
 export class AssetComponent implements OnInit {
-
   // 当前ApiUrl
-  apiUrl: string;
+  assetTableUrl: string;
+  assetSumarryByCategoryUrl: string;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   @ViewChild('assetSearchInput', { static: true }) searchInputElement: ElementRef;
-  @ViewChild('changeAssetLocationRef', { static: true }) changeAssetLocationRef: TemplateRef<any>;
   // 当前过滤逻辑
-  searchInput = '';
+  filter = '';
   /**资产按照三级分类的图表数据 */
-  thirdLevelDataSet: Array<{ name: string, value: number }>;
-  /**资产按照管理机构分类的图表数据 */
-  managerOrgDataSet: Array<{ name: string, value: number }>;
-  /**修改资产摆放位置的表单 */
-  modifyAssetLocationForm: FormGroup;
-  /**机构空间数据，用于维护资产摆放位置 */
-  orgSpaces: OrgSpace[];
+  thirdLevelDataSet: Array<ChartData>;
   constructor(private assetService: AssetService,
     private alert: AlertService,
-    private dialog: MatDialog,
-    private fb: FormBuilder,
-    private spaceService: OrgSpaceService) {
+    private dialog: MatDialog) {
+    this.assetTableUrl = `${environment.apiBaseUrls.odata.asset_current}?$expand=assetCategoryDto`;
+    this.assetSumarryByCategoryUrl = environment.apiBaseUrls.odata.asset_sumarry_current_byCategory;
   }
   ngOnInit() {
-    this.apiUrl = `/api/assets/current`;
     fromEvent(this.searchInputElement.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((filter: string) => {
-        console.log(filter);
-        this.searchInput = filter;
+        this.filter = this.manipulateOdataFilter(filter);
+        this.assetService.dataSourceChangedSubject.next(true);
       });
-    this.getAssetCategpries();
+    this.getAssetSumarry();
   }
   /**判断是否选中唯一一项 */
   get isOneSelected() {
@@ -65,18 +60,10 @@ export class AssetComponent implements OnInit {
   /**
    * 获取图表类的数据
    */
-  getAssetCategpries() {
-    this.assetService.getAssetsCategories(`/api/assets/current/categories/thirdLevel`).subscribe({
-      next: (value: RequestActionModel) => {
-        this.thirdLevelDataSet = value.data;
-      },
-      error: (e: HttpErrorResponse) => {
-        this.alert.failure(`${e.statusText}`);
-      }
-    });
-    this.assetService.getAssetsCategories('/api/assets/current/categories/managerOrg').subscribe({
-      next: (value: RequestActionModel) => {
-        this.managerOrgDataSet = value.data;
+  getAssetSumarry() {
+    this.assetService.getByUrl(this.assetSumarryByCategoryUrl).subscribe({
+      next: (result: any) => {
+        this.thirdLevelDataSet = result as ChartData[];
       },
       error: (e: HttpErrorResponse) => {
         this.alert.failure(`${e.statusText}`);
@@ -88,31 +75,9 @@ export class AssetComponent implements OnInit {
     if (!this.isOneSelected) {
       this.alert.warn('必须只能选中一项', '重新选择');
     } else {
-      this.modifyAssetLocationForm = this.fb.group({
-        assetId: [this.selection.selected[0].assetId, [Validators.required]],
-        assetLocation: ['', [Validators.required]]
-      });
-      this.spaceService.getAllSpace().subscribe({
-        next: (value: RequestActionModel) => {
-          this.orgSpaces = value.data;
-          this.dialog.open(this.changeAssetLocationRef, { minWidth: '50%' });
-        },
-        error: (e: RequestActionModel) => this.alert.failure(e.message),
-      });
+      this.dialog.open(ChangeAssetLocationComponent, { data: { asset: this.selection.selected[0] } });
     }
   }
-  /**维护资产位置api */
-  modifyAssetLocation() {
-    const model = this.modifyAssetLocationForm.value as ModifyAssetLocation;
-    this.assetService.modifyAssetLocation(model).subscribe({
-      next: (value: RequestActionModel) => {
-        this.alert.success(value.message);
-        this.assetService.dataSourceChangedSubject.next(true);
-      },
-      error: (e: HttpErrorResponse) => this.alert.failure(e.error.message)
-    });
-  }
-
   /**资产交回相关api--打开对话框 */
   openAssetReturnDialog() {
     if (!this.isOneSelected) {
@@ -153,5 +118,9 @@ export class AssetComponent implements OnInit {
       });
     }
   }
-
+  manipulateOdataFilter(input: string): string {
+    if (input) {
+      return `$filter=contains(assetName,'${input}')`;
+    } return '';
+  }
 }

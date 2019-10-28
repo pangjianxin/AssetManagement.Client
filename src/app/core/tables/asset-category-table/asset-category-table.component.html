@@ -2,7 +2,7 @@
     <mat-card-content>
         <ng-content>
         </ng-content>
-        <table mat-table [dataSource]="assetCategoryDataSource" [ngStyle]="{'width': '100%'}" matSort
+        <table mat-table [dataSource]="dataSource" [ngStyle]="{'width': '100%'}" matSort
             #matSortAssetCategoryTable="matSort" (matSortChange)="changeSort($event)">
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef>
@@ -46,8 +46,8 @@
         </table>
     </mat-card-content>
     <mat-card-actions align="end">
-        <mat-paginator #paginator [pageIndex]="0" [length]="totalAssetCategoriesCounts" [pageSize]="10"
-            [pageSizeOptions]="[5,10,15]" showFirstLastButtons="true">
+        <mat-paginator #paginator [length]="totalCount" [pageSize]="10" [pageSizeOptions]="[5,10,15]"
+            showFirstLastButtons="true">
         </mat-paginator>
     </mat-card-actions>
 </mat-card>

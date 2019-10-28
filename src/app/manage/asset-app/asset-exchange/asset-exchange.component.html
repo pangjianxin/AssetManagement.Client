@@ -1,4 +1,4 @@
-<app-asset-exchange-table [apiUrl]="assetExchangeAdminUrl_read" [currentFileterData]="currentSearchInput"
+<app-asset-exchange-table [url]="assetExchangeAdminUrl_read" [filter]="currentSearchInput"
     (selected)="onSelected($event)">
     <mat-toolbar class="table-bar" color="primary" fxLayoutGap="10px">
         <button mat-raised-button color="primary" (click)="openRevokeEventDialog()">

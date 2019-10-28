@@ -1,7 +1,7 @@
 
 
 export interface AssetCategory {
-    assetCategoryId: string;
+    id: string;
     assetFirstLevelCategory: string;
     assetSecondLevelCategory: string;
     assetThirdLevelCategory: string;

@@ -2,35 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AddMaintainer } from 'src/app/models/viewmodels/add-maintainer';
 import { Observable, Subject } from 'rxjs';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { DeleteMaintainer } from 'src/app/models/viewmodels/delete-maintainer';
 import { ApplyMaintain } from 'src/app/models/viewmodels/apply-maintain';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaintainerService {
+  apiUrl: string;
   dataSourceChangeSubject: Subject<boolean> = new Subject<boolean>();
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.apiUrl = environment.apiBaseUrls.api.maintainer;
+  }
   /**添加服务商 */
-  addMaintainer(model: AddMaintainer): Observable<RequestActionModel> {
-    return this.http.post<RequestActionModel>('/api/maintainer/secondary/create', JSON.stringify(model));
+  addMaintainer(model: AddMaintainer): Observable<ActionResult> {
+    return this.http.post<ActionResult>(this.apiUrl, JSON.stringify(model));
   }
   /**服务商表分页数据 */
-  paginationAsync(url: string): Observable<HttpResponse<RequestActionModel>> {
-    console.log(url);
-    return this.http.get<RequestActionModel>(url, { observe: 'response' });
+  getByUrl(url: string): Observable<any> {
+    return this.http.get<any>(url);
   }
   /**删除服务商 */
-  deleteMaintainer(model: DeleteMaintainer): Observable<RequestActionModel> {
-    return this.http.delete<RequestActionModel>(`/api/maintainer/secondary/delete?maintainerId=${model.maintainerId}`);
-  }
-  /**根据资产分类查找服务商 */
-  getMaintainersByCategoryid(assetCategoryId: string): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>(`/api/maintainer/current/maintainers?assetCategoryId=${assetCategoryId}`);
-  }
-  /**根据资产分类查找是否存在服务商 */
-  anyMaintainer(assetCategoryId: string): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>(`/api/maintainer/current/anymaintainer?assetCategoryId=${assetCategoryId}`);
+  deleteMaintainer(model: DeleteMaintainer): Observable<ActionResult> {
+    return this.http.delete<ActionResult>(`${this.apiUrl}?maintainerId=${model.maintainerId}`);
   }
 }

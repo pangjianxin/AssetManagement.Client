@@ -1,5 +1,4 @@
-<app-asset-exchange-table [apiUrl]="assetExchangingCurrentUserUrl" [currentFileterData]="currentSearchInput"
-    (selected)="onSelected($event)">
+<app-asset-exchange-table [url]="assetExchangeUrl" [filter]="currentSearchInput" (selected)="onSelected($event)">
     <mat-toolbar class="table-bar" color="primary" fxLayoutGap="10px">
         <button mat-raised-button color="primary" (click)="openRemoveApplicationDialog()">
             <mat-icon>fast_rewind</mat-icon>

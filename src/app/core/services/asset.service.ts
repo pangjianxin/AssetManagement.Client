@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { ModifyAssetLocation } from 'src/app/models/viewmodels/modify-asset-location';
 import { StoreAsset } from 'src/app/models/viewmodels/store-asset';
 import { environment } from 'src/environments/environment';
+import { ServiceBaseService } from './service-base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetService {
-  baseUrl = environment.apiBaseUrls.asset;
+export class AssetService extends ServiceBaseService {
+  post_url: string;
+  put_url: string;
   public dataSourceChangedSubject = new BehaviorSubject<boolean>(false);
-  constructor(private http: HttpClient) { }
-  getAssetsPagination(urlPath: string): Observable<HttpResponse<RequestActionModel>> {
-    return this.http.get<RequestActionModel>(urlPath, { observe: 'response' });
+  constructor(http: HttpClient) {
+    super(http);
+    this.post_url = environment.apiBaseUrls.api.asset_post;
+    this.put_url = environment.apiBaseUrls.api.asset_put;
   }
-  getAssetsCategories(urlPath: string): Observable<RequestActionModel> {
-    return this.http.get<RequestActionModel>(urlPath);
+  modifyAssetLocation(model: ModifyAssetLocation): Observable<ActionResult> {
+    return this.http.put<ActionResult>(`${this.put_url}`, JSON.stringify(model));
   }
-  modifyAssetLocation(model: ModifyAssetLocation): Observable<RequestActionModel> {
-    return this.http.put<RequestActionModel>(`${this.baseUrl}/current/modifyLocation`, JSON.stringify(model));
-  }
-  assetStore(model: StoreAsset): Observable<RequestActionModel> {
-    return this.http.post<RequestActionModel>(`${this.baseUrl}/secondary/storage`, JSON.stringify(model));
+  assetStore(model: StoreAsset): Observable<ActionResult> {
+    return this.http.post<ActionResult>(`${this.post_url}`, JSON.stringify(model));
   }
 }

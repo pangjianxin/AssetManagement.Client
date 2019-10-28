@@ -6,7 +6,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 import { AssetService } from 'src/app/core/services/asset.service';
 import { ReturnAsset } from 'src/app/models/viewmodels/return-asset';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -24,7 +24,7 @@ export class ReturnAssetDialogComponent implements OnInit {
 
   ngOnInit() {
     this.returnAssetForm = this.fb.group({
-      assetId: [this.data.asset.assetId, [Validators.required]],
+      assetId: [this.data.asset.id, [Validators.required]],
       assetName: [this.data.asset.assetName, [Validators.required]],
       targetOrgId: [this.data.asset.organizationInChargeId, [Validators.required]],
       message: ['', [Validators.required,
@@ -41,12 +41,11 @@ export class ReturnAssetDialogComponent implements OnInit {
       message: this.returnAssetForm.get('message').value
     };
     this.assetReturnService.returnAsset(model).subscribe({
-      next: (value: RequestActionModel) => {
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetService.dataSourceChangedSubject.next(true);
       },
       error: (value: HttpErrorResponse) => {
-        console.log(value);
         this.alert.failure(value.error.message);
       }
     });

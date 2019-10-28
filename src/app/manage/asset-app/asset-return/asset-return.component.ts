@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AssetReturningEvent } from 'src/app/models/dtos/asset-returning-event';
+import { AssetReturn } from 'src/app/models/dtos/asset-return';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AssetReturningService } from 'src/app/core/services/asset-returning.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { HandleAssetReturn } from 'src/app/models/viewmodels/handle-asset-return';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RevokeAsset } from 'src/app/models/viewmodels/revoke-asset-event';
@@ -25,15 +25,15 @@ export class AssetReturnComponent implements OnInit {
   @ViewChild('revokeEventRef', { static: true }) revokeEventRef: TemplateRef<any>;
   @ViewChild('handleEventRef', { static: true }) handleEventRef: TemplateRef<any>;
   currentSearchInput: string;
-  selection: SelectionModel<AssetReturningEvent> = new SelectionModel<AssetReturningEvent>(true, []);
-  currentSelectedRow: AssetReturningEvent;
+  selection: SelectionModel<AssetReturn> = new SelectionModel<AssetReturn>(true, []);
+  currentSelectedRow: AssetReturn;
   revokeEventForm: FormGroup;
 
   constructor(private fb: FormBuilder,
     private assetReturnService: AssetReturningService,
     private alert: AlertService,
     private dialog: MatDialog) {
-    this.assetReturnAdminUrl_read = environment.apiBaseUrls.assetReturnAdmin_read;
+    this.assetReturnAdminUrl_read = environment.apiBaseUrls.odata.assetReturn_manage;
   }
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class AssetReturnComponent implements OnInit {
   get isOneSelected() {
     return this.selection.selected.length === 1;
   }
-  onSelected($event: SelectionModel<AssetReturningEvent>) {
+  onSelected($event: SelectionModel<AssetReturn>) {
     this.selection = $event;
   }
   openRevokeApplicationDialog() {
@@ -64,11 +64,11 @@ export class AssetReturnComponent implements OnInit {
 
   }
   revokeApplication() {
-    const eventId = this.currentSelectedRow.eventId;
+    const eventId = this.currentSelectedRow.id;
     const message = this.revokeEventForm.get('message').value;
     const model: RevokeAsset = { eventId, message };
     this.assetReturnService.revoke(model).subscribe({
-      next: (value: RequestActionModel) => {
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetReturnService.dataSourceChangedSubject.next(true);
       },
@@ -89,10 +89,10 @@ export class AssetReturnComponent implements OnInit {
   }
   handleApplication() {
     const model: HandleAssetReturn = {
-      eventId: this.currentSelectedRow.eventId
+      eventId: this.currentSelectedRow.id
     };
-    this.assetReturnService.handleAssetReturning(model).subscribe({
-      next: (value: RequestActionModel) => {
+    this.assetReturnService.handle(model).subscribe({
+      next: (value: ActionResult) => {
         this.alert.success(value.message);
         this.assetReturnService.dataSourceChangedSubject.next(true);
       },

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AccountService } from 'src/app/core/services/account.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,6 @@ export class LoginComponent implements OnInit {
     private orgService: AccountService,
     private router: Router,
     private alert: AlertService) {
-
   }
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       }
     },
       (error: HttpErrorResponse) => {
-        this.alert.failure(error.error.message);
+        this.alert.failure(error.error);
       });
   }
 

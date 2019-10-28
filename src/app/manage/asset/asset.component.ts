@@ -5,8 +5,9 @@ import { AssetService } from 'src/app/core/services/asset.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
-
+import { ActionResult } from 'src/app/models/dtos/request-action-model';
+import { environment } from 'src/environments/environment';
+import { ChartData } from 'src/app/models/dtos/chart-data';
 @Component({
   selector: 'app-asset',
   templateUrl: './asset.component.html',
@@ -15,40 +16,36 @@ import { RequestActionModel } from 'src/app/models/dtos/request-action-model';
 export class AssetComponent implements OnInit {
 
   // 当前ApiUrl
-  apiUrl = `/api/assets/secondary/pagination`;
+  assetUrl: string;
+  assetSumarryByCategoryUrl: string;
+  assetSumarryByCountUrl: string;
   selection: SelectionModel<Asset> = new SelectionModel<Asset>(true, []);
   @ViewChild('assetSearchInput', { static: true, read: ElementRef }) searchInputElement: ElementRef;
   // 当前过滤逻辑
-  searchInput = '';
-  // 按资产三级分类资产汇总数据
-  categoriesByThirdLevelDataset: Array<{ name: string, value: number }>;
+  searchInput: string;
   // 按资产状态分类汇总数据
-  categoriesByStatusDataset: Array<{ name: string, value: number }>;
+  sumarryByCountDataset: Array<ChartData>;
   constructor(private assetService: AssetService,
     private alert: AlertService) {
   }
   ngOnInit() {
+    this.searchInput = '';
+    this.assetUrl = `${environment.apiBaseUrls.odata.asset_manage}?$expand=assetCategoryDto`;
+    this.assetSumarryByCategoryUrl = environment.apiBaseUrls.odata.asset_sumarry_manage_byCategory;
+    this.assetSumarryByCountUrl = environment.apiBaseUrls.odata.asset_sumarry_manage_byCount;
     fromEvent(this.searchInputElement.nativeElement, 'keyup')
       .pipe(debounceTime(300), distinctUntilChanged(), pluck('target', 'value'))
       .subscribe((filter: string) => {
-        this.searchInput = filter;
+        this.searchInput = this.manipulateOdataFilter(filter);
       });
     this.getAssetCategpries();
   }
   getAssetCategpries() {
-    this.assetService.getAssetsCategories(`/api/assets/secondary/categories/thirdLevel`).subscribe({
-      next: (value: RequestActionModel) => {
-        this.categoriesByThirdLevelDataset = value.data;
+    this.assetService.getByUrl(this.assetSumarryByCountUrl).subscribe({
+      next: (result: any) => {
+        this.sumarryByCountDataset = result as Array<ChartData>;
       },
-      error: (e: RequestActionModel) => {
-        this.alert.failure(e.message);
-      }
-    });
-    this.assetService.getAssetsCategories('/api/assets/secondary/categories/status').subscribe({
-      next: (value: RequestActionModel) => {
-        this.categoriesByStatusDataset = value.data;
-      },
-      error: (e: RequestActionModel) => {
+      error: (e: ActionResult) => {
         this.alert.failure(e.message);
       }
     });
@@ -65,5 +62,10 @@ export class AssetComponent implements OnInit {
     } else {
       // 初始化form表单
     }
+  }
+  manipulateOdataFilter(input: string): string {
+    if (input) {
+      return `$filter=contains(assetName,'${input}') or contains(assetTagNumber,'${input}')`;
+    } return '';
   }
 }
