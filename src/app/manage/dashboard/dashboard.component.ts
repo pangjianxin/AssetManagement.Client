@@ -11,6 +11,8 @@ import { ActionResult } from 'src/app/models/dtos/request-action-model';
 import { debounceTime, distinctUntilChanged, pluck, map, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AssetDeployService } from 'src/app/core/services/asset-deploy.service';
+import * as echarts from 'echarts';
+import { HttpClient } from '@angular/common/http';
 export function forbiddenString(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (typeof control.value === 'string') {
@@ -28,6 +30,8 @@ export function forbiddenString(): ValidatorFn {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  mapChartUrl: string;
+  mapData: { name: string, value: number }[];
   assetDeployUrl: string;
   orgUrl: string;
   selection: SelectionModel<AssetDeploy> = new SelectionModel<AssetDeploy>(true, []);
@@ -45,6 +49,18 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private orgService: OrganizationService) { }
   ngOnInit(): void {
+    this.mapChartUrl = 'assets/geoJson/baotou.json';
+    this.mapData = [
+      { name: '东河区', value: 102 },
+      { name: '青山区', value: 115 },
+      { name: '昆都仑区', value: 120 },
+      { name: '土默特右旗', value: 20 },
+      { name: '石拐区', value: 10 },
+      { name: '九原区', value: 80 },
+      { name: '白云鄂博矿区', value: 20 },
+      { name: '达尔罕茂明安联合旗', value: 40 },
+      { name: '固阳县', value: 60 },
+    ];
     this.orgUrl = environment.apiBaseUrls.odata.organization;
     this.assetDeployUrl = environment.apiBaseUrls.odata.assetDeploy;
     this.downLoadAssetDeployForm = this.fb.group({

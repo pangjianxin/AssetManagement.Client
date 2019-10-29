@@ -55,6 +55,7 @@ import { TableBaseComponent } from './tables/table-base/table-base.component';
 import { EmployeeTableComponent } from './tables/employee-table/employee-table.component';
 import { SpaceTableComponent } from './tables/space-table/space-table.component';
 import { AssetInventoryDetailTableComponent } from './tables/asset-inventory-detail-table/asset-inventory-detail-table.component';
+import { AssetMapChartComponent } from './charts/asset-map-chart/asset-map-chart.component';
 
 export const CN_FORMATS = {
   parse: {
@@ -85,7 +86,8 @@ export const CN_FORMATS = {
     TableBaseComponent,
     EmployeeTableComponent,
     SpaceTableComponent,
-    AssetInventoryDetailTableComponent
+    AssetInventoryDetailTableComponent,
+    AssetMapChartComponent
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'zh-CN' },
@@ -188,6 +190,7 @@ export const CN_FORMATS = {
     EmployeeTableComponent,
     SpaceTableComponent,
     AssetInventoryDetailTableComponent,
+    AssetMapChartComponent,
   ],
 })
 export class CoreModule { }

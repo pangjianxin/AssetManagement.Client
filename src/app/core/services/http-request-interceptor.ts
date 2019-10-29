@@ -18,12 +18,16 @@ export class HttpRequsetInterceptor implements HttpInterceptor {
         this.router.navigateByUrl('/login').then(() => this.alert.warn('你的登录已过期，请重新登录'));
       }
     }
+    let urlTemp = `${environment.host_base_url}${request.url}`;
+    if (request.url.indexOf('.json') !== -1) {
+      urlTemp = request.url;
+    }
     const clonedRequest: HttpRequest<any> = request.clone({
       setHeaders: {
         'content-type': 'application/json',
         'accept': 'application/json'
       },
-      url: `${environment.host_base_url}${request.url}`
+      url: urlTemp
     });
     console.log(clonedRequest.url);
     return next.handle(clonedRequest);

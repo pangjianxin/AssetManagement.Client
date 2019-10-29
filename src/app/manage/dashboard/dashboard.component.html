@@ -57,6 +57,25 @@
 <mat-card>
     <mat-card-header>
         <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
+        <mat-card-title>资产情况</mat-card-title>
+        <mat-card-subtitle>当前页面显示二级权限下所有资产的概况</mat-card-subtitle>
+        <button mat-icon-button class="more-button" [matMenuTriggerFor]="assetMenu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #assetMenu="matMenu" xPosition="before">
+            <button mat-menu-item [routerLink]="['/assets','secondaryadmin']">前往资产管理页</button>
+        </mat-menu>
+    </mat-card-header>
+    <mat-card-content>
+        <app-asset-map-chart [mapUrl]="mapChartUrl" [mapData]="mapData"></app-asset-map-chart>
+    </mat-card-content>
+    <mat-card-actions>
+
+    </mat-card-actions>
+</mat-card>
+<mat-card>
+    <mat-card-header>
+        <img src="assets/img/logo.png" alt="logo" mat-card-avatar>
         <mat-card-title>资产调配记录</mat-card-title>
         <mat-card-subtitle>展示当前二级权限管理的资产流转明细</mat-card-subtitle>
     </mat-card-header>
