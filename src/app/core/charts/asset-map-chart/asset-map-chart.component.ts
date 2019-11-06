@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AssetMapChartComponent implements OnInit {
   @Input() mapData: [];
   @Input() mapUrl: string;
+  mergeOptions: any;
   echart: echarts.ECharts;
   mapChartOptions: {};
   constructor(private http: HttpClient) { }
@@ -23,7 +24,7 @@ export class AssetMapChartComponent implements OnInit {
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{b}<br/>{c}'
+          formatter: '{b}<br/>资产数量:{c}'
         },
         toolbox: {
           show: true,
@@ -39,7 +40,7 @@ export class AssetMapChartComponent implements OnInit {
         visualMap: [{
           min: 0,
           max: 200,
-          text: ['High', 'Low'],
+          text: ['高', '低'],
           realtime: false,
           calculable: true,
           inRange: {

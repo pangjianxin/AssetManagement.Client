@@ -3,7 +3,7 @@
     [opened]="(accountService.isAuthenticated$ | async)" #leftSidenav>
     <app-left-sidenav></app-left-sidenav>
   </mat-sidenav>
-  <mat-sidenav class="app-right-sidenav-bar" fixedInViewport="true" [mode]="over" position="end" [opened]="false"
+  <mat-sidenav class="app-right-sidenav-bar" fixedInViewport="true" [mode]="'over'" position="end" [opened]="false"
     #rightSidenav>
     <app-chat-history></app-chat-history>
   </mat-sidenav>

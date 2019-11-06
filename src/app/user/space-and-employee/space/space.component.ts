@@ -18,14 +18,11 @@ import { TableBaseComponent } from 'src/app/core/tables/table-base/table-base.co
   styleUrls: ['./space.component.scss']
 })
 export class SpaceComponent implements OnInit {
-
   tableUrl: string;
   filter: string;
   createSpaceForm: FormGroup;
   modifySpaceForm: FormGroup;
   selection: SelectionModel<OrgSpace> = new SelectionModel<OrgSpace>(true, []);
-  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
-  @ViewChild('matSortSpacesTable', { static: true }) spacesSort: MatSort;
   @ViewChild('spaceSearchInput', { static: true }) spaceSearchInput: ElementRef;
   @ViewChild('modifySpaceDialog', { static: true }) modifySpaceDialog: TemplateRef<any>;
   @ViewChild('createSpaceDialog', { static: true }) createSpaceDialog: TemplateRef<any>;

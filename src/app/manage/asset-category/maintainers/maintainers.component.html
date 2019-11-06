@@ -1,4 +1,4 @@
-<app-maintainer-table [url]="maintainersUrl" [filter]="filter" (selected)="onMaintainerSelected($event)">
+<app-maintainer-table [url]="maintainersUrl" [filter]="''" (selected)="onMaintainerSelected($event)">
     <mat-toolbar color="accent">
         <button mat-raised-button color="accent" (click)="openDeleteMaintainerDialog()">
             <mat-icon>delete_forever</mat-icon>

@@ -12,7 +12,7 @@
     <app-organization-table [url]="tableUrl" (selected)="onSelected($event)" [filter]="searchInput">
       <mat-toolbar fxLayoutGap="10px" color="accent">
         <mat-icon>search</mat-icon>
-        <mat-form-field appearance="standard" [floatLabel]="never">
+        <mat-form-field appearance="standard" floatLabel="never">
           <input matInput #orgTableFilterInput type="text">
           <mat-label [ngStyle]="{'font-size': '50%'}">
             输入关键字以检索...

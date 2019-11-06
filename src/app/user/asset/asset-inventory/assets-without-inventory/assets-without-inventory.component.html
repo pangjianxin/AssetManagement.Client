@@ -1,8 +1,8 @@
 <ng-content>
 </ng-content>
-<app-asset-table [url]="assetTableUrl" [filter]="filter" (selected)="onSelected($event)">
+<app-asset-table [url]="assetTableUrl" [filter]="''" (selected)="onSelected($event)">
     <mat-toolbar color="default">
-        <button mat-raised-button (click)="openAssetStockTakingDialog()">开始盘点</button>
+        <button mat-raised-button (click)="openAssetInventoryDialog()">开始盘点</button>
         <span fxFlex></span>
         <mat-icon color="accent">dashboard</mat-icon>
         <span>未盘点资产清单</span>

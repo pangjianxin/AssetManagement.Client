@@ -80,8 +80,7 @@
         <mat-card-subtitle>展示当前二级权限管理的资产流转明细</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <app-asset-deploy-table [url]="assetDeployUrl" [filter]="currentSearchInput"
-            (selected)="onAssetDeploySelectedEmitted($event)">
+        <app-asset-deploy-table [url]="assetDeployUrl" [filter]="''" (selected)="onAssetDeploySelectedEmitted($event)">
             <mat-toolbar color="primary" class="table-bar" fxLayoutGap="10px">
                 <button mat-raised-button color="primary" (click)="openDownloadAssetDeployFileRef()">
                     下载报表

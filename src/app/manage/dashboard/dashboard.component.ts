@@ -49,17 +49,20 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private orgService: OrganizationService) { }
   ngOnInit(): void {
-    this.mapChartUrl = 'assets/geoJson/baotou.json';
+    this.mapChartUrl = 'assets/geoJson/neimenggu.json';
     this.mapData = [
-      { name: '东河区', value: 102 },
-      { name: '青山区', value: 115 },
-      { name: '昆都仑区', value: 120 },
-      { name: '土默特右旗', value: 20 },
-      { name: '石拐区', value: 10 },
-      { name: '九原区', value: 80 },
-      { name: '白云鄂博矿区', value: 20 },
-      { name: '达尔罕茂明安联合旗', value: 40 },
-      { name: '固阳县', value: 60 },
+      { name: '呼伦贝尔市', value: 102 },
+      { name: '兴安盟', value: 115 },
+      { name: '通辽市', value: 120 },
+      { name: '赤峰市', value: 20 },
+      { name: '锡林郭勒盟', value: 10 },
+      { name: '乌兰察布市', value: 80 },
+      { name: '呼和浩特市', value: 20 },
+      { name: '包头市', value: 40 },
+      { name: '巴彦淖尔市', value: 60 },
+      { name: '鄂尔多斯市', value: 60 },
+      { name: '阿拉善盟', value: 60 },
+      { name: '乌海市', value: 60 },
     ];
     this.orgUrl = environment.apiBaseUrls.odata.organization;
     this.assetDeployUrl = environment.apiBaseUrls.odata.assetDeploy;
@@ -110,6 +113,9 @@ export class DashboardComponent implements OnInit {
       link.click();
       window.URL.revokeObjectURL(url);
     }
+  }
+  onAssetDeploySelectedEmitted($event: SelectionModel<AssetDeploy>) {
+    this.selection = $event;
   }
 
 }

@@ -1,6 +1,5 @@
 <mat-card class="dashboard-card">
     <mat-card-content>
-
         <app-space-table [url]="tableUrl" [filter]="filter" (selected)="onSelected($event)">
             <mat-toolbar color="accent" class="table-bar" fxLayoutGap="10px">
                 <button mat-raised-button color="accent" (click)="openModifySpaceDialog()">
@@ -22,8 +21,6 @@
         </app-space-table>
     </mat-card-content>
     <mat-card-actions align="end">
-        <mat-paginator #paginator [length]="totalCount" [pageSizeOptions]="[5,10,15]" showFirstLastButtons="true">
-        </mat-paginator>
     </mat-card-actions>
 </mat-card>
 <ng-template #modifySpaceDialog>

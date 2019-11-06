@@ -21,7 +21,7 @@ export interface Asset {
     // 资产状态
     assetStatus: string;
     // 最后修改内容
-    LastDeployRecord: string;
+    lastDeployRecord: string;
     // 资产分类dto
     assetCategoryDto: AssetCategory;
     // 资产责任机构

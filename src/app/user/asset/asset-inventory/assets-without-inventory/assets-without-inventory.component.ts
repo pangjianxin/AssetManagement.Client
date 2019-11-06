@@ -19,7 +19,7 @@ export class AssetsWithoutInventoryComponent implements OnInit {
   @Input() currentInventoryRegister: AssetInventoryRegister;
   @Output() selected = new EventEmitter<SelectionModel<Asset>>();
   /** Based on the screen size, switch from standard to one column per row */
-  constructor(private assetService: AssetService,
+  constructor(
     private dialog: MatDialog,
     private alert: AlertService) {
   }
@@ -27,7 +27,7 @@ export class AssetsWithoutInventoryComponent implements OnInit {
     console.log(this.currentInventoryRegister.id);
     this.assetTableUrl = `${environment.apiBaseUrls.odata.asset_current_assetWithoutInventory}?$expand=assetCategoryDto&assetInventoryRegisterId=${this.currentInventoryRegister.id}`;
   }
-  openAssetStockTakingDialog() {
+  openAssetInventoryDialog() {
     if (!this.isOneSelected) {
       this.alert.warn('一次只能选中一项进行操作');
       return;

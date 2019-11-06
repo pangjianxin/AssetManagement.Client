@@ -33,6 +33,7 @@ export function tagNumberFormatValidator(control: FormGroup): ValidationErrors {
 export class AssetStoreDialogComponent implements OnInit {
   // 机构空间url
   orgSpaceUrl: string;
+  currentDate: Date;
   candidateOrgSpaces$: Observable<OrgSpace[]>;
   hasSubmitAssetStored: boolean;
   @ViewChild('assetStoreConfirmRef', { static: true }) assetStoreConfirmRef: TemplateRef<any>;
@@ -48,6 +49,7 @@ export class AssetStoreDialogComponent implements OnInit {
     private orgSpaceService: OrgSpaceService) { }
 
   ngOnInit() {
+    this.currentDate = new Date();
     this.hasSubmitAssetStored = false;
     this.orgSpaceUrl = environment.apiBaseUrls.odata.orgSpace;
     this.candidateOrgSpaces$ = this.orgSpaceService.getByUrl(this.orgSpaceUrl).pipe(map(result => result.value));
